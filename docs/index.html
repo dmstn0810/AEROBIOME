@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>건국대학교 학술림(괴산) 공기미생물(Aerobiome) 전주기 디지털 대시보드</title>
+  <title>건국대학교 학술림(괴산) 공기미생물(Aerobiome) 전주기 디지털 대시보드 & 지점별 생태백과</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js -->
@@ -16,6 +16,7 @@
     .tab-btn-active { border-bottom: 3px solid #10b981; color: #047857; font-weight: 700; }
     .date-pill-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
     .metric-pill-active { background-color: #0284c7 !important; color: white !important; font-weight: 700; }
+    .stand-filter-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
@@ -36,7 +37,7 @@
       </div>
       <div class="flex items-center space-x-2 mt-2 sm:mt-0">
         <a href="aerobiome_analysis_summary.xlsx" download class="text-xs px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-semibold transition flex items-center gap-1.5 shadow-sm">
-          <i data-lucide="download" class="w-4 h-4"></i> 분석 엑셀 다운로드 (15개 시트)
+          <i data-lucide="download" class="w-4 h-4"></i> 분석 엑셀 다운로드 (16개 시트)
         </a>
       </div>
     </div>
@@ -48,7 +49,7 @@
           <i data-lucide="line-chart" class="w-4 h-4"></i> 시계열 & 지점별 농도
         </button>
         <button onclick="switchTab('tab-sites')" id="nav-sites" class="tab-nav py-2.5 px-3 whitespace-nowrap text-emerald-200 hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="trees" class="w-4 h-4"></i> 10대 지점 심층 생태
+          <i data-lucide="trees" class="w-4 h-4"></i> 🌲 지점별 미생물 생태백과
         </button>
         <button onclick="switchTab('tab-dna')" id="nav-dna" class="tab-nav py-2.5 px-3 whitespace-nowrap text-emerald-200 hover:text-white transition flex items-center gap-1.5">
           <i data-lucide="dna" class="w-4 h-4"></i> DNA 메타게놈 구조
@@ -60,7 +61,7 @@
           <i data-lucide="shield-check" class="w-4 h-4"></i> 실내기준 & 산림치유
         </button>
         <button onclick="switchTab('tab-species')" id="nav-species" class="tab-nav py-2.5 px-3 whitespace-nowrap text-emerald-200 hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="book-open" class="w-4 h-4"></i> 우점 종별 생태 백과
+          <i data-lucide="book-open" class="w-4 h-4"></i> 📖 우점 종별 생태백과
         </button>
         <button onclick="switchTab('tab-gallery')" id="nav-gallery" class="tab-nav py-2.5 px-3 whitespace-nowrap text-emerald-200 hover:text-white transition flex items-center gap-1.5">
           <i data-lucide="image" class="w-4 h-4"></i> 12종 연구 그래픽
@@ -81,7 +82,7 @@
           <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
             건국대 학술림 공기 부유 미생물(Aerobiome) <br/>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-200">
-              전 시계열 생태 동태 & 지점별 다차원 가치 분석
+              전 시계열 생태 동태 & 지점별 미생물 현황·특성·심층 백과
             </span>
           </h2>
           <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-3xl">
@@ -220,22 +221,42 @@
     </div>
 
     <!-- =============================================================== -->
-    <!-- TAB 2: 10대 조사지점별 심층 생태 프로파일 (10 Sites Ecological Profiles) -->
+    <!-- TAB 2: 🌲 지점별 미생물 생태백과 (Site Microbial Encyclopedia & Diagnostics) -->
     <!-- =============================================================== -->
-    <div id="tab-sites" class="tab-pane hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <i data-lucide="trees" class="w-6 h-6 text-emerald-600"></i>
-          건국대학교 학술림 10대 고정 조사지점별 심층 생태 진단서
-        </h3>
-        <p class="text-sm text-slate-500 mt-1">
-          각 지점 카드를 클릭하면 **수종 특성, 미기후·토양 환경, 우점 진균 DNA 메타게놈 지문, 물질 순환 기능 및 산림치유 보건 가이드**를 담은 상세 진단 모달이 열립니다.
-        </p>
+    <div id="tab-sites" class="tab-pane hidden space-y-8">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-2">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-600"></i> 건국대학교 학술림 고유 분석 자료
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="trees" class="w-6 h-6 text-emerald-600"></i>
+              10대 고정 조사지점별 미생물 현황·특성·심층 생태백과
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-4xl leading-relaxed">
+              각 지점별로 **배양 집락 정량 현황(CFU/㎥)**, **ITS 메타게놈 차세대 염기서열분석(NGS) 실측 우점 종 구조(%)**, **고유 미생물 특성**, 그리고 **수목-미생물 공생, 유기물 탄소 순환, 생태계 지표성 및 산림치유 보건 가이드**를 체계적으로 정리한 전문 생태 진단서입니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stand Type Filter & Search Bar -->
+        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap gap-1.5" id="standFilterGroup">
+            <button onclick="filterSiteCards('all')" class="stand-filter-btn stand-filter-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">전체 10개 지점</button>
+            <button onclick="filterSiteCards('conifer')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🌲 온대 침엽수림 (6개소)</button>
+            <button onclick="filterSiteCards('riparian')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🌿 수변 저습지 활엽수림 (2개소)</button>
+            <button onclick="filterSiteCards('control')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🚜 환경 대조구 (2개소)</button>
+          </div>
+          <div class="w-full sm:w-72">
+            <input type="text" id="siteSearchInput" onkeyup="searchSiteCards()" placeholder="지점명, 수종, 우점균(Trichoderma, Coprinellus 등) 검색..." class="w-full px-3.5 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+        </div>
       </div>
 
-      <!-- 10 Sites Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="siteCardsContainer">
-        <!-- Site cards will be populated by JavaScript -->
+      <!-- 10 Sites Rich Encyclopedia Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="siteEncyclopediaGrid">
+        <!-- Injected via JavaScript -->
       </div>
     </div>
 
@@ -461,8 +482,8 @@
           <span class="font-bold text-slate-900 text-sm text-blue-600" id="modalTab">14 CFU/㎥</span>
         </div>
         <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-          <span class="text-slate-400 block text-[10px]">토양 산도</span>
-          <span class="font-bold text-slate-900 text-sm" id="modalSoil">pH 6.1</span>
+          <span class="text-slate-400 block text-[10px]">토양 산도 / 수분</span>
+          <span class="font-bold text-slate-900 text-sm" id="modalSoil">pH 6.1 (32.5%)</span>
         </div>
         <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
           <span class="text-slate-400 block text-[10px]">최고 피크 시기</span>
@@ -523,7 +544,7 @@
   <script>
     lucide.createIcons();
 
-    // Data injection from Python
+    // Injected Data
     const siteMetricData = {
   "2026-03-04": {
     "TAF_CFU_m3": [
@@ -1128,91 +1149,1244 @@
     ]
   }
 };
+    const siteTaxData = {
+  "1": {
+    "site_id": 1,
+    "name": "리기다소나무림",
+    "latin": "Pinus rigida",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          36.6
+        ],
+        [
+          "Penicillium",
+          25.1
+        ],
+        [
+          "Nectriaceae_gen_Incertae_sedis",
+          10.4
+        ],
+        [
+          "Cladosporium",
+          10.1
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          8.4
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          36.6
+        ],
+        [
+          "Penicillium_sp",
+          19.3
+        ],
+        [
+          "Nectriaceae_sp",
+          10.4
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          9.6
+        ],
+        [
+          "Eukaryota_sp",
+          8.4
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Trichoderma",
+          99.9
+        ],
+        [
+          "Penicillium",
+          0.1
+        ],
+        [
+          "Coniella",
+          0.0
+        ],
+        [
+          "Coprinellus",
+          0.0
+        ],
+        [
+          "Fusicolla",
+          0.0
+        ]
+      ],
+      "top_species": [
+        [
+          "Trichoderma_sp",
+          99.9
+        ],
+        [
+          "Penicillium_sp",
+          0.1
+        ],
+        [
+          "Coniella_quercicola",
+          0.0
+        ],
+        [
+          "Coprinellus_radians",
+          0.0
+        ],
+        [
+          "Fusicolla_violacea",
+          0.0
+        ]
+      ]
+    }
+  },
+  "2": {
+    "site_id": 2,
+    "name": "잣나무림 a",
+    "latin": "Pinus koraiensis (A)",
+    "spring": {
+      "top_genera": [
+        [
+          "Cladosporium",
+          41.3
+        ],
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          27.9
+        ],
+        [
+          "Alternaria",
+          21.9
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          7.8
+        ],
+        [
+          "Arcopilus",
+          0.9
+        ]
+      ],
+      "top_species": [
+        [
+          "Cladosporium_anthropophilum",
+          41.3
+        ],
+        [
+          "Capnodiales_sp",
+          27.9
+        ],
+        [
+          "Unassigned_sp",
+          20.9
+        ],
+        [
+          "Eukaryota_sp",
+          7.8
+        ],
+        [
+          "Alternaria_alternata",
+          1.0
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Trichoderma",
+          75.0
+        ],
+        [
+          "Bjerkandera",
+          13.7
+        ],
+        [
+          "Penicillium",
+          7.1
+        ],
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          1.2
+        ],
+        [
+          "Coprinellus",
+          1.0
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          75.7
+        ],
+        [
+          "Bjerkandera_sp",
+          13.2
+        ],
+        [
+          "Penicillium_sp",
+          6.9
+        ],
+        [
+          "Capnodiales_sp",
+          1.2
+        ],
+        [
+          "Coprinellus_radians",
+          1.0
+        ]
+      ]
+    }
+  },
+  "3": {
+    "site_id": 3,
+    "name": "버들나무림 a",
+    "latin": "Salix koreensis (A)",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          50.1
+        ],
+        [
+          "Cladosporium",
+          29.2
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          9.8
+        ],
+        [
+          "Septotinia",
+          3.2
+        ],
+        [
+          "Fusarium",
+          3.1
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          50.1
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          29.2
+        ],
+        [
+          "Eukaryota_sp",
+          9.8
+        ],
+        [
+          "Unassigned_sp",
+          5.2
+        ],
+        [
+          "Septotinia_populiperda",
+          3.2
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Trichoderma",
+          78.0
+        ],
+        [
+          "Fusarium",
+          10.2
+        ],
+        [
+          "Coprinellus",
+          3.1
+        ],
+        [
+          "Clonostachys",
+          2.9
+        ],
+        [
+          "Penicillium",
+          2.2
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          58.4
+        ],
+        [
+          "Trichoderma_harzianum",
+          20.0
+        ],
+        [
+          "Fusarium_proliferatum",
+          7.6
+        ],
+        [
+          "Coprinellus_radians",
+          3.1
+        ],
+        [
+          "Clonostachys_rosea",
+          2.9
+        ]
+      ]
+    }
+  },
+  "4": {
+    "site_id": 4,
+    "name": "밭(대조구)",
+    "latin": "Field Control",
+    "spring": {
+      "top_genera": [
+        [
+          "미포집 (하절기 집중 관측)",
+          0.0
+        ]
+      ],
+      "top_species": [
+        [
+          "미포집",
+          0.0
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Fusarium",
+          45.1
+        ],
+        [
+          "Penicillium",
+          32.5
+        ],
+        [
+          "Aspergillus",
+          10.4
+        ],
+        [
+          "Nectriaceae_gen_Incertae_sedis",
+          7.6
+        ],
+        [
+          "Alternaria",
+          1.8
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          49.0
+        ],
+        [
+          "Penicillium_sp",
+          32.3
+        ],
+        [
+          "Nectriaceae_sp",
+          7.6
+        ],
+        [
+          "Fusarium_proliferatum",
+          6.2
+        ],
+        [
+          "Fusarium_sp",
+          2.3
+        ]
+      ]
+    }
+  },
+  "5": {
+    "site_id": 5,
+    "name": "주차장(대조구)",
+    "latin": "Parking Lot Control",
+    "spring": {
+      "top_genera": [
+        [
+          "미포집 (하절기 집중 관측)",
+          0.0
+        ]
+      ],
+      "top_species": [
+        [
+          "미포집",
+          0.0
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Fusarium",
+          33.4
+        ],
+        [
+          "Coprinellus",
+          29.8
+        ],
+        [
+          "Nectriaceae_gen_Incertae_sedis",
+          18.3
+        ],
+        [
+          "Penicillium",
+          13.4
+        ],
+        [
+          "Irpex",
+          1.3
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          33.7
+        ],
+        [
+          "Coprinellus_radians",
+          29.8
+        ],
+        [
+          "Nectriaceae_sp",
+          18.3
+        ],
+        [
+          "Penicillium_sp",
+          13.4
+        ],
+        [
+          "Fusarium_verticillioides",
+          1.4
+        ]
+      ]
+    }
+  },
+  "6": {
+    "site_id": 6,
+    "name": "소나무림",
+    "latin": "Pinus densiflora",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          28.2
+        ],
+        [
+          "Penicillium",
+          17.5
+        ],
+        [
+          "Cladosporium",
+          16.3
+        ],
+        [
+          "Umbelopsis",
+          16.2
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          15.4
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          28.2
+        ],
+        [
+          "Penicillium_sp",
+          17.3
+        ],
+        [
+          "Umbelopsis_isabellina",
+          16.2
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          16.1
+        ],
+        [
+          "Eukaryota_sp",
+          15.4
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Coprinellus",
+          59.4
+        ],
+        [
+          "Irpex",
+          11.8
+        ],
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          9.6
+        ],
+        [
+          "Trichoderma",
+          8.9
+        ],
+        [
+          "Cladosporium",
+          2.6
+        ]
+      ],
+      "top_species": [
+        [
+          "Coprinellus_radians",
+          59.4
+        ],
+        [
+          "Irpex_laceratus",
+          11.1
+        ],
+        [
+          "Capnodiales_sp",
+          9.6
+        ],
+        [
+          "Trichoderma_citrinum",
+          6.6
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          2.6
+        ]
+      ]
+    }
+  },
+  "7": {
+    "site_id": 7,
+    "name": "일본잎갈나무림 a",
+    "latin": "Larix kaempferi (A)",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          63.7
+        ],
+        [
+          "Alternaria",
+          13.7
+        ],
+        [
+          "Cladosporium",
+          11.1
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          8.3
+        ],
+        [
+          "Pestalotiopsis",
+          2.7
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          63.7
+        ],
+        [
+          "Unassigned_sp",
+          14.4
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          10.9
+        ],
+        [
+          "Eukaryota_sp",
+          8.3
+        ],
+        [
+          "Pestalotiopsis_sp",
+          2.1
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Cladosporium",
+          24.4
+        ],
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          23.2
+        ],
+        [
+          "Trichoderma",
+          22.8
+        ],
+        [
+          "Penicillium",
+          12.2
+        ],
+        [
+          "Fusarium",
+          10.8
+        ]
+      ],
+      "top_species": [
+        [
+          "Cladosporium_anthropophilum",
+          23.9
+        ],
+        [
+          "Capnodiales_sp",
+          23.2
+        ],
+        [
+          "Unassigned_sp",
+          19.3
+        ],
+        [
+          "Trichoderma_citrinum",
+          18.0
+        ],
+        [
+          "Penicillium_sp",
+          12.2
+        ]
+      ]
+    }
+  },
+  "8": {
+    "site_id": 8,
+    "name": "버들나무림 b",
+    "latin": "Salix koreensis (B)",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          71.0
+        ],
+        [
+          "Alternaria",
+          13.0
+        ],
+        [
+          "Eukaryota_gen_Incertae_sedis",
+          7.1
+        ],
+        [
+          "Coprinellus",
+          3.3
+        ],
+        [
+          "Cladosporium",
+          3.1
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          71.0
+        ],
+        [
+          "Unassigned_sp",
+          13.0
+        ],
+        [
+          "Eukaryota_sp",
+          7.1
+        ],
+        [
+          "Coprinellus_radians",
+          3.3
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          3.1
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Trichoderma",
+          29.7
+        ],
+        [
+          "Fusarium",
+          27.0
+        ],
+        [
+          "Colletotrichum",
+          24.2
+        ],
+        [
+          "Alternaria",
+          4.5
+        ],
+        [
+          "Schizophyllum",
+          4.3
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          32.6
+        ],
+        [
+          "Colletotrichum_gloeosporioides",
+          24.2
+        ],
+        [
+          "Fusarium_oblongum",
+          16.8
+        ],
+        [
+          "Fusarium_proliferatum",
+          5.5
+        ],
+        [
+          "Trichoderma_estonicum",
+          5.1
+        ]
+      ]
+    }
+  },
+  "9": {
+    "site_id": 9,
+    "name": "일본잎갈나무림 b",
+    "latin": "Larix kaempferi (B)",
+    "spring": {
+      "top_genera": [
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          49.2
+        ],
+        [
+          "Fusarium",
+          24.6
+        ],
+        [
+          "Clonostachys",
+          11.2
+        ],
+        [
+          "Alternaria",
+          9.5
+        ],
+        [
+          "Didymella",
+          2.5
+        ]
+      ],
+      "top_species": [
+        [
+          "Capnodiales_sp",
+          49.2
+        ],
+        [
+          "Unassigned_sp",
+          34.3
+        ],
+        [
+          "Clonostachys_sp",
+          11.2
+        ],
+        [
+          "Didymella_sp",
+          2.5
+        ],
+        [
+          "Apiospora_sphaerosperma",
+          1.1
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Aspergillus",
+          30.9
+        ],
+        [
+          "Fusarium",
+          25.4
+        ],
+        [
+          "Trichoderma",
+          17.4
+        ],
+        [
+          "Ceriporia",
+          9.5
+        ],
+        [
+          "Cladosporium",
+          3.0
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          33.3
+        ],
+        [
+          "Fusarium_oblongum",
+          23.7
+        ],
+        [
+          "Ceriporia_lacerata",
+          9.5
+        ],
+        [
+          "Trichoderma_citrinum",
+          8.5
+        ],
+        [
+          "Trichoderma_sp",
+          7.4
+        ]
+      ]
+    }
+  },
+  "10": {
+    "site_id": 10,
+    "name": "잣나무림 b",
+    "latin": "Pinus koraiensis (B)",
+    "spring": {
+      "top_genera": [
+        [
+          "Penicillium",
+          50.1
+        ],
+        [
+          "Capnodiales_gen_Incertae_sedis",
+          32.1
+        ],
+        [
+          "Coprinellus",
+          15.1
+        ],
+        [
+          "Cladosporium",
+          2.7
+        ],
+        [
+          "Fibularhizoctonia",
+          0.0
+        ]
+      ],
+      "top_species": [
+        [
+          "Penicillium_mallochii",
+          36.2
+        ],
+        [
+          "Capnodiales_sp",
+          32.1
+        ],
+        [
+          "Coprinellus_sp",
+          15.1
+        ],
+        [
+          "Penicillium_sp",
+          13.9
+        ],
+        [
+          "Cladosporium_anthropophilum",
+          2.6
+        ]
+      ]
+    },
+    "summer": {
+      "top_genera": [
+        [
+          "Trichoderma",
+          80.2
+        ],
+        [
+          "Aspergillus",
+          9.7
+        ],
+        [
+          "Bjerkandera",
+          8.5
+        ],
+        [
+          "Oudemansiella",
+          1.1
+        ],
+        [
+          "Alternaria",
+          0.2
+        ]
+      ],
+      "top_species": [
+        [
+          "Unassigned_sp",
+          88.6
+        ],
+        [
+          "Bjerkandera_sp",
+          7.9
+        ],
+        [
+          "Trichoderma_citrinum",
+          1.9
+        ],
+        [
+          "Oudemansiella_canarii",
+          1.1
+        ],
+        [
+          "Capnodiales_sp",
+          0.2
+        ]
+      ]
+    }
+  }
+};
 
-    const siteProfiles = [
+    // Full 10 Site Profiles with Taxonomic, Microclimatic & Ecological Diagnostics
+    const siteEncyclopediaData = [
       {
-        id: "site1", no: 1, name: "리기다소나무림", latin: "Pinus rigida Mill.",
-        type: "인공 조림 침엽수림", taf: 561.0, tab: 14.0, peak: "4월 봄철 (688 CFU/㎥)",
-        soil: "산성 토양 (pH 6.1, 수분 32.5%)",
-        dna: "Capnodiales_sp. (봄 42%), Trichoderma (여름 30%)",
-        ecology: "척박지 녹화 수종으로 도입된 리기다소나무는 두터운 송진(테르펜) 함유 솔잎 낙엽층을 형성합니다. 셀룰로오스와 리그닌 분해 속도가 완만하여 유기물층이 장기간 체류하며, 산성 토양에 적응한 자낭균류 피생균 및 목재부후균의 서식처 역할을 수행합니다.",
-        health: "솔잎 테르펜 성분이 피톤치드 효과를 제공하여 산림치유에 적합하나, 4월 강풍기에는 엽면 비산 포자가 다소 증가하므로 비염 환자는 유의가 필요합니다."
+        no: 1, name: "리기다소나무림", latin: "Pinus rigida Mill.",
+        category: "conifer", catName: "온대 침엽수림 (인공 조림)",
+        location: "학술림 하단 완경사 산록부",
+        soilPh: "pH 6.1", soilMoist: "32.5%",
+        tafMean: 561.0, tabMean: 14.0, peak: "4월 봄철 (688 CFU/㎥)", summerTaf: 496.0,
+        springDna: [{ g: "Capnodiales_sp.", pct: 36.6 }, { g: "Penicillium", pct: 25.1 }, { g: "Nectriaceae", pct: 10.4 }, { g: "Cladosporium", pct: 10.1 }],
+        summerDna: [{ g: "Trichoderma", pct: 99.9 }, { g: "Penicillium", pct: 0.1 }],
+        microbeTraits: "송진(테르펜) 함유 솔잎 낙엽층의 완만한 분해 특성. 여름철 고온다습기에 Trichoderma가 99.9%로 단일 극우점하여 토양 유기물 분해를 독점.",
+        plantMicrobe: "척박지 녹화 수종으로 도입된 리기다소나무는 두터운 송진 함유 침엽수 낙엽 매트층을 형성하며, 산성 토양에 적응한 자낭균류 피생균 및 목재부후균과 서식처를 공유함.",
+        nutrientCycling: "바늘잎의 두꺼운 큐티클층으로 인해 분해 속도가 완만하며, 7월 장마기 토양 고습 조건에서 Trichoderma에 의한 셀룰로오스 초고속 가수분해가 집중적으로 발생.",
+        bioindicator: "자연 토양 유익균의 생물방제(Biocontrol) 길항 미생물상 구축 지표이자, 외부 인위적 오염이 없는 건전한 산림 임분 지표.",
+        healthGuide: "솔잎 테르펜 피톤치드 효과가 우수함. 4월 건조 강풍기에는 엽면 부유 포자가 다소 증가하므로 알레르기 민감군은 마스크 착용 권장."
       },
       {
-        id: "site2", no: 2, name: "잣나무림 a", latin: "Pinus koraiensis Stand A",
-        type: "울창한 침엽수림", taf: 893.7, tab: 36.3, peak: "7월 한여름 (2,104 CFU/㎥, 2위)",
-        soil: "부식질 풍부 (pH 6.3, 수분 37.8%)",
-        dna: "Trichoderma hamatum/harzianum (48.2%), Cladosporium (봄)",
-        ecology: "수관이 울창하여 하층 습도가 상시 보존됩니다. 바닥에 축적된 두터운 잣나무 낙엽층(Litter layer)은 여름철 고온다습 다우기(7월 28.7℃, 78% 습도)에 토양 사상균인 Trichoderma의 균사 증식을 폭발적으로 유도하여 전 산림 임분 중 최고 수준의 유기물 분해 활성을 나타냅니다.",
-        health: "여름철 다우기 직후에는 포자 밀도가 매우 높으므로, 호흡기 면역저하자나 중증 천식 환자는 통풍이 원활한 능선 코스를 권장합니다."
+        no: 2, name: "잣나무림 a", latin: "Pinus koraiensis Siebold & Zucc. (Stand A)",
+        category: "conifer", catName: "온대 침엽수림 (울창한 임분)",
+        location: "계곡 인접 완경사지, 수관 울폐도 85% 이상",
+        soilPh: "pH 6.3", soilMoist: "37.8%",
+        tafMean: 893.7, tabMean: 36.3, peak: "7월 한여름 (2,104 CFU/㎥, 전 지점 2위)", summerTaf: 2104.0,
+        springDna: [{ g: "Cladosporium", pct: 41.3 }, { g: "Capnodiales", pct: 27.9 }, { g: "Alternaria", pct: 21.9 }],
+        summerDna: [{ g: "Trichoderma", pct: 75.0 }, { g: "Bjerkandera", pct: 13.7 }, { g: "Penicillium", pct: 7.1 }, { g: "Coprinellus", pct: 1.0 }],
+        microbeTraits: "봄철 4대 알레르겐(Cladosporium, Alternaria 등 63.2%) 우점에서 여름철 고온다습기 Trichoderma(75%) 및 목재부후균 Bjerkandera(13.7%)로의 극적 천이.",
+        plantMicrobe: "잣나무 밀식 수관이 직사광선을 차단하고 바닥 낙엽층의 습도를 상시 보존하여 낙엽층 부식이 왕성하게 진행됨.",
+        nutrientCycling: "여름철 다우기 직후(강우 64.6mm) 토양 셀룰로오스 분해균과 버섯 균사가 대량 번식하여 산림 생태계 양분 순환을 가속.",
+        bioindicator: "수관 울폐도 극대화에 따른 하층 고습도 유지 지표종 및 산림 부식토 형성 지표.",
+        healthGuide: "여름철 다습기에는 포자 밀도가 2,000 CFU/㎥를 초과하므로, 중증 천식 환자는 다우 직후 체류를 자제하고 통풍이 원활한 능선부(Site 10) 이용 권장."
       },
       {
-        id: "site3", no: 3, name: "버들나무림 a (왕버들 a)", latin: "Salix koreensis Stand A",
-        type: "수변 저습지 활엽수림", taf: 1087.8, tab: 26.7, peak: "7월 한여름 (1,672 CFU/㎥)",
-        soil: "수분 포화 점질토 (pH 6.5, 수분 42.1% 최고)",
-        dna: "Colletotrichum gloeosporioides (12.4%), Trichoderma (32.1%)",
-        ecology: "계곡 하천과 직접 맞닿아 있어 상시 수증기 증발산이 활발하며 대기 상대습도가 임내에서 가장 높습니다. 활엽수인 왕버들의 연약한 잎 조직에 내생·기생하는 활엽수 탄저병균(Colletotrichum gloeosporioides)이 특이적으로 우점하여, 수변 활엽수림 미기후와 산림 병해 조기 경보의 핵심 생태 지표를 형성합니다.",
-        health: "물안개와 수변 습도가 상시 유지되어 피부 보습에는 유리하나, 곰팡이 포자 과민성 비염 환자는 여름철 장시간 체류를 피하는 것이 좋습니다."
+        no: 3, name: "버들나무림 a (왕버들 a)", latin: "Salix koreensis Andersson (Stand A)",
+        category: "riparian", catName: "수변 저습지 활엽수림",
+        location: "계곡 수변부 및 저습지, 상시 물안개",
+        soilPh: "pH 6.5", soilMoist: "42.1% (최고)",
+        tafMean: 1087.8, tabMean: 26.7, peak: "7월 한여름 (1,672 CFU/㎥), 8월 (1,452 CFU/㎥)", summerTaf: 1672.0,
+        springDna: [{ g: "Capnodiales", pct: 50.1 }, { g: "Cladosporium", pct: 29.2 }, { g: "Septotinia", pct: 3.2 }, { g: "Fusarium", pct: 3.1 }],
+        summerDna: [{ g: "Trichoderma", pct: 78.0 }, { g: "Fusarium", pct: 10.2 }, { g: "Coprinellus", pct: 3.1 }, { g: "Clonostachys", pct: 2.9 }],
+        microbeTraits: "연중 700~1,670 CFU/㎥의 지속적 고농도 유지. 수변 고습 환경과 활엽수 엽면 조직 특이적 수목 병원성 및 부생 사상균 우점.",
+        plantMicrobe: "하천 변 수분 포화 토양과 활엽수 연약 잎 조직으로 인해 분해 및 병원성 진균의 활성이 연중 지속됨. 수변 완충 식생의 수질 정화 및 미기후 습도 유지 기능.",
+        nutrientCycling: "활엽수 낙엽은 침엽수에 비해 분해 속도가 빠르며 수변 미생물 군집에 의해 유기탄소가 수계와 대기로 활발히 순환.",
+        bioindicator: "수변 저습지 미기후 및 활엽수 잎 탄저병·잎마름병 조기 경보 지표 구역.",
+        healthGuide: "수변 음이온과 습도가 풍부하나 곰팡이 과민성 비염 환자는 여름철 장시간 체류 시 비염 악화 가능성 유의."
       },
       {
-        id: "site4", no: 4, name: "밭 (개활 경작지 대조구)", latin: "Cultivated Field Control",
-        type: "인위적 개활 경작지", taf: 1217.7, tab: 144.3, peak: "7월 한여름 (2,464 CFU/㎥, 최고치)",
-        soil: "경운 나지 노출 (pH 6.8, 수분 31.0%)",
-        dna: "Fusarium oxysporum (45.1%), Aspergillus (8.7%)",
-        ecology: "산림 캐노피가 완전히 부재하여 직사광선과 강우에 지표면이 직접 노출됩니다. 경작 및 시비 유기물, 잦은 토양 교란으로 인해 토양 서식 시들음병 사상균인 Fusarium oxysporum이 45.1%로 절대 우점하며, 트랙터 활동 및 바람에 의한 비산 먼지와 함께 대량 확산되는 '인위적 교란 지표 구역'입니다.",
-        health: "Fusarium은 진균독소(Fumonisin, T-2) 생성 및 기회감염을 유발할 수 있으므로, 강풍 시 먼지 흡입에 주의해야 하며 산림 치유 공간으로서의 활용은 부적합합니다."
+        no: 4, name: "밭 (개활 경작지 대조구)", latin: "Agricultural Cultivated Field (Control)",
+        category: "control", catName: "인위적 개활 경작지 (대조구)",
+        location: "학술림 진입부 경작지, 수관 0% 완전 개활",
+        soilPh: "pH 6.8", soilMoist: "31.0%",
+        tafMean: 1217.7, tabMean: 144.3, peak: "7월 한여름 (2,464 CFU/㎥, 전 지점 최고)", summerTaf: 2464.0,
+        springDna: [{ g: "미포집 (하절기 집중)", pct: 0.0 }],
+        summerDna: [{ g: "Fusarium", pct: 45.1 }, { g: "Penicillium", pct: 32.5 }, { g: "Aspergillus", pct: 10.4 }, { g: "Nectriaceae", pct: 7.6 }],
+        microbeTraits: "토양 서식 식물 시들음병균인 Fusarium oxysporum(45.1%)과 저장 사상균 Penicillium/Aspergillus(42.9%)가 지표면 비산 먼지와 함께 대량 방출.",
+        plantMicrobe: "수관 부재로 강우와 직사광선이 나지에 직접 도달하며, 작물 시비 유기물과 토양 교란이 사상균의 폭발적 비산을 유발.",
+        nutrientCycling: "인공적 영농 활동에 의한 빠른 유기물 턴오버와 건조기 토양 미세먼지(PM10) 동반 비산.",
+        bioindicator: "인위적 지표면 교란 및 영농성 먼지 비산 지표 구역.",
+        healthGuide: "Fusarium의 곰팡이독소(Fumonisin, T-2) 및 미세 분진 흡입 위험이 있으므로 바람 부는 날 경작지 주변 통과 시 호흡기 보호 주의."
       },
       {
-        id: "site5", no: 5, name: "주차장 (인공 포장 대조구)", latin: "Paved Parking Control",
-        type: "인공 포장면 (음성 대조군)", taf: 363.9, tab: 20.3, peak: "4월 (456 CFU/㎥), 7월 (326 CFU/㎥)",
-        soil: "아스팔트/콘크리트 포장 (불투수면)",
-        dna: "Fusarium (33.4%), Cladosporium (18.2%)",
-        ecology: "수목 캐노피와 낙엽 부식층이 전혀 없어 자연 상태의 생물학적 포자 생성원이 전무한 음성 대조군(Negative Control)입니다. 관측되는 미생물은 차량 통행으로 날아오는 도로변 비산 먼지성 곰팡이(Fusarium 33.4%)와 광역 대기 부유균에 한정됩니다.",
-        health: "자연 곰팡이 포자 농도는 10개 지점 중 가장 낮으나(연중 실내기준 500 상시 충족), 아스팔트 복사열과 차량 배기가스가 존재하므로 산림욕 공간은 아닙니다."
+        no: 5, name: "주차장 (인공 포장 대조구)", latin: "Paved Parking Lot Control",
+        category: "control", catName: "인공 포장면 (음성 대조군)",
+        location: "관리사무소 앞 아스팔트 포장면, 식생 부재",
+        soilPh: "pH 7.0", soilMoist: "0.0%",
+        tafMean: 363.9, tabMean: 20.3, peak: "4월 (456 CFU/㎥), 7월 (326 CFU/㎥)", summerTaf: 326.0,
+        springDna: [{ g: "미포집 (하절기 집중)", pct: 0.0 }],
+        summerDna: [{ g: "Fusarium", pct: 33.4 }, { g: "Coprinellus", pct: 29.8 }, { g: "Nectriaceae", pct: 18.3 }, { g: "Penicillium", pct: 13.4 }],
+        microbeTraits: "연중 평균 363.9 CFU/㎥로 10개 지점 중 최저치. 전 조사 기간 동안 환경부 실내 권고기준(500 CFU/㎥)을 상시 만족하는 유일한 지점.",
+        plantMicrobe: "수목 및 낙엽층 부재 시 자연계 진균 포자 방출원이 형성되지 않음을 역설적으로 입증하는 '음성 대조군(Negative Control)'.",
+        nutrientCycling: "자연 유기물 분해 순환 부재. 관측 미생물은 차량 바퀴 및 인근 도로변에서 유입되는 외래 비산 먼지 유래.",
+        bioindicator: "비산란성 인공 피복면 및 광역 대기 배경농도 지표.",
+        healthGuide: "진균 포자는 적으나 아스팔트 복사열 및 차량 배기가스가 존재하므로 산림 치유 목적으로 머무르는 공간은 아님."
       },
       {
-        id: "site6", no: 6, name: "소나무림", latin: "Pinus densiflora Siebold & Zucc.",
-        type: "온대 천연 침엽수림", taf: 539.0, tab: 172.3, peak: "7월 (750 CFU/㎥), 8월 (746 CFU/㎥)",
-        soil: "건조 산림토 (pH 5.9, 수분 28.4%)",
-        dna: "Coprinellus radians (59.4% 절대 우점), Capnodiales (봄)",
-        ecology: "한국 온대림의 전형적인 소나무 군락으로, 임내에 자연 고사목과 간벌재가 풍부하게 축적되어 있습니다. 여름철 DNA 메타게놈에서 담자균류 목재 백색부후균인 Coprinellus radians(방사형먹물버섯류)가 무려 59.4%를 독점 우점하여, 소나무 고사목의 복합 리그닌을 분해하고 미세 담자포자를 대기 중으로 대량 뿜어내는 '탄소 순환의 핵심 현장'입니다.",
-        health: "미세 담자포자(2~4㎛)가 폐포 깊숙이 도달할 수 있으므로 담자포자 알레르기 소인이 있는 민감군은 강우 직후 버섯 다발기 탐방 시 가벼운 주의가 권장됩니다."
+        no: 6, name: "소나무림", latin: "Pinus densiflora Siebold & Zucc.",
+        category: "conifer", catName: "온대 천연 침엽수림",
+        location: "중턱 능선 사면 온대 자연림, 풍부한 간벌 고사목",
+        soilPh: "pH 5.9", soilMoist: "28.4%",
+        tafMean: 539.0, tabMean: 172.3, peak: "7월 (750 CFU/㎥), 8월 (746 CFU/㎥)", summerTaf: 750.0,
+        springDna: [{ g: "Capnodiales", pct: 28.2 }, { g: "Penicillium", pct: 17.5 }, { g: "Cladosporium", pct: 16.3 }, { g: "Umbelopsis", pct: 16.2 }],
+        summerDna: [{ g: "Coprinellus", pct: 59.4 }, { g: "Irpex", pct: 11.8 }, { g: "Capnodiales", pct: 9.6 }, { g: "Trichoderma", pct: 8.9 }],
+        microbeTraits: "여름철 담자균문 백색부후균 Coprinellus radians(방사형먹물버섯류, 59.4%)와 Irpex laceratus(11.8%)가 71.2%를 합작 독점.",
+        plantMicrobe: "소나무 고사목과 간벌재 리그닌을 분해하여 난분해성 유기물을 토양 부식토로 전환시키는 탄소 순환의 핵심 현장.",
+        nutrientCycling: "복합 리그닌 고분자 물질을 Laccase 및 Peroxidase 효소로 분해하여 산림 토양 유기물 층을 재생.",
+        bioindicator: "자연 온대 소나무림의 성숙도 및 고사목 축적 상태 지표.",
+        healthGuide: "미세 담자포자(2~4㎛)가 비산하므로 버섯 포자 알레르기 유증상자는 강우 직후 방문 시 마스크 착용 권장. 평상시 소나무 피톤치드 효과 우수."
       },
       {
-        id: "site7", no: 7, name: "일본잎갈나무림 a (낙엽송 a)", latin: "Larix kaempferi Stand A",
-        type: "낙엽성 침엽수 인공림", taf: 444.3, tab: 34.0, peak: "5월 초여름 (868 CFU/㎥)",
-        soil: "사질양토 (pH 6.2, 수분 31.2%)",
-        dna: "Penicillium (봄 24.1%), Trichoderma (여름 29.5%)",
-        ecology: "겨울철에 낙엽이 지고 봄에 신엽이 돋아나는 낙엽송의 특성상 동절기부터 이른 봄까지 임상에 햇빛이 잘 투과됩니다. 잣나무림이나 소나무림에 비해 통풍성이 우수하여 대기 중 습도 정체가 적고, 온건한 진균 농도(연중 평균 444 CFU/㎥)를 유지하며 낙엽층 분해가 규칙적으로 진행됩니다.",
-        health: "통풍이 원활하고 피톤치드 발산이 안정적이어서 보건학적으로 가장 쾌적한 산림 치유 산책로로 추천되는 임분입니다."
+        no: 7, name: "일본잎갈나무림 a (낙엽송 a)", latin: "Larix kaempferi (Stand A)",
+        category: "conifer", catName: "낙엽성 침엽수 인공림",
+        location: "남동사면 완경사지, 일조 투과 및 통풍 우수",
+        soilPh: "pH 6.2", soilMoist: "31.2%",
+        tafMean: 444.3, tabMean: 34.0, peak: "5월 초여름 (868 CFU/㎥), 7월 (640 CFU/㎥)", summerTaf: 640.0,
+        springDna: [{ g: "Capnodiales", pct: 63.7 }, { g: "Alternaria", pct: 13.7 }, { g: "Cladosporium", pct: 11.1 }],
+        summerDna: [{ g: "Cladosporium", pct: 24.4 }, { g: "Capnodiales", pct: 23.2 }, { g: "Trichoderma", pct: 22.8 }, { g: "Penicillium", pct: 12.2 }],
+        microbeTraits: "연중 평균 444 CFU/㎥로 전체 산림 임분 중 가장 청정. 특정 종의 독점 없이 Capnodiales, Cladosporium, Trichoderma가 균형을 이룸.",
+        plantMicrobe: "낙엽송 특유의 광 투과성과 우수한 공기 유동성으로 인해 임내 습도 정체가 발생하지 않음. 안정적 낙엽 분해와 청정한 수관 환경 형성.",
+        nutrientCycling: "매년 늦가을 발생하는 다량의 낙엽이 봄철 신엽 전개기와 함께 점진적으로 분해되어 토양 영양분 환원.",
+        bioindicator: "쾌적하고 건전한 온대 침엽수 인공림 대기질 지표.",
+        healthGuide: "대기질이 가장 청정하고 피톤치드가 안정적으로 발산되어 **학술림 내 최적의 산림 치유 산책 코스로 적극 추천**."
       },
       {
-        id: "site8", no: 8, name: "버들나무림 b (왕버들 b)", latin: "Salix koreensis Stand B",
-        type: "수변 하류 활엽수림", taf: 1214.0, tab: 24.3, peak: "4월 봄철 (1,658 CFU/㎥, 봄철 최고)",
-        soil: "유기물 풍부 퇴적토 (pH 6.4, 수분 40.8%)",
-        dna: "Cladosporium (31.2%), Colletotrichum (10.8%), Trichoderma",
-        ecology: "계곡 하류부에 위치하여 상류에서 운반된 유기물이 집적되고 미기후 습도가 극히 높습니다. 특히 4월 봄철 신엽 전개기에 엽면 부생균(Cladosporium)과 수변 포자가 급격히 비산하여 봄철 전 지점 최고치(1,658 CFU/㎥)를 기록하는 수변 완충 생태계입니다.",
-        health: "봄철에 Cladosporium 등 1급 알레르겐 농도가 높으므로 소아 천식 환자는 4월에 해당 수변 구역 진입 시 주의가 필요합니다."
+        no: 8, name: "버들나무림 b (왕버들 b)", latin: "Salix koreensis (Stand B)",
+        category: "riparian", catName: "수변 계곡 하류 활엽수림",
+        location: "계곡 하류 퇴적지, 고수위 및 퇴적 유기물 풍부",
+        soilPh: "pH 6.4", soilMoist: "40.8%",
+        tafMean: 1214.0, tabMean: 24.3, peak: "4월 봄철 (1,658 CFU/㎥, 봄철 전 지점 1위)", summerTaf: 1298.0,
+        springDna: [{ g: "Capnodiales", pct: 71.0 }, { g: "Alternaria", pct: 13.0 }, { g: "Coprinellus", pct: 3.3 }],
+        summerDna: [{ g: "Trichoderma", pct: 29.7 }, { g: "Fusarium", pct: 27.0 }, { g: "Colletotrichum", pct: 24.2 }, { g: "Alternaria", pct: 4.5 }],
+        microbeTraits: "봄철 신엽 개엽기 Cladosporium/Capnodiales 조기 대량 비산(1,658) 및 여름철 활엽수 탄저병균 Colletotrichum(24.2%)의 집중 발생.",
+        plantMicrobe: "계곡 상류로부터 운반된 유기물 집적과 높은 습도로 인해 수변 미생물 대사 활성이 극대화됨. 왕버들 탄저병 발생 모니터링의 핵심 지표.",
+        nutrientCycling: "수생 생태계와 육상 생태계 간의 전이대(Ecotone) 물질 교환 및 고속 질소/인 순환.",
+        bioindicator: "수변 활엽수림 탄저병(Anthracnose) 병해 조기 경보 지표.",
+        healthGuide: "4월에 1급 알레르겐 포자 농도가 높으므로 알레르기 비염 및 천식 환자는 봄철 진입 시 주의 필요."
       },
       {
-        id: "site9", no: 9, name: "일본잎갈나무림 b (낙엽송 b)", latin: "Larix kaempferi Stand B",
-        type: "경사지 낙엽송 임분", taf: 930.0, tab: 357.7, peak: "4월 봄철 (1,146 CFU/㎥, 세균 1,954)",
-        soil: "침엽수 낙엽 잔류토 (pH 6.0, 수분 29.5%)",
-        dna: "Capnodiales (봄 45.2%), Penicillium, 자낭균 부생균",
-        ecology: "바람받이 능선 사면에 위치하여 4월 봄철 건조 강풍(순간최대 16.3m/s) 발생 시 수관 상층부에서 엽면 피생균(Capnodiales)과 토양 표면 세균(1,954 CFU/㎥)이 일시적으로 강하게 비산하는 물리적 역학을 보여줍니다. 여름철에는 472 CFU/㎥로 빠르게 안정화됩니다.",
-        health: "봄철 건조 강풍일에는 바람에 의한 미세 비산 입자가 많으므로 방풍 안경이나 마스크 착용이 유리합니다."
+        no: 9, name: "일본잎갈나무림 b (낙엽송 b)", latin: "Larix kaempferi (Stand B)",
+        category: "conifer", catName: "경사지 낙엽송 임분",
+        location: "사면 상단부 능선 바람받이 사면",
+        soilPh: "pH 6.0", soilMoist: "29.5%",
+        tafMean: 930.0, tabMean: 357.7, peak: "4월 봄철 (1,146 CFU/㎥, 세균 1,954 CFU/㎥)", summerTaf: 472.0,
+        springDna: [{ g: "Capnodiales", pct: 49.2 }, { g: "Fusarium", pct: 24.6 }, { g: "Clonostachys", pct: 11.2 }, { g: "Alternaria", pct: 9.5 }],
+        summerDna: [{ g: "Aspergillus", pct: 30.9 }, { g: "Fusarium", pct: 25.4 }, { g: "Trichoderma", pct: 17.4 }, { g: "Ceriporia", pct: 9.5 }],
+        microbeTraits: "4월 건조 강풍(최대 16.3m/s) 시 엽면 피생균(Capnodiales 49%) 및 토양 세균(1,954)의 일시적 풍식 비산. 여름철 목재부후균 Ceriporia(9.5%) 출현.",
+        plantMicrobe: "바람받이 사면의 물리적 미기후 역학을 반영하며, 계절 간 기상 변동에 민감하게 반응하는 산림 대기 완충 지표 임분.",
+        nutrientCycling: "강풍에 의한 수관 포자 확산과 토양 표면 건조화에 따른 간헐적 분해 활성.",
+        bioindicator: "바람받이 사면의 물리적 풍식 및 기상 민감도 지표.",
+        healthGuide: "봄철 강풍 시 일시적으로 미세 입자 비산이 많으므로 방풍 안경 및 마스크 착용이 유리함."
       },
       {
-        id: "site10", no: 10, name: "잣나무림 b", latin: "Pinus koraiensis Stand B",
-        type: "능선 연접 잣나무림", taf: 520.7, tab: 23.7, peak: "8월 늦여름 (912 CFU/㎥)",
-        soil: "사질 산림토 (pH 6.1, 수분 33.4%)",
-        dna: "Trichoderma, Capnodiales, Russula (외생균근균)",
-        ecology: "같은 잣나무림이지만 계곡부에 위치한 Stand A(Site 2, 2,104 CFU/㎥)와 달리 능선부에 인접하여 공기 순환이 원활하고 습도 정체가 적습니다. 이로 인해 여름철 진균 농도가 638~912 CFU/㎥로 Stand A의 절반 이하에 머물러, '지형 미기후가 바이오에어로졸 농도를 조절하는 메커니즘'을 완벽히 보여주는 대조 임분입니다.",
-        health: "잣나무 피톤치드 효과를 원하면서도 고습도 곰팡이 포자 노출을 피하고자 하는 치유객에게 Site 2 대신 적극 권장되는 힐링 코스입니다."
+        no: 10, name: "잣나무림 b", latin: "Pinus koraiensis (Stand B)",
+        category: "conifer", catName: "능선 연접 잣나무림",
+        location: "상부 능선부 연접 사면, 통풍 양호",
+        soilPh: "pH 6.1", soilMoist: "33.4%",
+        tafMean: 520.7, tabMean: 23.7, peak: "8월 늦여름 (912 CFU/㎥), 7월 (638 CFU/㎥)", summerTaf: 638.0,
+        springDna: [{ g: "Penicillium", pct: 50.1 }, { g: "Capnodiales", pct: 32.1 }, { g: "Coprinellus", pct: 15.1 }],
+        summerDna: [{ g: "Trichoderma", pct: 80.2 }, { g: "Aspergillus", pct: 9.7 }, { g: "Bjerkandera", pct: 8.5 }, { g: "Oudemansiella", pct: 1.1 }],
+        microbeTraits: "봄철 Penicillium mallochii(50.1%) 우점에서 여름철 Trichoderma(80.2%)로의 전환. 계곡부 Stand A 대비 진균 농도가 절반 이하로 안정적 억제.",
+        plantMicrobe: "동일 잣나무 수종임에도 능선 지형의 우수한 통풍성으로 인해 습도 정체가 해소되어 진균 농도가 크게 낮아짐. '지형 미기후 조절 메커니즘'의 증거.",
+        nutrientCycling: "통풍 사면의 규칙적인 건습 반복으로 균일하고 위생적인 낙엽 부식토 형성.",
+        bioindicator: "능선부 미기후에 의한 포자 농도 완충 지표.",
+        healthGuide: "잣나무 피톤치드 치유 효과를 누리면서도 고습도 곰팡이 포자를 회피할 수 있는 최적의 힐링 코스."
       }
     ];
 
-    // 10 Dominant species literature data
+    // Render Site Encyclopedia Cards in Tab 2
+    let currentStandCategory = 'all';
+
+    function renderSiteEncyclopedia() {
+      const container = document.getElementById('siteEncyclopediaGrid');
+      const filtered = siteEncyclopediaData.filter(site => {
+        if (currentStandCategory !== 'all' && site.category !== currentStandCategory) return false;
+        return true;
+      });
+
+      container.innerHTML = filtered.map((s, idx) => `
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4">
+          <div>
+            <!-- Header Badge & Title -->
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900">Site ${s.no}</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-600">${s.catName}</span>
+              </div>
+              <span class="text-[11px] text-slate-400 font-mono">${s.location}</span>
+            </div>
+            
+            <h4 class="text-xl font-black text-slate-900 mt-2">${s.name}</h4>
+            <p class="text-xs italic text-slate-500">${s.latin}</p>
+
+            <!-- 4 Metric KPI Pills -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+              <div>
+                <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+                <strong class="text-red-600 text-sm font-black">${s.tafMean}</strong>
+                <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+                <strong class="text-blue-600 text-sm font-black">${s.tabMean}</strong>
+                <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block">토양 산도</span>
+                <strong class="text-slate-800 text-sm font-bold">${s.soilPh}</strong>
+                <span class="text-[9px] text-slate-400 block">${s.soilMoist}</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block">피크 농도</span>
+                <strong class="text-amber-700 text-xs font-black">${s.summerTaf}</strong>
+                <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+              </div>
+            </div>
+
+            <!-- DNA Metagenomic Taxa Stack -->
+            <div class="mt-4 space-y-2">
+              <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-[11px]">
+                <div class="p-2 rounded-lg bg-blue-50/70 border border-blue-100 space-y-1">
+                  <span class="font-bold text-blue-950 block text-[10px] uppercase">🌱 봄철 DNA (04/15)</span>
+                  ${s.springDna.map(d => `
+                    <div class="flex justify-between items-center text-slate-700">
+                      <span class="truncate max-w-[120px] font-medium">${d.g}</span>
+                      <span class="font-mono font-bold text-blue-800">${d.pct}%</span>
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="p-2 rounded-lg bg-red-50/70 border border-red-100 space-y-1">
+                  <span class="font-bold text-red-950 block text-[10px] uppercase">🍄 여름철 DNA (07/27)</span>
+                  ${s.summerDna.map(d => `
+                    <div class="flex justify-between items-center text-slate-700">
+                      <span class="truncate max-w-[120px] font-medium">${d.g}</span>
+                      <span class="font-mono font-bold text-red-800">${d.pct}%</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Microbial Status & Ecological Interpretation Snippets -->
+            <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+              <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                <strong class="text-slate-900 block mb-0.5 flex items-center gap-1">
+                  <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+                </strong>
+                ${s.microbeTraits}
+              </div>
+              <div class="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 text-emerald-950">
+                <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1">
+                  <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+                </strong>
+                ${s.plantMicrobe} ${s.nutrientCycling}
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Health & Action Button -->
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+            <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+              <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> ${s.healthGuide.slice(0, 35)}...
+            </span>
+            <button onclick="openSiteModalByNo(${s.no})" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-2xs">
+              <span>상세 진단서</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function filterSiteCards(cat) {
+      currentStandCategory = cat;
+      document.querySelectorAll('#standFilterGroup .stand-filter-btn').forEach(btn => btn.classList.remove('stand-filter-active'));
+      event.target.classList.add('stand-filter-active');
+      renderSiteEncyclopedia();
+    }
+
+    function searchSiteCards() {
+      const q = document.getElementById('siteSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('#siteEncyclopediaGrid > div');
+      siteEncyclopediaData.forEach((site, i) => {
+        const text = (site.name + site.latin + site.microbeTraits + site.plantMicrobe + site.catName + JSON.stringify(site.springDna) + JSON.stringify(site.summerDna)).toLowerCase();
+        if (text.includes(q)) {
+          cards[i].style.display = 'flex';
+        } else {
+          cards[i].style.display = 'none';
+        }
+      });
+    }
+
+    function openSiteModalByNo(siteNo) {
+      const p = siteEncyclopediaData.find(s => s.no === siteNo);
+      if (!p) return;
+      document.getElementById('modalSiteBadge').textContent = 'Site ' + p.no + ' (' + p.catName + ')';
+      document.getElementById('modalSiteTitle').textContent = p.name;
+      document.getElementById('modalSiteLatin').textContent = p.latin;
+      document.getElementById('modalTaf').textContent = p.tafMean + ' CFU/㎥';
+      document.getElementById('modalTab').textContent = p.tabMean + ' CFU/㎥';
+      document.getElementById('modalSoil').textContent = p.soilPh + ' (' + p.soilMoist + ')';
+      document.getElementById('modalPeak').textContent = p.peak;
+      document.getElementById('modalEcology').innerHTML = `
+        <strong>[수목-미생물 상호작용]</strong> ${p.plantMicrobe}<br/><br/>
+        <strong>[물질 순환 및 분해 기능]</strong> ${p.nutrientCycling}<br/><br/>
+        <strong>[생태계 지표성 (Bioindicator)]</strong> ${p.bioindicator}
+      `;
+      document.getElementById('modalDna').innerHTML = `
+        <strong>봄철 (04/15)</strong>: ${p.springDna.map(d => d.g + ' (' + d.pct + '%)').join(', ')}<br/>
+        <strong>여름철 (07/27)</strong>: ${p.summerDna.map(d => d.g + ' (' + d.pct + '%)').join(', ')}
+      `;
+      document.getElementById('modalHealth').textContent = p.healthGuide;
+      document.getElementById('siteModal').classList.remove('hidden');
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-nav').forEach(el => {
+        el.classList.remove('tab-btn-active');
+        el.classList.add('text-emerald-200');
+      });
+      const navBtn = document.getElementById('nav-' + tabId.replace('tab-', ''));
+      if (navBtn) {
+        navBtn.classList.add('tab-btn-active');
+        navBtn.classList.remove('text-emerald-200');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Lightbox Modal
+    function openLightbox(src, title) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightbox').classList.remove('hidden');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.add('hidden');
+    }
+
+    // Site Modal Close
+    function closeSiteModal() {
+      document.getElementById('siteModal').classList.add('hidden');
+    }
+
+    // Render Species Cards in Tab 6
     const dominantSpeciesList = [
       {
         name: "Trichoderma hamatum / harzianum",
@@ -1286,101 +2460,6 @@
       }
     ];
 
-    // 12 Figures Gallery Data
-    const galleryItems = [
-      { id: 9, src: "images/fig9_all6dates_longitudinal_trends.png", title: "Fig 9. 6대 시계열 농도 추이", desc: "TAB, TAF, F/B비 및 실내기준 비교" },
-      { id: 10, src: "images/fig10_all6dates_spatiotemporal_heatmap.png", title: "Fig 10. 시공간 농도 히트맵", desc: "10개 지점 6대 시계열 농도 매트릭스" },
-      { id: 11, src: "images/fig11_all6dates_environmental_correlations.png", title: "Fig 11. 환경 인자 상관/회귀", desc: "N=298 환경-미생물 구동 메커니즘" },
-      { id: 12, src: "images/fig12_dna_macro_integration.png", title: "Fig 12. 거시-미시 융합 모델", desc: "농도 곡선과 8대 우점 속 천이 매핑" },
-      { id: 6, src: "images/fig6_cooccurrence_network.png", title: "Fig 6. 공기생 네트워크", desc: "모듈 분화 및 핵심 허브(Keystone)" },
-      { id: 7, src: "images/fig7_microbe_environment_correlation.png", title: "Fig 7. 기상-미생물 상관", desc: "AWS 온습도·강우와 우점종 상관" },
-      { id: 1, src: "images/fig1_seasonal_alpha_diversity.png", title: "Fig 1. 알파 다양성", desc: "봄 13.0 vs 여름 31.1 ASVs (p < 0.001)" },
-      { id: 2, src: "images/fig2_phylum_class_composition.png", title: "Fig 2. 문·강 군집 조성", desc: "자낭균문 vs 담자균문 계절 교체" },
-      { id: 3, src: "images/fig3_top_genera_heatmap.png", title: "Fig 3. 25대 우점 속 히트맵", desc: "10개 조사구별 미생물 지문" },
-      { id: 4, src: "images/fig4_beta_diversity_pcoa.png", title: "Fig 4. 베타 다양성 PCoA", desc: "PERMANOVA R²=0.457 (p=0.001)" },
-      { id: 5, src: "images/fig5_functional_guilds_allergens.png", title: "Fig 5. 기능성 길드 & 알레르겐", desc: "부생균, 병원균, 4대 알레르겐 대조" },
-      { id: 8, src: "images/fig8_bioaerosol_concentration.png", title: "Fig 8. 바이오에어로졸 농도", desc: "CFU/㎥ 환산 및 실내공기질 권고기준" }
-    ];
-
-    // Tab Switching
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-      document.getElementById(tabId).classList.remove('hidden');
-
-      document.querySelectorAll('.tab-nav').forEach(el => {
-        el.classList.remove('tab-btn-active');
-        el.classList.add('text-emerald-200');
-      });
-      const navBtn = document.getElementById('nav-' + tabId.replace('tab-', ''));
-      if (navBtn) {
-        navBtn.classList.add('tab-btn-active');
-        navBtn.classList.remove('text-emerald-200');
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Lightbox Modal
-    function openLightbox(src, title) {
-      document.getElementById('lightboxImg').src = src;
-      document.getElementById('lightboxTitle').textContent = title;
-      document.getElementById('lightbox').classList.remove('hidden');
-    }
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.add('hidden');
-    }
-
-    // Site Modal
-    function openSiteModal(siteIndex) {
-      const p = siteProfiles[siteIndex];
-      document.getElementById('modalSiteBadge').textContent = 'Site ' + p.no + ' (' + p.type + ')';
-      document.getElementById('modalSiteTitle').textContent = p.name;
-      document.getElementById('modalSiteLatin').textContent = p.latin;
-      document.getElementById('modalTaf').textContent = p.taf + ' CFU/㎥';
-      document.getElementById('modalTab').textContent = p.tab + ' CFU/㎥';
-      document.getElementById('modalSoil').textContent = p.soil;
-      document.getElementById('modalPeak').textContent = p.peak;
-      document.getElementById('modalEcology').textContent = p.ecology;
-      document.getElementById('modalDna').textContent = p.dna;
-      document.getElementById('modalHealth').textContent = p.health;
-      document.getElementById('siteModal').classList.remove('hidden');
-    }
-    function closeSiteModal() {
-      document.getElementById('siteModal').classList.add('hidden');
-    }
-
-    // Render Site Cards in Tab 2
-    function renderSiteCards() {
-      const container = document.getElementById('siteCardsContainer');
-      container.innerHTML = siteProfiles.map((p, idx) => `
-        <div onclick="openSiteModal(${idx})" class="group cursor-pointer bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition space-y-3 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Site ${p.no}</span>
-              <span class="text-[11px] text-slate-400 font-medium">${p.type}</span>
-            </div>
-            <h4 class="text-base font-black text-slate-900 mt-2 group-hover:text-emerald-700 transition">${p.name}</h4>
-            <p class="text-xs italic text-slate-400">${p.latin}</p>
-            <div class="mt-3 grid grid-cols-2 gap-2 text-center text-xs">
-              <div class="p-2 rounded bg-slate-50 border border-slate-100">
-                <span class="text-[10px] text-slate-400 block">진균 평균</span>
-                <strong class="text-red-600">${p.taf} CFU/㎥</strong>
-              </div>
-              <div class="p-2 rounded bg-slate-50 border border-slate-100">
-                <span class="text-[10px] text-slate-400 block">세균 평균</span>
-                <strong class="text-blue-600">${p.tab} CFU/㎥</strong>
-              </div>
-            </div>
-            <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">${p.ecology}</p>
-          </div>
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-emerald-700">
-            <span>심층 생태 진단서 보기</span>
-            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // Render Species Cards in Tab 6
     function renderSpeciesCards(list) {
       const grid = document.getElementById('speciesCardsGrid');
       grid.innerHTML = list.map(sp => `
@@ -1409,7 +2488,22 @@
       renderSpeciesCards(filtered);
     }
 
-    // Render Gallery in Tab 7
+    // Render Gallery
+    const galleryItems = [
+      { id: 9, src: "images/fig9_all6dates_longitudinal_trends.png", title: "Fig 9. 6대 시계열 농도 추이", desc: "TAB, TAF, F/B비 및 실내기준 비교" },
+      { id: 10, src: "images/fig10_all6dates_spatiotemporal_heatmap.png", title: "Fig 10. 시공간 농도 히트맵", desc: "10개 지점 6대 시계열 농도 매트릭스" },
+      { id: 11, src: "images/fig11_all6dates_environmental_correlations.png", title: "Fig 11. 환경 인자 상관/회귀", desc: "N=298 환경-미생물 구동 메커니즘" },
+      { id: 12, src: "images/fig12_dna_macro_integration.png", title: "Fig 12. 거시-미시 융합 모델", desc: "농도 곡선과 8대 우점 속 천이 매핑" },
+      { id: 6, src: "images/fig6_cooccurrence_network.png", title: "Fig 6. 공기생 네트워크", desc: "모듈 분화 및 핵심 허브(Keystone)" },
+      { id: 7, src: "images/fig7_microbe_environment_correlation.png", title: "Fig 7. 기상-미생물 상관", desc: "AWS 온습도·강우와 우점종 상관" },
+      { id: 1, src: "images/fig1_seasonal_alpha_diversity.png", title: "Fig 1. 알파 다양성", desc: "봄 13.0 vs 여름 31.1 ASVs (p < 0.001)" },
+      { id: 2, src: "images/fig2_phylum_class_composition.png", title: "Fig 2. 문·강 군집 조성", desc: "자낭균문 vs 담자균문 계절 교체" },
+      { id: 3, src: "images/fig3_top_genera_heatmap.png", title: "Fig 3. 25대 우점 속 히트맵", desc: "10개 조사구별 미생물 지문" },
+      { id: 4, src: "images/fig4_beta_diversity_pcoa.png", title: "Fig 4. 베타 다양성 PCoA", desc: "PERMANOVA R²=0.457 (p=0.001)" },
+      { id: 5, src: "images/fig5_functional_guilds_allergens.png", title: "Fig 5. 기능성 길드 & 알레르겐", desc: "부생균, 병원균, 4대 알레르겐 대조" },
+      { id: 8, src: "images/fig8_bioaerosol_concentration.png", title: "Fig 8. 바이오에어로졸 농도", desc: "CFU/㎥ 환산 및 실내공기질 권고기준" }
+    ];
+
     function renderGallery() {
       const container = document.getElementById('galleryGrid');
       container.innerHTML = galleryItems.map(item => `
@@ -1464,7 +2558,6 @@
       interactiveSiteChart.options.scales.y.title.text = cfg.label;
       interactiveSiteChart.update();
 
-      // Update Info Banner
       document.getElementById('bannerTitle').textContent = `${dateLabelsMap[currentDateKey]}: ${cfg.label}`;
       
       const maxVal = Math.max(...dataArr);
@@ -1491,9 +2584,8 @@
       updateSiteChart();
     }
 
-    // Init Charts on Load
     window.addEventListener('DOMContentLoaded', () => {
-      renderSiteCards();
+      renderSiteEncyclopedia();
       renderSpeciesCards(dominantSpeciesList);
       renderGallery();
 
