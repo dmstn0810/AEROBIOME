@@ -42,8 +42,9 @@
 ```
 AEROBIOME/
 ├── docs/                               # GitHub Pages 배포 디렉토리
-│   ├── index.html                      # 전주기 인터랙티브 웹 대시보드
-│   ├── aerobiome_analysis_summary.xlsx # 15개 시트 마스터 데이터 워크북
+│   ├── index.html                      # 7대 챕터 인터랙티브 웹 대시보드 & 10대 지점별 생태백과
+│   ├── aerobiome_analysis_report.md    # 40쪽 분량 종합 학술 연구 보고서 (Markdown)
+│   ├── aerobiome_analysis_summary.xlsx # 16개 시트 마스터 데이터 워크북 (지점별 생태백과 포함)
 │   └── images/                         # 연구 출판용 고해상도 그래픽 (Fig 1 ~ Fig 12)
 │       ├── fig1_seasonal_alpha_diversity.png
 │       ├── fig2_phylum_class_composition.png
@@ -52,17 +53,19 @@ AEROBIOME/
 │       ├── fig5_functional_guilds_allergens.png
 │       ├── fig6_cooccurrence_network.png
 │       ├── fig7_microbe_environment_correlation.png
+│       ├── fig7_environmental_correlations.png
 │       ├── fig8_bioaerosol_concentration.png
 │       ├── fig9_all6dates_longitudinal_trends.png
 │       ├── fig10_all6dates_spatiotemporal_heatmap.png
 │       ├── fig11_all6dates_environmental_correlations.png
 │       └── fig12_dna_macro_integration.png
+├── aerobiome_analysis_report.md        # 종합 학술 연구 보고서 원본
+├── aerobiome_analysis_summary.xlsx     # 16개 시트 마스터 데이터 워크북
 ├── ASV_table_260415.biom               # 1차(봄) NGS ASV 테이블 (HDF5)
 ├── ASV_table_260727.biom               # 2차(여름) NGS ASV 테이블 (JSON)
 ├── TAXONOMY_Assignment_260415.xlsx     # 1차 분류군 동정표 (UNITE)
 ├── TAXONOMY_Assignment_260727.xlsx     # 2차 분류군 동정표 (UNITE)
 ├── 괴산연습림 전체데이터.xlsx          # 6대 조사 전수 원본 데이터
-├── aerobiome_analysis_summary.xlsx     # 통합 분석 엑셀
 ├── .gitignore
 └── README.md
 ```
