@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>건국대학교 학술림(괴산) 공기미생물(Aerobiome) 전주기 디지털 대시보드 & 10대 지점별 생태백과</title>
+  <title>건국대학교 학술림(괴산) 공기미생물(Aerobiome) 전주기 디지털 대시보드 & 챕터별 생태백과</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js -->
@@ -16,11 +16,16 @@
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
     body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
-    .nav-link-active { border-bottom: 3px solid #34d399; color: #ffffff !important; font-weight: 700; }
+    .chapter-tab-active { 
+      background-color: #047857 !important; 
+      color: #ffffff !important; 
+      font-weight: 700 !important; 
+      border-bottom: 3px solid #34d399 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
     .date-pill-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
     .metric-pill-active { background-color: #0284c7 !important; color: white !important; font-weight: 700; }
     .stand-filter-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
-    section { scroll-margin-top: 100px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
@@ -36,7 +41,7 @@
           <h1 class="text-lg sm:text-xl font-black tracking-tight flex items-center gap-2">
             건국대학교 학술림 <span class="text-xs bg-emerald-800 px-2 py-0.5 rounded text-emerald-200 font-normal">충북 괴산군 불정면</span>
           </h1>
-          <p class="text-xs text-emerald-300">공기 부유 미생물(Aerobiome) 전 시계열 & 10대 조사지점별 생태백과 플랫폼</p>
+          <p class="text-xs text-emerald-300">공기 부유 미생물(Aerobiome) 전 시계열 & 챕터별 생태백과 디지털 플랫폼</p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
@@ -46,35 +51,35 @@
       </div>
     </div>
 
-    <!-- Sticky Navigation Anchor Bar -->
+    <!-- Sticky Chapter Navigation Tabs Bar -->
     <nav class="bg-emerald-900/95 border-t border-emerald-800/60 overflow-x-auto">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-3 text-xs sm:text-sm font-medium text-emerald-200 py-1">
-        <a href="#section-dashboard" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="line-chart" class="w-4 h-4"></i> 시계열 & 지점별 농도
-        </a>
-        <a href="#section-sites" class="nav-anchor py-2 px-3 whitespace-nowrap text-white font-bold bg-emerald-800/80 rounded-lg hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-xs">
-          <i data-lucide="trees" class="w-4 h-4 text-emerald-300"></i> 🌲 10대 지점별 생태백과
-        </a>
-        <a href="#section-dna" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="dna" class="w-4 h-4"></i> DNA 메타게놈
-        </a>
-        <a href="#section-network" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="share-2" class="w-4 h-4"></i> 공기생 네트워크
-        </a>
-        <a href="#section-standards" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="shield-check" class="w-4 h-4"></i> 실내기준 & 산림치유
-        </a>
-        <a href="#section-species" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="book-open" class="w-4 h-4"></i> 📖 우점 종별 백과
-        </a>
-        <a href="#section-gallery" class="nav-anchor py-2 px-3 whitespace-nowrap hover:text-white transition flex items-center gap-1.5">
-          <i data-lucide="image" class="w-4 h-4"></i> 12종 연구 그래픽
-        </a>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium text-emerald-200 py-1.5" id="chapterNavTabs">
+        <button onclick="switchChapter(1)" id="nav-ch1" class="chapter-tab chapter-tab-active py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="line-chart" class="w-4 h-4"></i> 제1장. 시계열 & 지점별 농도
+        </button>
+        <button onclick="switchChapter(2)" id="nav-ch2" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5 bg-emerald-800/60 text-emerald-100 font-bold">
+          <i data-lucide="trees" class="w-4 h-4 text-emerald-300"></i> 제2장. 🌲 10대 지점별 생태백과
+        </button>
+        <button onclick="switchChapter(3)" id="nav-ch3" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="dna" class="w-4 h-4"></i> 제3장. DNA 메타게놈 구조
+        </button>
+        <button onclick="switchChapter(4)" id="nav-ch4" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="share-2" class="w-4 h-4"></i> 제4장. 공기생 네트워크
+        </button>
+        <button onclick="switchChapter(5)" id="nav-ch5" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-4 h-4"></i> 제5장. 실내기준 & 산림치유
+        </button>
+        <button onclick="switchChapter(6)" id="nav-ch6" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="book-open" class="w-4 h-4"></i> 제6장. 📖 우점 종별 백과
+        </button>
+        <button onclick="switchChapter(7)" id="nav-ch7" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="image" class="w-4 h-4"></i> 제7장. 🖼️ 12종 연구 그래픽
+        </button>
       </div>
     </nav>
   </header>
 
-  <!-- Hero Section with Direct Jump Buttons -->
+  <!-- Hero Section with Direct Chapter Switcher Launcher -->
   <section class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white py-10 px-4 shadow-sm">
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -90,30 +95,42 @@
             </span>
           </h2>
           <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-3xl">
-            소나무림, 잣나무림(a,b), 버들나무림(a,b), 낙엽송림(a,b), 리기다소나무림 및 대조구(밭, 주차장) 등 **10대 고정 조사구에서 수집된 298건의 배양 농도(CFU/㎥ = Count/0.1)**와 기상청 괴산 불정면 AWS 종관 기상, 현장 미기후 결측치 대치값, 그리고 **2,091,638 reads의 공기진균 ITS 차세대 염기서열(NGS)**을 종합 연계하였습니다.
+            소나무림, 잣나무림(a,b), 버들나무림(a,b), 낙엽송림(a,b), 리기다소나무림 및 대조구(밭, 주차장) 등 **10대 고정 조사구에서 수집된 298건의 배양 농도(CFU/㎥ = Count/0.1)**와 기상청 괴산 불정면 AWS 종관 기상, 현장 미기후 결측치 대치값, 그리고 **2,091,638 reads의 공기진균 ITS 차세대 염기서열(NGS)**을 7개 챕터로 나누어 체계적으로 구성하였습니다.
           </p>
 
-          <!-- Direct Jump Bar to Key Sections -->
-          <div class="pt-2 flex flex-wrap items-center gap-2.5">
-            <span class="text-xs text-emerald-300 font-bold">주요 섹션 바로보기:</span>
-            <a href="#section-sites" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-emerald-950 font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-emerald-950/60 transition transform hover:-translate-y-0.5">
-              <i data-lucide="trees" class="w-4 h-4"></i> 🌲 10대 지점별 생태백과 바로보기 &darr;
-            </a>
-            <a href="#section-dashboard" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
-              📊 6대 시계열 농도
-            </a>
-            <a href="#section-dna" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
-              🧬 NGS 메타게놈
-            </a>
-            <a href="#section-network" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
-              🕸️ 공기생 네트워크
-            </a>
-            <a href="#section-standards" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
-              🛡️ 실내기준 & 보건
-            </a>
-            <a href="#section-species" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">
-              📖 우점 종별 백과
-            </a>
+          <!-- Chapter Quick Launcher Grid -->
+          <div class="pt-2">
+            <span class="text-xs text-emerald-300 font-bold block mb-2">원하는 챕터를 클릭하시면 해당 챕터가 바로 열립니다:</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              <button onclick="switchChapter(1)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                <span class="text-xs font-semibold text-slate-200">시계열 & 농도</span>
+              </button>
+              <button onclick="switchChapter(2)" class="p-2 rounded-xl bg-gradient-to-r from-emerald-600/40 to-teal-500/40 hover:bg-emerald-600/60 border border-emerald-400/50 text-left transition flex items-center gap-2 cursor-pointer shadow-sm">
+                <span class="w-6 h-6 rounded-lg bg-emerald-400 text-emerald-950 flex items-center justify-center text-xs font-black shrink-0">2</span>
+                <span class="text-xs font-bold text-emerald-200">🌲 10대 지점 백과</span>
+              </button>
+              <button onclick="switchChapter(3)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                <span class="text-xs font-semibold text-slate-200">DNA 메타게놈</span>
+              </button>
+              <button onclick="switchChapter(4)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+                <span class="text-xs font-semibold text-slate-200">공기생 네트워크</span>
+              </button>
+              <button onclick="switchChapter(5)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold shrink-0">5</span>
+                <span class="text-xs font-semibold text-slate-200">실내기준 & 보건</span>
+              </button>
+              <button onclick="switchChapter(6)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-bold shrink-0">6</span>
+                <span class="text-xs font-semibold text-slate-200">우점 종별 백과</span>
+              </button>
+              <button onclick="switchChapter(7)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer col-span-2 sm:col-span-1">
+                <span class="w-6 h-6 rounded-lg bg-pink-500/20 text-pink-300 flex items-center justify-center text-xs font-bold shrink-0">7</span>
+                <span class="text-xs font-semibold text-slate-200">12종 연구 그래픽</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -144,18 +161,18 @@
     </div>
   </section>
 
-  <!-- CONTINUOUS VERTICAL DASHBOARD BODY -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16 flex-1 w-full">
+  <!-- CHAPTERS MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
 
     <!-- =============================================================== -->
-    <!-- SECTION 1: 시계열 및 지점별 농도 대시보드 -->
+    <!-- CHAPTER 1: 시계열 및 지점별 농도 대시보드 -->
     <!-- =============================================================== -->
-    <section id="section-dashboard" class="space-y-8">
+    <div id="chapter-1" class="chapter-content space-y-8">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold mb-2">
-              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-blue-700"></i> 섹션 1 · 농도 정량 모니터링
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-blue-700"></i> 제1장 · 시계열 농도 정량 모니터링
             </div>
             <h3 class="text-lg sm:text-2xl font-black text-slate-900 flex items-center gap-2">
               <i data-lucide="line-chart" class="w-6 h-6 text-emerald-600"></i>
@@ -240,24 +257,48 @@
           <canvas id="interactiveSiteChart"></canvas>
         </div>
       </div>
-    </section>
+
+      <!-- Chapter 1 Research Figures -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div onclick="openLightbox('images/fig9_all6dates_longitudinal_trends.png', 'Fig 9. 6대 조사 전 시계열 농도 추이')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 9. 6대 조사 전 시계열 추이</span>
+          <img src="images/fig9_all6dates_longitudinal_trends.png" alt="Fig 9" class="w-full h-40 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig10_all6dates_spatiotemporal_heatmap.png', 'Fig 10. 10개 조사구 시공간 농도 히트맵')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 10. 시공간 농도 히트맵</span>
+          <img src="images/fig10_all6dates_spatiotemporal_heatmap.png" alt="Fig 10" class="w-full h-40 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig11_all6dates_environmental_correlations.png', 'Fig 11. 6대 조사 통합 미기후 다중 상관')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 11. 6대 조사 미기후 상관</span>
+          <img src="images/fig11_all6dates_environmental_correlations.png" alt="Fig 11" class="w-full h-40 object-cover rounded-lg">
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-end">
+        <button onclick="switchChapter(2)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제2장. 🌲 10대 지점별 생태백과로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 2: 🌲 10대 고정 조사지점별 미생물 현황·특성·심층 생태백과 (KEY) -->
+    <!-- CHAPTER 2: 🌲 10대 고정 조사지점별 미생물 현황·특성·심층 생태백과 (KEY) -->
     <!-- =============================================================== -->
-    <section id="section-sites" class="space-y-6 pt-4">
+    <div id="chapter-2" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold mb-2">
-              <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-700"></i> 섹션 2 · 학술림 고유 지점 정밀 진단
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-700"></i> 제2장 · 10대 고정 조사지점 종합 생태 진단서
             </div>
             <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
               <i data-lucide="trees" class="w-6 h-6 text-emerald-600"></i>
               10대 고정 조사지점별 미생물 현황·특성·심층 생태백과
             </h3>
             <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-4xl leading-relaxed">
-              건국대 학술림 10개 고정 조사구별 **배양 집락 정량 현황(CFU/㎥)**, **ITS 메타게놈 차세대 염기서열분석(NGS) 실측 우점 종 구조(%)**, **고유 미생물 특성**, 그리고 **수목-미생물 공생, 유기물 탄소 순환, 생태계 지표성 및 산림치유 보건 가이드**를 집대성한 정밀 생태 진단서입니다.
+              건국대 학술림 10개 고정 조사구별 **배양 집락 정량 현황(CFU/㎥)**, **ITS 메타게놈 차세대 염기서열분석(NGS) 실측 우점 종 구조(%)**, **고유 미생물 특성**, 그리고 **수목-미생물 공생, 유기물 탄소 순환, 생태계 지표성 및 산림치유 보건 가이드**를 체계적으로 정리한 정밀 생태 진단서입니다.
             </p>
           </div>
         </div>
@@ -265,10 +306,10 @@
         <!-- Stand Type Filter & Search Bar -->
         <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
           <div class="flex flex-wrap gap-1.5" id="standFilterGroup">
-            <button onclick="filterSiteCards('all')" class="stand-filter-btn stand-filter-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">전체 10개 지점</button>
-            <button onclick="filterSiteCards('conifer')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🌲 온대 침엽수림 (6개소)</button>
-            <button onclick="filterSiteCards('riparian')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🌿 수변 저습지 활엽수림 (2개소)</button>
-            <button onclick="filterSiteCards('control')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🚜 환경 대조구 (2개소)</button>
+            <button onclick="filterSiteCards('all')" class="stand-filter-btn stand-filter-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">전체 10개 지점</button>
+            <button onclick="filterSiteCards('conifer')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🌲 온대 침엽수림 (6개소)</button>
+            <button onclick="filterSiteCards('riparian')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🌿 수변 저습지 활엽수림 (2개소)</button>
+            <button onclick="filterSiteCards('control')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🚜 환경 대조구 (2개소)</button>
           </div>
           <div class="w-full sm:w-80">
             <input type="text" id="siteSearchInput" onkeyup="searchSiteCards()" placeholder="지점명, 수종, 우점균(Trichoderma, Coprinellus 등) 검색..." class="w-full px-3.5 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
@@ -276,7 +317,7 @@
         </div>
       </div>
 
-      <!-- 10 Sites Pre-Rendered Cards Grid (Instant View!) -->
+      <!-- 10 Sites Pre-Rendered Cards Grid (Always Pre-rendered in HTML!) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="siteEncyclopediaGrid">
         
     <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="1">
@@ -1180,15 +1221,27 @@
     </div>
     
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(1)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제1장. 시계열 & 농도로 이동</span>
+        </button>
+        <button onclick="switchChapter(3)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제3장. DNA 메타게놈으로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 3: DNA 메타게놈 다양성 및 군집 구조 -->
+    <!-- CHAPTER 3: DNA 메타게놈 다양성 및 군집 구조 -->
     <!-- =============================================================== -->
-    <section id="section-dna" class="space-y-6 pt-4">
+    <div id="chapter-3" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold mb-2">
-          <i data-lucide="dna" class="w-3.5 h-3.5 text-purple-700"></i> 섹션 3 · 차세대 염기서열(NGS) 분석
+          <i data-lucide="dna" class="w-3.5 h-3.5 text-purple-700"></i> 제3장 · 차세대 염기서열(NGS) 메타게놈 분석
         </div>
         <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
           <i data-lucide="dna" class="w-6 h-6 text-emerald-600"></i>
@@ -1218,30 +1271,54 @@
         </div>
       </div>
 
-      <!-- Diversity Figures Row -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div onclick="openLightbox('images/fig1_seasonal_alpha_diversity.png', 'Fig 1. 계절별 알파 다양성 통계 비교 (종 풍부도, Shannon, Evenness)')" class="bg-white rounded-2xl p-5 border border-slate-200 cursor-pointer hover:border-emerald-500 transition shadow-sm">
-          <h4 class="font-bold text-slate-900 text-sm mb-2 flex items-center gap-1.5">
-            <i data-lucide="bar-chart" class="w-4 h-4 text-emerald-600"></i> Fig 1. 알파 다양성 통계 박스플롯 (클릭 확대)
-          </h4>
-          <img src="images/fig1_seasonal_alpha_diversity.png" alt="Fig 1" class="w-full h-48 object-cover rounded-lg">
+      <!-- DNA Figures Grid (5 Figures) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div onclick="openLightbox('images/fig1_seasonal_alpha_diversity.png', 'Fig 1. 계절별 알파 다양성 통계 비교 (종 풍부도, Shannon, Evenness)')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 1. 알파 다양성 통계 박스플롯</span>
+          <img src="images/fig1_seasonal_alpha_diversity.png" alt="Fig 1" class="w-full h-44 object-cover rounded-lg">
         </div>
-        <div onclick="openLightbox('images/fig4_beta_diversity_pcoa.png', 'Fig 4. Bray-Curtis PCoA 베타 다양성 2D 서열화 및 계절 타원')" class="bg-white rounded-2xl p-5 border border-slate-200 cursor-pointer hover:border-emerald-500 transition shadow-sm">
-          <h4 class="font-bold text-slate-900 text-sm mb-2 flex items-center gap-1.5">
-            <i data-lucide="scatter-chart" class="w-4 h-4 text-emerald-600"></i> Fig 4. 베타 다양성 PCoA 군집 분리 (클릭 확대)
-          </h4>
-          <img src="images/fig4_beta_diversity_pcoa.png" alt="Fig 4" class="w-full h-48 object-cover rounded-lg">
+        <div onclick="openLightbox('images/fig2_phylum_class_composition.png', 'Fig 2. 문·강 수준 군집 조성 계절 교체')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 2. 문·강 군집 조성 교체</span>
+          <img src="images/fig2_phylum_class_composition.png" alt="Fig 2" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig3_top_genera_heatmap.png', 'Fig 3. 25대 우점 속 히트맵 및 지점별 지문')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 3. 25대 우점 속 히트맵</span>
+          <img src="images/fig3_top_genera_heatmap.png" alt="Fig 3" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig4_beta_diversity_pcoa.png', 'Fig 4. Bray-Curtis PCoA 베타 다양성 2D 서열화 및 계절 타원')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 4. 베타 다양성 PCoA 군집 분리</span>
+          <img src="images/fig4_beta_diversity_pcoa.png" alt="Fig 4" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig5_functional_guilds_allergens.png', 'Fig 5. 기능성 길드 & 4대 알레르겐 계절 변동')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 5. 기능성 길드 & 알레르겐</span>
+          <img src="images/fig5_functional_guilds_allergens.png" alt="Fig 5" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig12_dna_macro_integration.png', 'Fig 12. 거시 배양 농도와 분자 메타게놈의 연결 통합')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 12. 거시-분자 통합 비교</span>
+          <img src="images/fig12_dna_macro_integration.png" alt="Fig 12" class="w-full h-44 object-cover rounded-lg">
         </div>
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(2)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제2장. 🌲 10대 지점별 생태백과</span>
+        </button>
+        <button onclick="switchChapter(4)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제4장. 공기생 네트워크로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 4: 공기생 상호작용 네트워크 -->
+    <!-- CHAPTER 4: 공기생 상호작용 네트워크 -->
     <!-- =============================================================== -->
-    <section id="section-network" class="space-y-6 pt-4">
+    <div id="chapter-4" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100 text-teal-900 text-xs font-bold mb-2">
-          <i data-lucide="share-2" class="w-3.5 h-3.5 text-teal-700"></i> 섹션 4 · 공기생 네트워크 분석
+          <i data-lucide="share-2" class="w-3.5 h-3.5 text-teal-700"></i> 제4장 · 공기생 네트워크 분석
         </div>
         <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
           <i data-lucide="share-2" class="w-6 h-6 text-emerald-600"></i>
@@ -1274,25 +1351,37 @@
             <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-1.5">
               <i data-lucide="network" class="w-4 h-4 text-emerald-600"></i> Fig 6. 공기생 상호작용 네트워크 토폴로지 (클릭 확대)
             </h4>
-            <img src="images/fig6_cooccurrence_network.png" alt="Fig 6" class="w-full h-48 object-cover rounded-lg">
+            <img src="images/fig6_cooccurrence_network.png" alt="Fig 6" class="w-full h-56 object-cover rounded-lg">
           </div>
-          <div onclick="openLightbox('images/fig7_environmental_correlations.png', 'Fig 7. 환경인자-미생물 스피어만 상관관계 매트릭스')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
+          <div onclick="openLightbox('images/fig7_microbe_environment_correlation.png', 'Fig 7. 환경인자-미생물 스피어만 상관관계 매트릭스')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
             <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-1.5">
               <i data-lucide="grid" class="w-4 h-4 text-emerald-600"></i> Fig 7. 미기후-미생물 상관 히트맵 (클릭 확대)
             </h4>
-            <img src="images/fig7_environmental_correlations.png" alt="Fig 7" class="w-full h-48 object-cover rounded-lg">
+            <img src="images/fig7_microbe_environment_correlation.png" alt="Fig 7" class="w-full h-56 object-cover rounded-lg">
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(3)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제3장. DNA 메타게놈</span>
+        </button>
+        <button onclick="switchChapter(5)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제5장. 실내기준 & 산림치유로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 5: 규제 기준 비교 & 보건 안전 가이드 -->
+    <!-- CHAPTER 5: 규제 기준 비교 & 보건 안전 가이드 -->
     <!-- =============================================================== -->
-    <section id="section-standards" class="space-y-6 pt-4">
+    <div id="chapter-5" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold mb-2">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-700"></i> 섹션 5 · 보건 안전 & 가이드라인
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-700"></i> 제5장 · 보건 안전 & 가이드라인
         </div>
         <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
           <i data-lucide="shield-check" class="w-6 h-6 text-emerald-600"></i>
@@ -1333,6 +1422,13 @@
           </table>
         </div>
 
+        <div class="mt-6">
+          <div onclick="openLightbox('images/fig8_bioaerosol_concentration.png', 'Fig 8. 바이오에어로졸 농도 환산 및 실내공기질 권고기준 대조')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
+            <span class="text-xs font-bold text-slate-900 block mb-1">Fig 8. 실내공기질 기준 대조 분석도 (클릭 확대)</span>
+            <img src="images/fig8_bioaerosol_concentration.png" alt="Fig 8" class="w-full h-56 object-cover rounded-lg">
+          </div>
+        </div>
+
         <!-- Healing Guide Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
           <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs leading-relaxed">
@@ -1351,16 +1447,28 @@
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(4)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제4장. 공기생 네트워크</span>
+        </button>
+        <button onclick="switchChapter(6)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제6장. 📖 우점 종별 백과로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 6: 학술림 핵심 우점 종별 생태백과 -->
+    <!-- CHAPTER 6: 학술림 핵심 우점 종별 생태백과 -->
     <!-- =============================================================== -->
-    <section id="section-species" class="space-y-6 pt-4">
+    <div id="chapter-6" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs font-bold mb-2">
-            <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-700"></i> 섹션 6 · 우점 종별 생태 라이브러리
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-700"></i> 제6장 · 우점 종별 생태 라이브러리
           </div>
           <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
             <i data-lucide="book-open" class="w-6 h-6 text-emerald-600"></i>
@@ -1575,31 +1683,151 @@
     
         </div>
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(5)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제5장. 실내기준 & 보건</span>
+        </button>
+        <button onclick="switchChapter(7)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제7장. 🖼️ 12종 연구 그래픽으로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- =============================================================== -->
-    <!-- SECTION 7: 12종 연구 그래픽 갤러리 -->
+    <!-- CHAPTER 7: 12종 연구 그래픽 갤러리 -->
     <!-- =============================================================== -->
-    <section id="section-gallery" class="space-y-6 pt-4">
+    <div id="chapter-7" class="chapter-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 text-pink-900 text-xs font-bold mb-2">
-            <i data-lucide="image" class="w-3.5 h-3.5 text-pink-700"></i> 섹션 7 · 학술 연구 그래픽 갤러리
+            <i data-lucide="image" class="w-3.5 h-3.5 text-pink-700"></i> 제7장 · 학술 연구 그래픽 갤러리
           </div>
           <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
             <i data-lucide="image" class="w-6 h-6 text-emerald-600"></i>
-            학술림 공기미생물 연구 핵심 시각화 그래픽 (12 Figures)
+            학술림 공기미생물 연구 핵심 시각화 그래픽 (12 Figures 전수 수록)
           </h3>
           <p class="text-xs sm:text-sm text-slate-500 mt-1">
-            각 이미지를 클릭하시면 고해상도 원본 그래픽과 학술적 상세 캡션을 라이트박스 뷰어로 확인하실 수 있습니다.
+            각 카드를 클릭하시면 원본 고해상도 그래픽과 상세 해설 캡션을 라이트박스 뷰어로 확인하실 수 있습니다.
           </p>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="galleryGrid">
-          <!-- Populated via JavaScript -->
+          
+    <div onclick="openLightbox('images/fig1_seasonal_alpha_diversity.png', 'Fig 1. 계절별 알파 다양성 통계 비교 - 종 풍부도 2.4배 급증 (p=1.41e-4), Shannon 지수 계절 차이')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig1_seasonal_alpha_diversity.png" alt="Fig 1. 계절별 알파 다양성 통계 비교" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 1. 계절별 알파 다양성 통계 비교</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">종 풍부도 2.4배 급증 (p=1.41e-4), Shannon 지수 계절 차이</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig2_phylum_class_composition.png', 'Fig 2. 문·강 군집 조성 계절 교체 - 자낭균문(봄 97%) vs 담자균문(여름 63%) 극적 교체')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig2_phylum_class_composition.png" alt="Fig 2. 문·강 군집 조성 계절 교체" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 2. 문·강 군집 조성 계절 교체</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">자낭균문(봄 97%) vs 담자균문(여름 63%) 극적 교체</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig3_top_genera_heatmap.png', 'Fig 3. 25대 우점 속 히트맵 및 지문 - 10개 조사구별 고유 미생물 지문 및 군집 분리')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig3_top_genera_heatmap.png" alt="Fig 3. 25대 우점 속 히트맵 및 지문" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 3. 25대 우점 속 히트맵 및 지문</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">10개 조사구별 고유 미생물 지문 및 군집 분리</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig4_beta_diversity_pcoa.png', 'Fig 4. 베타 다양성 PCoA 서열화 - PERMANOVA R²=0.457 (p=0.001) 계절 군집 유의 분리')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig4_beta_diversity_pcoa.png" alt="Fig 4. 베타 다양성 PCoA 서열화" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 4. 베타 다양성 PCoA 서열화</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">PERMANOVA R²=0.457 (p=0.001) 계절 군집 유의 분리</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig5_functional_guilds_allergens.png', 'Fig 5. 기능성 길드 & 4대 알레르겐 - 부생균, 병원균, 4대 천식 원인균 계절 대조')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig5_functional_guilds_allergens.png" alt="Fig 5. 기능성 길드 & 4대 알레르겐" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 5. 기능성 길드 & 4대 알레르겐</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">부생균, 병원균, 4대 천식 원인균 계절 대조</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig6_cooccurrence_network.png', 'Fig 6. 공기생 상호작용 네트워크 토폴로지 - 99 노드, 350 엣지, 공존 93.7%, 매개중심성 허브 종')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig6_cooccurrence_network.png" alt="Fig 6. 공기생 상호작용 네트워크 토폴로지" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 6. 공기생 상호작용 네트워크 토폴로지</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">99 노드, 350 엣지, 공존 93.7%, 매개중심성 허브 종</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig7_microbe_environment_correlation.png', 'Fig 7. 환경인자-미생물 스피어만 상관 매트릭스 - 기온·습도·토양온도와 미생물 분류군 간의 유의 상관')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig7_microbe_environment_correlation.png" alt="Fig 7. 환경인자-미생물 스피어만 상관 매트릭스" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 7. 환경인자-미생물 스피어만 상관 매트릭스</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">기온·습도·토양온도와 미생물 분류군 간의 유의 상관</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig8_bioaerosol_concentration.png', 'Fig 8. 바이오에어로졸 농도 및 실내기준 대조 - CFU/㎥ 정량 환산 및 환경부 실내공기질 권고기준 비교')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig8_bioaerosol_concentration.png" alt="Fig 8. 바이오에어로졸 농도 및 실내기준 대조" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 8. 바이오에어로졸 농도 및 실내기준 대조</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">CFU/㎥ 정량 환산 및 환경부 실내공기질 권고기준 비교</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig9_all6dates_longitudinal_trends.png', 'Fig 9. 6대 조사 전 시계열 농도 추이 - 봄철 강풍 비산 및 한여름 TAF 급상승 동조 추세')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig9_all6dates_longitudinal_trends.png" alt="Fig 9. 6대 조사 전 시계열 농도 추이" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 9. 6대 조사 전 시계열 농도 추이</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">봄철 강풍 비산 및 한여름 TAF 급상승 동조 추세</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig10_all6dates_spatiotemporal_heatmap.png', 'Fig 10. 10개 조사구 시공간 농도 히트맵 - 일자별·임분별 미생물 농도 시공간 동태')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig10_all6dates_spatiotemporal_heatmap.png" alt="Fig 10. 10개 조사구 시공간 농도 히트맵" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 10. 10개 조사구 시공간 농도 히트맵</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">일자별·임분별 미생물 농도 시공간 동태</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig11_all6dates_environmental_correlations.png', 'Fig 11. 6대 조사 통합 미기후 다중 상관 - 토양온도(0.386) 및 상대습도(0.370) 최고 상관 구명')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig11_all6dates_environmental_correlations.png" alt="Fig 11. 6대 조사 통합 미기후 다중 상관" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 11. 6대 조사 통합 미기후 다중 상관</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">토양온도(0.386) 및 상대습도(0.370) 최고 상관 구명</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig12_dna_macro_integration.png', 'Fig 12. 거시-분자 데이터 통합 비교 - 배양 농도 정량치와 차세대 메타게놈의 완벽 연계')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig12_dna_macro_integration.png" alt="Fig 12. 거시-분자 데이터 통합 비교" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 12. 거시-분자 데이터 통합 비교</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">배양 농도 정량치와 차세대 메타게놈의 완벽 연계</p>
+    </div>
+    
         </div>
       </div>
-    </section>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(6)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제6장. 📖 우점 종별 백과</span>
+        </button>
+        <button onclick="switchChapter(1)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제1장. 시계열 & 농도로 이동 (처음으로)</span>
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
 
   </main>
 
@@ -2298,36 +2526,46 @@
 };
     const siteEncyclopediaData = [{"no": 1, "name": "리기다소나무림", "latin": "Pinus rigida Mill.", "category": "conifer", "catName": "온대 침엽수림 (인공 조림)", "location": "학술림 하단 완경사 산록부", "soilPh": "pH 6.1", "soilMoist": "32.5%", "tafMean": 561.0, "tabMean": 14.0, "peak": "4월 봄철 (688 CFU/㎥)", "summerTaf": 496.0, "springDna": [{"g": "Capnodiales_sp.", "pct": 36.6}, {"g": "Penicillium", "pct": 25.1}, {"g": "Nectriaceae", "pct": 10.4}, {"g": "Cladosporium", "pct": 10.1}], "summerDna": [{"g": "Trichoderma", "pct": 99.9}, {"g": "Penicillium", "pct": 0.1}], "microbeTraits": "송진(테르펜) 함유 솔잎 낙엽층의 완만한 분해 특성. 여름철 고온다습기에 Trichoderma가 99.9%로 단일 극우점하여 토양 유기물 분해를 독점.", "plantMicrobe": "척박지 녹화 수종으로 도입된 리기다소나무는 두터운 송진 함유 침엽수 낙엽 매트층을 형성하며, 산성 토양에 적응한 자낭균류 피생균 및 목재부후균과 서식처를 공유함.", "nutrientCycling": "바늘잎의 두꺼운 왁스/큐티클층으로 인해 분해 속도가 완만하며, 7월 장마기 토양 고습 조건에서 Trichoderma에 의한 셀룰로오스 초고속 가수분해가 집중적으로 발생.", "bioindicator": "자연 토양 유익균의 생물방제(Biocontrol) 길항 미생물상 구축 지표이자, 외부 인위적 오염이 없는 건전한 산림 임분 지표.", "healthGuide": "솔잎 테르펜 피톤치드 효과가 우수함. 4월 건조 강풍기에는 엽면 부유 포자가 다소 증가하므로 알레르기 민감군은 마스크 착용 권장."}, {"no": 2, "name": "잣나무림 a", "latin": "Pinus koraiensis Siebold & Zucc. (Stand A)", "category": "conifer", "catName": "온대 침엽수림 (울창한 임분)", "location": "계곡 인접 완경사지, 수관 울폐도 85% 이상", "soilPh": "pH 6.3", "soilMoist": "37.8%", "tafMean": 893.7, "tabMean": 36.3, "peak": "7월 한여름 (2,104 CFU/㎥, 전 지점 2위)", "summerTaf": 2104.0, "springDna": [{"g": "Cladosporium", "pct": 41.3}, {"g": "Capnodiales", "pct": 27.9}, {"g": "Alternaria", "pct": 21.9}], "summerDna": [{"g": "Trichoderma", "pct": 75.0}, {"g": "Bjerkandera", "pct": 13.7}, {"g": "Penicillium", "pct": 7.1}, {"g": "Coprinellus", "pct": 1.0}], "microbeTraits": "봄철 4대 알레르겐(Cladosporium, Alternaria 등 63.2%) 우점에서 여름철 고온다습기 Trichoderma(75%) 및 목재부후균 Bjerkandera(13.7%)로의 극적 천이.", "plantMicrobe": "잣나무 밀식 수관이 직사광선을 차단하고 바닥 낙엽층의 습도를 상시 보존하여 낙엽층 부식이 왕성하게 진행됨.", "nutrientCycling": "여름철 다우기 직후(강우 64.6mm) 토양 셀룰로오스 분해균과 버섯 균사가 대량 번식하여 산림 생태계 양분 순환을 가속.", "bioindicator": "수관 울폐도 극대화에 따른 하층 고습도 유지 지표종 및 산림 부식토 형성 지표.", "healthGuide": "여름철 다습기에는 포자 밀도가 2,000 CFU/㎥를 초과하므로, 중증 천식 환자는 다우 직후 체류를 자제하고 통풍이 원활한 능선부(Site 10) 이용 권장."}, {"no": 3, "name": "버들나무림 a (왕버들 a)", "latin": "Salix koreensis Andersson (Stand A)", "category": "riparian", "catName": "수변 저습지 활엽수림", "location": "계곡 수변부 및 저습지, 상시 물안개", "soilPh": "pH 6.5", "soilMoist": "42.1% (최고)", "tafMean": 1087.8, "tabMean": 26.7, "peak": "7월 한여름 (1,672 CFU/㎥), 8월 (1,452 CFU/㎥)", "summerTaf": 1672.0, "springDna": [{"g": "Capnodiales", "pct": 50.1}, {"g": "Cladosporium", "pct": 29.2}, {"g": "Septotinia", "pct": 3.2}, {"g": "Fusarium", "pct": 3.1}], "summerDna": [{"g": "Trichoderma", "pct": 78.0}, {"g": "Fusarium", "pct": 10.2}, {"g": "Coprinellus", "pct": 3.1}, {"g": "Clonostachys", "pct": 2.9}], "microbeTraits": "연중 700~1,670 CFU/㎥의 지속적 고농도 유지. 수변 고습 환경과 활엽수 엽면 조직 특이적 수목 병원성 및 부생 사상균 우점.", "plantMicrobe": "하천 변 수분 포화 토양과 활엽수 연약 잎 조직으로 인해 분해 및 병원성 진균의 활성이 연중 지속됨. 수변 완충 식생의 수질 정화 및 미기후 습도 유지 기능.", "nutrientCycling": "활엽수 낙엽은 침엽수에 비해 분해 속도가 빠르며 수변 미생물 군집에 의해 유기탄소가 수계와 대기로 활발히 순환.", "bioindicator": "수변 저습지 미기후 및 활엽수 잎 탄저병·잎마름병 조기 경보 지표 구역.", "healthGuide": "수변 음이온과 습도가 풍부하나 곰팡이 과민성 비염 환자는 여름철 장시간 체류 시 비염 악화 가능성 유의."}, {"no": 4, "name": "밭 (개활 경작지 대조구)", "latin": "Agricultural Cultivated Field (Control)", "category": "control", "catName": "인위적 개활 경작지 (대조구)", "location": "학술림 진입부 경작지, 수관 0% 완전 개활", "soilPh": "pH 6.8", "soilMoist": "31.0%", "tafMean": 1217.7, "tabMean": 144.3, "peak": "7월 한여름 (2,464 CFU/㎥, 전 지점 최고)", "summerTaf": 2464.0, "springDna": [{"g": "봄철 미포집 (하절기 집중)", "pct": 0.0}], "summerDna": [{"g": "Fusarium", "pct": 45.1}, {"g": "Penicillium", "pct": 32.5}, {"g": "Aspergillus", "pct": 10.4}, {"g": "Nectriaceae", "pct": 7.6}], "microbeTraits": "토양 서식 식물 시들음병균인 Fusarium oxysporum(45.1%)과 저장 사상균 Penicillium/Aspergillus(42.9%)가 지표면 비산 먼지와 함께 대량 방출.", "plantMicrobe": "수관 부재로 강우와 직사광선이 나지에 직접 도달하며, 작물 시비 유기물과 토양 교란이 사상균의 폭발적 비산을 유발.", "nutrientCycling": "인공적 영농 활동에 의한 빠른 유기물 턴오버와 건조기 토양 미세먼지(PM10) 동반 비산.", "bioindicator": "인위적 지표면 교란 및 영농성 먼지 비산 지표 구역.", "healthGuide": "Fusarium의 곰팡이독소(Fumonisin, T-2) 및 미세 분진 흡입 위험이 있으므로 바람 부는 날 경작지 주변 통과 시 호흡기 보호 주의."}, {"no": 5, "name": "주차장 (인공 포장 대조구)", "latin": "Paved Parking Lot Control", "category": "control", "catName": "인공 포장면 (음성 대조군)", "location": "관리사무소 앞 아스팔트 포장면, 식생 부재", "soilPh": "pH 7.0", "soilMoist": "0.0%", "tafMean": 363.9, "tabMean": 20.3, "peak": "4월 (456 CFU/㎥), 7월 (326 CFU/㎥)", "summerTaf": 326.0, "springDna": [{"g": "봄철 미포집 (하절기 집중)", "pct": 0.0}], "summerDna": [{"g": "Fusarium", "pct": 33.4}, {"g": "Coprinellus", "pct": 29.8}, {"g": "Nectriaceae", "pct": 18.3}, {"g": "Penicillium", "pct": 13.4}], "microbeTraits": "연중 평균 363.9 CFU/㎥로 10개 지점 중 최저치. 전 조사 기간 동안 환경부 실내 권고기준(500 CFU/㎥)을 상시 만족하는 유일한 지점.", "plantMicrobe": "수목 및 낙엽층 부재 시 자연계 진균 포자 방출원이 형성되지 않음을 역설적으로 입증하는 '음성 대조군(Negative Control)'.", "nutrientCycling": "자연 유기물 분해 순환 부재. 관측 미생물은 차량 바퀴 및 인근 도로변에서 유입되는 외래 비산 먼지 유래.", "bioindicator": "비산란성 인공 피복면 및 광역 대기 배경농도 지표.", "healthGuide": "진균 포자는 적으나 아스팔트 복사열 및 차량 배기가스가 존재하므로 산림 치유 목적으로 머무르는 공간은 아님."}, {"no": 6, "name": "소나무림", "latin": "Pinus densiflora Siebold & Zucc.", "category": "conifer", "catName": "온대 천연 침엽수림", "location": "중턱 능선 사면 온대 자연림, 풍부한 간벌 고사목", "soilPh": "pH 5.9", "soilMoist": "28.4%", "tafMean": 539.0, "tabMean": 172.3, "peak": "7월 (750 CFU/㎥), 8월 (746 CFU/㎥)", "summerTaf": 750.0, "springDna": [{"g": "Capnodiales", "pct": 28.2}, {"g": "Penicillium", "pct": 17.5}, {"g": "Cladosporium", "pct": 16.3}, {"g": "Umbelopsis", "pct": 16.2}], "summerDna": [{"g": "Coprinellus", "pct": 59.4}, {"g": "Irpex", "pct": 11.8}, {"g": "Capnodiales", "pct": 9.6}, {"g": "Trichoderma", "pct": 8.9}], "microbeTraits": "여름철 담자균문 백색부후균 Coprinellus radians(방사형먹물버섯류, 59.4%)와 Irpex laceratus(11.8%)가 71.2%를 합작 독점.", "plantMicrobe": "소나무 고사목과 간벌재 리그닌을 분해하여 난분해성 유기물을 토양 부식토로 전환시키는 탄소 순환의 핵심 현장.", "nutrientCycling": "복합 리그닌 고분자 물질을 Laccase 및 Peroxidase 효소로 분해하여 산림 토양 유기물 층을 재생.", "bioindicator": "자연 온대 소나무림의 성숙도 및 고사목 축적 상태 지표.", "healthGuide": "미세 담자포자(2~4㎛)가 비산하므로 버섯 포자 알레르기 유증상자는 강우 직후 방문 시 마스크 착용 권장. 평상시 소나무 피톤치드 효과 우수."}, {"no": 7, "name": "일본잎갈나무림 a (낙엽송 a)", "latin": "Larix kaempferi (Stand A)", "category": "conifer", "catName": "낙엽성 침엽수 인공림", "location": "남동사면 완경사지, 일조 투과 및 통풍 우수", "soilPh": "pH 6.2", "soilMoist": "31.2%", "tafMean": 444.3, "tabMean": 34.0, "peak": "5월 초여름 (868 CFU/㎥), 7월 (640 CFU/㎥)", "summerTaf": 640.0, "springDna": [{"g": "Capnodiales", "pct": 63.7}, {"g": "Alternaria", "pct": 13.7}, {"g": "Cladosporium", "pct": 11.1}], "summerDna": [{"g": "Cladosporium", "pct": 24.4}, {"g": "Capnodiales", "pct": 23.2}, {"g": "Trichoderma", "pct": 22.8}, {"g": "Penicillium", "pct": 12.2}], "microbeTraits": "연중 평균 444 CFU/㎥로 전체 산림 임분 중 가장 청정. 특정 종의 독점 없이 Capnodiales, Cladosporium, Trichoderma가 균형을 이룸.", "plantMicrobe": "낙엽송 특유의 광 투과성과 우수한 공기 유동성으로 인해 임내 습도 정체가 발생하지 않음. 안정적 낙엽 분해와 청정한 수관 환경 형성.", "nutrientCycling": "매년 늦가을 발생하는 다량의 낙엽이 봄철 신엽 전개기와 함께 점진적으로 분해되어 토양 영양분 환원.", "bioindicator": "쾌적하고 건전한 온대 침엽수 인공림 대기질 지표.", "healthGuide": "대기질이 가장 청정하고 피톤치드가 안정적으로 발산되어 **학술림 내 최적의 산림 치유 산책 코스로 적극 추천**."}, {"no": 8, "name": "버들나무림 b (왕버들 b)", "latin": "Salix koreensis (Stand B)", "category": "riparian", "catName": "수변 계곡 하류 활엽수림", "location": "계곡 하류 퇴적지, 고수위 및 퇴적 유기물 풍부", "soilPh": "pH 6.4", "soilMoist": "40.8%", "tafMean": 1214.0, "tabMean": 24.3, "peak": "4월 봄철 (1,658 CFU/㎥, 봄철 전 지점 1위)", "summerTaf": 1298.0, "springDna": [{"g": "Capnodiales", "pct": 71.0}, {"g": "Alternaria", "pct": 13.0}, {"g": "Coprinellus", "pct": 3.3}], "summerDna": [{"g": "Trichoderma", "pct": 29.7}, {"g": "Fusarium", "pct": 27.0}, {"g": "Colletotrichum", "pct": 24.2}, {"g": "Alternaria", "pct": 4.5}], "microbeTraits": "봄철 신엽 개엽기 Cladosporium/Capnodiales 조기 대량 비산(1,658) 및 여름철 활엽수 탄저병균 Colletotrichum(24.2%)의 집중 발생.", "plantMicrobe": "계곡 상류로부터 운반된 유기물 집적과 높은 습도로 인해 수변 미생물 대사 활성이 극대화됨. 왕버들 탄저병 발생 모니터링의 핵심 지표.", "nutrientCycling": "수생 생태계와 육상 생태계 간의 전이대(Ecotone) 물질 교환 및 고속 질소/인 순환.", "bioindicator": "수변 활엽수림 탄저병(Anthracnose) 병해 조기 경보 지표.", "healthGuide": "4월에 1급 알레르겐 포자 농도가 높으므로 알레르기 비염 및 천식 환자는 봄철 진입 시 주의 필요."}, {"no": 9, "name": "일본잎갈나무림 b (낙엽송 b)", "latin": "Larix kaempferi (Stand B)", "category": "conifer", "catName": "경사지 낙엽송 임분", "location": "사면 상단부 능선 바람받이 사면", "soilPh": "pH 6.0", "soilMoist": "29.5%", "tafMean": 930.0, "tabMean": 357.7, "peak": "4월 봄철 (1,146 CFU/㎥, 세균 1,954 CFU/㎥)", "summerTaf": 472.0, "springDna": [{"g": "Capnodiales", "pct": 49.2}, {"g": "Fusarium", "pct": 24.6}, {"g": "Clonostachys", "pct": 11.2}, {"g": "Alternaria", "pct": 9.5}], "summerDna": [{"g": "Aspergillus", "pct": 30.9}, {"g": "Fusarium", "pct": 25.4}, {"g": "Trichoderma", "pct": 17.4}, {"g": "Ceriporia", "pct": 9.5}], "microbeTraits": "4월 건조 강풍(최대 16.3m/s) 시 엽면 피생균(Capnodiales 49%) 및 토양 세균(1,954)의 일시적 풍식 비산. 여름철 목재부후균 Ceriporia(9.5%) 출현.", "plantMicrobe": "바람받이 사면의 물리적 미기후 역학을 반영하며, 계절 간 기상 변동에 민감하게 반응하는 산림 대기 완충 지표 임분.", "nutrientCycling": "강풍에 의한 수관 포자 확산과 토양 표면 건조화에 따른 간헐적 분해 활성.", "bioindicator": "바람받이 사면의 물리적 풍식 및 기상 민감도 지표.", "healthGuide": "봄철 강풍 시 일시적으로 미세 입자 비산이 많으므로 방풍 안경 및 마스크 착용이 유리함."}, {"no": 10, "name": "잣나무림 b", "latin": "Pinus koraiensis (Stand B)", "category": "conifer", "catName": "능선 연접 잣나무림", "location": "상부 능선부 연접 사면, 통풍 양호", "soilPh": "pH 6.1", "soilMoist": "33.4%", "tafMean": 520.7, "tabMean": 23.7, "peak": "8월 늦여름 (912 CFU/㎥), 7월 (638 CFU/㎥)", "summerTaf": 638.0, "springDna": [{"g": "Penicillium", "pct": 50.1}, {"g": "Capnodiales", "pct": 32.1}, {"g": "Coprinellus", "pct": 15.1}], "summerDna": [{"g": "Trichoderma", "pct": 80.2}, {"g": "Aspergillus", "pct": 9.7}, {"g": "Bjerkandera", "pct": 8.5}, {"g": "Oudemansiella", "pct": 1.1}], "microbeTraits": "봄철 Penicillium mallochii(50.1%) 우점에서 여름철 Trichoderma(80.2%)로의 전환. 계곡부 Stand A 대비 진균 농도가 절반 이하로 안정적 억제.", "plantMicrobe": "동일 잣나무 수종임에도 능선 지형의 우수한 통풍성으로 인해 습도 정체가 해소되어 진균 농도가 크게 낮아짐. '지형 미기후 조절 메커니즘'의 증거.", "nutrientCycling": "통풍 사면의 규칙적인 건습 반복으로 균일하고 위생적인 낙엽 부식토 형성.", "bioindicator": "능선부 미기후에 의한 포자 농도 완충 지표.", "healthGuide": "잣나무 피톤치드 치유 효과를 누리면서도 고습도 곰팡이 포자를 회피할 수 있는 최적의 힐링 코스."}];
 
-    // Gallery Items
-    const galleryItems = [
-      { id: 9, src: "images/fig9_all6dates_longitudinal_trends.png", title: "Fig 9. 6대 조사 전 시계열 농도 추이", desc: "봄철 비산 및 한여름 TAF 급상승" },
-      { id: 10, src: "images/fig10_all6dates_spatiotemporal_heatmap.png", title: "Fig 10. 시공간 농도 히트맵", desc: "10개 조사구별 일자별 농도 분포" },
-      { id: 11, src: "images/fig11_all6dates_environmental_correlations.png", title: "Fig 11. 6대 조사 통합 미기후 상관", desc: "토양온도·습도·기온 다중 상관" },
-      { id: 12, src: "images/fig12_dna_macro_integration.png", title: "Fig 12. 거시-분자 통합 비교", desc: "배양 농도와 DNA 메타게놈의 연결" },
-      { id: 1, src: "images/fig1_seasonal_alpha_diversity.png", title: "Fig 1. 알파 다양성 계절 비교", desc: "종 풍부도 2.4배 급증 (p=1.41e-4)" },
-      { id: 6, src: "images/fig6_cooccurrence_network.png", title: "Fig 6. 공기생 상호작용 네트워크", desc: "99 노드, 350 엣지, 공존 93.7%" },
-      { id: 7, src: "images/fig7_environmental_correlations.png", title: "Fig 7. 환경인자 스피어만 상관", desc: "미기후와 미생물 분류군 상관" },
-      { id: 2, src: "images/fig2_phylum_class_composition.png", title: "Fig 2. 문·강 군집 조성", desc: "자낭균문 vs 담자균문 계절 교체" },
-      { id: 3, src: "images/fig3_top_genera_heatmap.png", title: "Fig 3. 25대 우점 속 히트맵", desc: "10개 조사구별 미생물 지문" },
-      { id: 4, src: "images/fig4_beta_diversity_pcoa.png", title: "Fig 4. 베타 다양성 PCoA", desc: "PERMANOVA R²=0.457 (p=0.001)" },
-      { id: 5, src: "images/fig5_functional_guilds_allergens.png", title: "Fig 5. 기능성 길드 & 알레르겐", desc: "부생균, 병원균, 4대 알레르겐 대조" },
-      { id: 8, src: "images/fig8_bioaerosol_concentration.png", title: "Fig 8. 바이오에어로졸 농도", desc: "CFU/㎥ 환산 및 실내공기질 권고기준" }
-    ];
+    // Chapter Switching Logic
+    let currentChapter = 1;
+    let longitudinalChartInstance = null;
+    let interactiveSiteChart = null;
+    let dnaChartInstance = null;
 
-    function renderGallery() {
-      const container = document.getElementById('galleryGrid');
-      container.innerHTML = galleryItems.map(item => `
-        <div onclick="openLightbox('${item.src}', '${item.title} - ${item.desc}')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition">
-          <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2">
-            <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-          </div>
-          <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">${item.title}</span>
-          <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${item.desc}</p>
-        </div>
-      `).join('');
+    function switchChapter(chNum) {
+      currentChapter = chNum;
+      
+      // Hide all chapters
+      document.querySelectorAll('.chapter-content').forEach(el => el.classList.add('hidden'));
+      
+      // Show selected chapter
+      const activeChEl = document.getElementById('chapter-' + chNum);
+      if (activeChEl) activeChEl.classList.remove('hidden');
+
+      // Update Nav Tabs
+      document.querySelectorAll('#chapterNavTabs .chapter-tab').forEach(btn => btn.classList.remove('chapter-tab-active'));
+      const activeNavBtn = document.getElementById('nav-ch' + chNum);
+      if (activeNavBtn) activeNavBtn.classList.add('chapter-tab-active');
+
+      // Window scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Update URL hash
+      window.history.replaceState(null, null, '#chapter-' + chNum);
+
+      // Trigger chart resize if charts become visible
+      setTimeout(() => {
+        if (chNum === 1) {
+          if (longitudinalChartInstance) longitudinalChartInstance.resize();
+          if (interactiveSiteChart) interactiveSiteChart.resize();
+        } else if (chNum === 3) {
+          if (dnaChartInstance) dnaChartInstance.resize();
+        }
+        lucide.createIcons();
+      }, 50);
     }
 
-    // Filter Site Cards (Pre-rendered DOM filter)
+    // Filter Site Cards in Chapter 2
     let currentStandCategory = 'all';
 
     function filterSiteCards(cat) {
@@ -2403,10 +2641,9 @@
       document.getElementById('lightbox').classList.add('hidden');
     }
 
-    // Charts Logic
+    // Charts Configuration
     let currentDateKey = 'all';
     let currentMetricKey = 'TAF_CFU_m3';
-    let interactiveSiteChart = null;
 
     const siteNamesOrder = [
       '리기다소나무림', '소나무림', '잣나무림 a', '잣나무림 b', 
@@ -2471,11 +2708,9 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      renderGallery();
-
       // 1. Dual Axis Longitudinal Line Chart
       const ctxLong = document.getElementById('longitudinalDualChart').getContext('2d');
-      new Chart(ctxLong, {
+      longitudinalChartInstance = new Chart(ctxLong, {
         type: 'line',
         data: {
           labels: ['03/04 (초봄)', '04/15 (봄신록/DNA1)', '04/29 (봄만개)', '05/13 (초여름)', '07/27 (한여름/DNA2)', '08/13 (늦여름)'],
@@ -2599,7 +2834,7 @@
 
       // 3. DNA Stacked Taxonomy Chart
       const ctxDna = document.getElementById('dnaTaxonomyChart').getContext('2d');
-      new Chart(ctxDna, {
+      dnaChartInstance = new Chart(ctxDna, {
         type: 'bar',
         data: {
           labels: ['봄철 DNA (04/15)', '여름철 DNA (07/27)'],
@@ -2629,6 +2864,25 @@
       });
 
       lucide.createIcons();
+
+      // Check URL hash on load
+      const hash = window.location.hash;
+      if (hash.startsWith('#chapter-')) {
+        const ch = parseInt(hash.replace('#chapter-', ''));
+        if (ch >= 1 && ch <= 7) switchChapter(ch);
+      } else if (hash === '#sites' || hash === '#encyclopedia') {
+        switchChapter(2);
+      } else if (hash === '#dna') {
+        switchChapter(3);
+      } else if (hash === '#network') {
+        switchChapter(4);
+      } else if (hash === '#standards') {
+        switchChapter(5);
+      } else if (hash === '#species') {
+        switchChapter(6);
+      } else if (hash === '#gallery') {
+        switchChapter(7);
+      }
     });
   </script>
 </body>
