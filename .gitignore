@@ -1,0 +1,12 @@
+# Binary executables
+cloudflared.exe
+*.exe
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary or system files
+.DS_Store
+Thumbs.db
