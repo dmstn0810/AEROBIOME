@@ -1,0 +1,2892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>건국대학교 학술림(괴산) 공기미생물(Aerobiome) 전주기 디지털 대시보드 & 챕터별 생태백과</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+    .chapter-tab-active { 
+      background-color: #047857 !important; 
+      color: #ffffff !important; 
+      font-weight: 700 !important; 
+      border-bottom: 3px solid #34d399 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .date-pill-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
+    .metric-pill-active { background-color: #0284c7 !important; color: white !important; font-weight: 700; }
+    .stand-filter-active { background-color: #047857 !important; color: white !important; font-weight: 700; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Top Sticky Header -->
+  <header class="bg-emerald-950 text-white sticky top-0 z-50 shadow-md border-b border-emerald-800/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center shadow-inner">
+          <i data-lucide="trees" class="text-emerald-300 w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-black tracking-tight flex items-center gap-2">
+            건국대학교 학술림 <span class="text-xs bg-emerald-800 px-2 py-0.5 rounded text-emerald-200 font-normal">충북 괴산군 불정면</span>
+          </h1>
+          <p class="text-xs text-emerald-300">공기 부유 미생물(Aerobiome) 전 시계열 & 챕터별 생태백과 디지털 플랫폼</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <a href="aerobiome_analysis_report.md" target="_blank" class="text-xs px-3.5 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 font-bold transition flex items-center gap-1.5 shadow-sm border border-emerald-700">
+          <i data-lucide="file-text" class="w-4 h-4"></i> 학술 보고서 (MD)
+        </a>
+        <a href="aerobiome_analysis_summary.xlsx" download class="text-xs px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="download" class="w-4 h-4"></i> 분석 엑셀 다운로드 (16개 시트)
+        </a>
+      </div>
+    </div>
+
+    <!-- Sticky Chapter Navigation Tabs Bar -->
+    <nav class="bg-emerald-900/95 border-t border-emerald-800/60 overflow-x-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium text-emerald-200 py-1.5" id="chapterNavTabs">
+        <button onclick="switchChapter(1)" id="nav-ch1" class="chapter-tab chapter-tab-active py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="line-chart" class="w-4 h-4"></i> 제1장. 시계열 & 지점별 농도
+        </button>
+        <button onclick="switchChapter(2)" id="nav-ch2" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5 bg-emerald-800/60 text-emerald-100 font-bold">
+          <i data-lucide="trees" class="w-4 h-4 text-emerald-300"></i> 제2장. 🌲 10대 지점별 생태백과
+        </button>
+        <button onclick="switchChapter(3)" id="nav-ch3" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="dna" class="w-4 h-4"></i> 제3장. DNA 메타게놈 구조
+        </button>
+        <button onclick="switchChapter(4)" id="nav-ch4" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="share-2" class="w-4 h-4"></i> 제4장. 공기생 네트워크
+        </button>
+        <button onclick="switchChapter(5)" id="nav-ch5" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-4 h-4"></i> 제5장. 실내기준 & 산림치유
+        </button>
+        <button onclick="switchChapter(6)" id="nav-ch6" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="book-open" class="w-4 h-4"></i> 제6장. 📖 우점 종별 백과
+        </button>
+        <button onclick="switchChapter(7)" id="nav-ch7" class="chapter-tab py-2 px-3 whitespace-nowrap rounded-lg hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="image" class="w-4 h-4"></i> 제7장. 🖼️ 12종 연구 그래픽
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Direct Chapter Switcher Launcher -->
+  <section class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white py-10 px-4 shadow-sm">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-8 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            2026년 3월~8월 6대 조사 전수 데이터(N=298) 및 2회차 NGS 메타게놈 통합 구명
+          </div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
+            건국대 학술림 공기 부유 미생물(Aerobiome) <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-200">
+              전 시계열 생태 동태 & 10대 지점별 미생물 현황·특성·심층 백과
+            </span>
+          </h2>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-3xl">
+            소나무림, 잣나무림(a,b), 버들나무림(a,b), 낙엽송림(a,b), 리기다소나무림 및 대조구(밭, 주차장) 등 **10대 고정 조사구에서 수집된 298건의 배양 농도(CFU/㎥ = Count/0.1)**와 기상청 괴산 불정면 AWS 종관 기상, 현장 미기후 결측치 대치값, 그리고 **2,091,638 reads의 공기진균 ITS 차세대 염기서열(NGS)**을 7개 챕터로 나누어 체계적으로 구성하였습니다.
+          </p>
+
+          <!-- Chapter Quick Launcher Grid -->
+          <div class="pt-2">
+            <span class="text-xs text-emerald-300 font-bold block mb-2">원하는 챕터를 클릭하시면 해당 챕터가 바로 열립니다:</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              <button onclick="switchChapter(1)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                <span class="text-xs font-semibold text-slate-200">시계열 & 농도</span>
+              </button>
+              <button onclick="switchChapter(2)" class="p-2 rounded-xl bg-gradient-to-r from-emerald-600/40 to-teal-500/40 hover:bg-emerald-600/60 border border-emerald-400/50 text-left transition flex items-center gap-2 cursor-pointer shadow-sm">
+                <span class="w-6 h-6 rounded-lg bg-emerald-400 text-emerald-950 flex items-center justify-center text-xs font-black shrink-0">2</span>
+                <span class="text-xs font-bold text-emerald-200">🌲 10대 지점 백과</span>
+              </button>
+              <button onclick="switchChapter(3)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                <span class="text-xs font-semibold text-slate-200">DNA 메타게놈</span>
+              </button>
+              <button onclick="switchChapter(4)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+                <span class="text-xs font-semibold text-slate-200">공기생 네트워크</span>
+              </button>
+              <button onclick="switchChapter(5)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold shrink-0">5</span>
+                <span class="text-xs font-semibold text-slate-200">실내기준 & 보건</span>
+              </button>
+              <button onclick="switchChapter(6)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-bold shrink-0">6</span>
+                <span class="text-xs font-semibold text-slate-200">우점 종별 백과</span>
+              </button>
+              <button onclick="switchChapter(7)" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-left transition flex items-center gap-2 cursor-pointer col-span-2 sm:col-span-1">
+                <span class="w-6 h-6 rounded-lg bg-pink-500/20 text-pink-300 flex items-center justify-center text-xs font-bold shrink-0">7</span>
+                <span class="text-xs font-semibold text-slate-200">12종 연구 그래픽</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Key Stat Cards -->
+        <div class="lg:col-span-4 grid grid-cols-2 gap-2.5">
+          <div class="bg-slate-800/70 border border-slate-700/70 p-3.5 rounded-xl">
+            <div class="text-[11px] text-slate-400">총부유세균 (TAB) 연중</div>
+            <div class="text-xl font-black text-emerald-400 mt-1">29.8 <span class="text-xs text-slate-400 font-normal">CFU/㎥</span></div>
+            <div class="text-[10px] text-emerald-300 mt-0.5">실내기준(800)의 3.7% 청정</div>
+          </div>
+          <div class="bg-slate-800/70 border border-slate-700/70 p-3.5 rounded-xl">
+            <div class="text-[11px] text-slate-400">여름 부유진균 (TAF)</div>
+            <div class="text-xl font-black text-amber-400 mt-1">1,086 <span class="text-xs text-slate-400 font-normal">CFU/㎥</span></div>
+            <div class="text-[10px] text-amber-300 mt-0.5">토양 유기물 분해균 폭발</div>
+          </div>
+          <div class="bg-slate-800/70 border border-slate-700/70 p-3.5 rounded-xl">
+            <div class="text-[11px] text-slate-400">여름 진균/세균 비</div>
+            <div class="text-xl font-black text-purple-300 mt-1">36.4 : 1</div>
+            <div class="text-[10px] text-purple-200 mt-0.5">원형 산림 고유 지문</div>
+          </div>
+          <div class="bg-slate-800/70 border border-slate-700/70 p-3.5 rounded-xl">
+            <div class="text-[11px] text-slate-400">최대 환경 구동력</div>
+            <div class="text-xl font-black text-teal-300 mt-1">ρ = 0.386</div>
+            <div class="text-[10px] text-teal-200 mt-0.5">토양온도·습도 최고 상관</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTERS MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 1: 시계열 및 지점별 농도 대시보드 -->
+    <!-- =============================================================== -->
+    <div id="chapter-1" class="chapter-content space-y-8">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold mb-2">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-blue-700"></i> 제1장 · 시계열 농도 정량 모니터링
+            </div>
+            <h3 class="text-lg sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="line-chart" class="w-6 h-6 text-emerald-600"></i>
+              2026년 3월~8월 6대 조사 시계열 공기미생물 농도 & 미기후 다축 변화 추이
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+              에어샘플러 0.1 ㎥ 기준 환산 농도(좌측 축, CFU/㎥ = Count / 0.1)와 현장 대기온도(우측 축, ℃) 및 상대습도(우측 축, %)의 동조 추세.
+            </p>
+          </div>
+        </div>
+
+        <div class="h-80 sm:h-96 w-full">
+          <canvas id="longitudinalDualChart"></canvas>
+        </div>
+
+        <!-- Callout Banner: 4/15 vs 4/29 Data Characteristics -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 text-xs text-blue-900 flex items-start gap-3">
+          <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
+          <div>
+            <span class="font-bold text-sm block mb-1">💡 4월 15일 vs 4월 29일 데이터 특성 상세 안내</span>
+            <p class="leading-relaxed">
+              <strong>4월 15일</strong>: 강한 봄철 이상 고온(23.5℃)과 돌풍(불정 AWS 풍속 7.6 m/s, 순간최대 16.3 m/s)으로 수목 엽면의 사상균 및 토양 세균이 대량 물리적으로 탈락·비산하여 <strong>부유 세균(TAB)이 연중 최고치(316.4 CFU/㎥)</strong>를 기록하였습니다. (1차 NGS 메타게놈 분석 시점)<br/>
+              <strong>4월 29일</strong>: 기온이 16.1℃(7.4℃ 급락)로 안정화되고 풍속(4.1 m/s)이 잦아들었으나, 개엽기 진균 농도(TAF 789.0 CFU/㎥)는 높은 상태를 유지하였습니다. 두 날짜는 외견상 평균 진균 농도가 유사하게 측정되었으나 지점별 미기후 분포와 풍속 교란 특성에서 명확한 차이를 나타냅니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive 10-Site Metric Explorer -->
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+        <div>
+          <h4 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="sliders" class="w-5 h-5 text-emerald-600"></i>
+            10개 조사지점 인터랙티브 항목별·일자별 비교 탐색기
+          </h4>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            조사 일자 버튼과 관측 항목 버튼을 클릭하면 10개 지점의 수치가 실시간으로 갱신되며 그래프와 핵심 진단 통계가 연동됩니다.
+          </p>
+        </div>
+
+        <!-- Date Filter Pills -->
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-slate-600 uppercase tracking-wider block">조사 일자 선택 (6대 조사 + 전 기간 평균):</span>
+          <div class="flex flex-wrap gap-2" id="datePillGroup">
+            <button onclick="changeDateFilter('all')" class="date-pill date-pill-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">전 기간 평균</button>
+            <button onclick="changeDateFilter('2026-03-04')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">03/04 (초봄 해빙기)</button>
+            <button onclick="changeDateFilter('2026-04-15')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">04/15 (봄신록/1차 DNA)</button>
+            <button onclick="changeDateFilter('2026-04-29')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">04/29 (봄 만개기)</button>
+            <button onclick="changeDateFilter('2026-05-13')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">05/13 (초여름 녹음기)</button>
+            <button onclick="changeDateFilter('2026-07-27')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">07/27 (한여름/2차 DNA)</button>
+            <button onclick="changeDateFilter('2026-08-13')" class="date-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">08/13 (늦여름 고온기)</button>
+          </div>
+        </div>
+
+        <!-- Metric Filter Pills -->
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-slate-600 uppercase tracking-wider block">관측 항목 선택 (미생물 농도 & 미기후):</span>
+          <div class="flex flex-wrap gap-2" id="metricPillGroup">
+            <button onclick="changeMetricFilter('TAF_CFU_m3')" class="metric-pill metric-pill-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">부유 진균 농도 (TAF)</button>
+            <button onclick="changeMetricFilter('TAB_CFU_m3')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">부유 세균 농도 (TAB)</button>
+            <button onclick="changeMetricFilter('air-temp')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">현장 대기온도 (℃)</button>
+            <button onclick="changeMetricFilter('air-RH')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">대기 상대습도 (%)</button>
+            <button onclick="changeMetricFilter('PM10')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">미세먼지 (PM10)</button>
+            <button onclick="changeMetricFilter('soil-temp')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">토양 온도 (℃)</button>
+            <button onclick="changeMetricFilter('windspeed')" class="metric-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">풍속 (m/s)</button>
+          </div>
+        </div>
+
+        <!-- Live Stat Callout -->
+        <div id="metricSummaryBanner" class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div>
+            <span id="bannerTitle" class="font-bold text-slate-800 text-sm block">전 기간 평균: 부유 진균 농도 (TAF, CFU/㎥)</span>
+            <span id="bannerSubtitle" class="text-slate-500">10개 지점 측정값 범위: 363.9 ~ 1217.7 CFU/㎥</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="bannerStat1" class="px-2.5 py-1 rounded bg-red-100 text-red-800 font-semibold">최고: 밭 대조구 (1,217.7 CFU/㎥)</span>
+            <span id="bannerStat2" class="px-2.5 py-1 rounded bg-blue-100 text-blue-800 font-semibold">최저: 주차장 (363.9 CFU/㎥)</span>
+          </div>
+        </div>
+
+        <div class="h-72 sm:h-80 w-full">
+          <canvas id="interactiveSiteChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chapter 1 Research Figures -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div onclick="openLightbox('images/fig9_all6dates_longitudinal_trends.png', 'Fig 9. 6대 조사 전 시계열 농도 추이')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 9. 6대 조사 전 시계열 추이</span>
+          <img src="images/fig9_all6dates_longitudinal_trends.png" alt="Fig 9" class="w-full h-40 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig10_all6dates_spatiotemporal_heatmap.png', 'Fig 10. 10개 조사구 시공간 농도 히트맵')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 10. 시공간 농도 히트맵</span>
+          <img src="images/fig10_all6dates_spatiotemporal_heatmap.png" alt="Fig 10" class="w-full h-40 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig11_all6dates_environmental_correlations.png', 'Fig 11. 6대 조사 통합 미기후 다중 상관')" class="bg-white rounded-xl p-3.5 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 11. 6대 조사 미기후 상관</span>
+          <img src="images/fig11_all6dates_environmental_correlations.png" alt="Fig 11" class="w-full h-40 object-cover rounded-lg">
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-end">
+        <button onclick="switchChapter(2)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제2장. 🌲 10대 지점별 생태백과로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 2: 🌲 10대 고정 조사지점별 미생물 현황·특성·심층 생태백과 (KEY) -->
+    <!-- =============================================================== -->
+    <div id="chapter-2" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold mb-2">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-700"></i> 제2장 · 10대 고정 조사지점 종합 생태 진단서
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <i data-lucide="trees" class="w-6 h-6 text-emerald-600"></i>
+              10대 고정 조사지점별 미생물 현황·특성·심층 생태백과
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-4xl leading-relaxed">
+              건국대 학술림 10개 고정 조사구별 **배양 집락 정량 현황(CFU/㎥)**, **ITS 메타게놈 차세대 염기서열분석(NGS) 실측 우점 종 구조(%)**, **고유 미생물 특성**, 그리고 **수목-미생물 공생, 유기물 탄소 순환, 생태계 지표성 및 산림치유 보건 가이드**를 체계적으로 정리한 정밀 생태 진단서입니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stand Type Filter & Search Bar -->
+        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap gap-1.5" id="standFilterGroup">
+            <button onclick="filterSiteCards('all')" class="stand-filter-btn stand-filter-active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">전체 10개 지점</button>
+            <button onclick="filterSiteCards('conifer')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🌲 온대 침엽수림 (6개소)</button>
+            <button onclick="filterSiteCards('riparian')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🌿 수변 저습지 활엽수림 (2개소)</button>
+            <button onclick="filterSiteCards('control')" class="stand-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">🚜 환경 대조구 (2개소)</button>
+          </div>
+          <div class="w-full sm:w-80">
+            <input type="text" id="siteSearchInput" onkeyup="searchSiteCards()" placeholder="지점명, 수종, 우점균(Trichoderma, Coprinellus 등) 검색..." class="w-full px-3.5 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Sites Pre-Rendered Cards Grid (Always Pre-rendered in HTML!) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="siteEncyclopediaGrid">
+        
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="1">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 1</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">온대 침엽수림 (인공 조림)</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 학술림 하단 완경사 산록부
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">리기다소나무림</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Pinus rigida Mill.</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">561.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">14.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.1</strong>
+            <span class="text-[9px] text-slate-400 block">수분 32.5%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">496.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales_sp.</span><span class="font-mono font-bold text-blue-800">36.6%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-blue-800">25.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Nectriaceae</span><span class="font-mono font-bold text-blue-800">10.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-blue-800">10.1%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">99.9%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-red-800">0.1%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            송진(테르펜) 함유 솔잎 낙엽층의 완만한 분해 특성. 여름철 고온다습기에 Trichoderma가 99.9%로 단일 극우점하여 토양 유기물 분해를 독점.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            척박지 녹화 수종으로 도입된 리기다소나무는 두터운 송진 함유 침엽수 낙엽 매트층을 형성하며, 산성 토양에 적응한 자낭균류 피생균 및 목재부후균과 서식처를 공유함. 바늘잎의 두꺼운 왁스/큐티클층으로 인해 분해 속도가 완만하며, 7월 장마기 토양 고습 조건에서 Trichoderma에 의한 셀룰로오스 초고속 가수분해가 집중적으로 발생.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 솔잎 테르펜 피톤치드 효과가 우수함. 4월 건조 강풍기에는...
+        </span>
+        <button onclick="openSiteModalByNo(1)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="2">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 2</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">온대 침엽수림 (울창한 임분)</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 계곡 인접 완경사지, 수관 울폐도 85% 이상
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">잣나무림 a</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Pinus koraiensis Siebold & Zucc. (Stand A)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">893.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">36.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.3</strong>
+            <span class="text-[9px] text-slate-400 block">수분 37.8%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">2104.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-blue-800">41.3%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">27.9%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Alternaria</span><span class="font-mono font-bold text-blue-800">21.9%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">75.0%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Bjerkandera</span><span class="font-mono font-bold text-red-800">13.7%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-red-800">7.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-red-800">1.0%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            봄철 4대 알레르겐(Cladosporium, Alternaria 등 63.2%) 우점에서 여름철 고온다습기 Trichoderma(75%) 및 목재부후균 Bjerkandera(13.7%)로의 극적 천이.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            잣나무 밀식 수관이 직사광선을 차단하고 바닥 낙엽층의 습도를 상시 보존하여 낙엽층 부식이 왕성하게 진행됨. 여름철 다우기 직후(강우 64.6mm) 토양 셀룰로오스 분해균과 버섯 균사가 대량 번식하여 산림 생태계 양분 순환을 가속.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 여름철 다습기에는 포자 밀도가 2,000 CFU/㎥를 초과...
+        </span>
+        <button onclick="openSiteModalByNo(2)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="riparian" data-no="3">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 3</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">수변 저습지 활엽수림</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 계곡 수변부 및 저습지, 상시 물안개
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">버들나무림 a (왕버들 a)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Salix koreensis Andersson (Stand A)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">1087.8</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">26.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.5</strong>
+            <span class="text-[9px] text-slate-400 block">수분 42.1% (최고)</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">1672.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">50.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-blue-800">29.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Septotinia</span><span class="font-mono font-bold text-blue-800">3.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-blue-800">3.1%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">78.0%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-red-800">10.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-red-800">3.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Clonostachys</span><span class="font-mono font-bold text-red-800">2.9%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            연중 700~1,670 CFU/㎥의 지속적 고농도 유지. 수변 고습 환경과 활엽수 엽면 조직 특이적 수목 병원성 및 부생 사상균 우점.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            하천 변 수분 포화 토양과 활엽수 연약 잎 조직으로 인해 분해 및 병원성 진균의 활성이 연중 지속됨. 수변 완충 식생의 수질 정화 및 미기후 습도 유지 기능. 활엽수 낙엽은 침엽수에 비해 분해 속도가 빠르며 수변 미생물 군집에 의해 유기탄소가 수계와 대기로 활발히 순환.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 수변 음이온과 습도가 풍부하나 곰팡이 과민성 비염 환자는 ...
+        </span>
+        <button onclick="openSiteModalByNo(3)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="control" data-no="4">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 4</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">인위적 개활 경작지 (대조구)</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 학술림 진입부 경작지, 수관 0% 완전 개활
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">밭 (개활 경작지 대조구)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Agricultural Cultivated Field (Control)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">1217.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">144.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.8</strong>
+            <span class="text-[9px] text-slate-400 block">수분 31.0%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">2464.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">봄철 미포집 (하절기 집중)</span><span class="font-mono font-bold text-blue-800">0.0%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-red-800">45.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-red-800">32.5%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Aspergillus</span><span class="font-mono font-bold text-red-800">10.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Nectriaceae</span><span class="font-mono font-bold text-red-800">7.6%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            토양 서식 식물 시들음병균인 Fusarium oxysporum(45.1%)과 저장 사상균 Penicillium/Aspergillus(42.9%)가 지표면 비산 먼지와 함께 대량 방출.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            수관 부재로 강우와 직사광선이 나지에 직접 도달하며, 작물 시비 유기물과 토양 교란이 사상균의 폭발적 비산을 유발. 인공적 영농 활동에 의한 빠른 유기물 턴오버와 건조기 토양 미세먼지(PM10) 동반 비산.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> Fusarium의 곰팡이독소(Fumonisin, T-2) ...
+        </span>
+        <button onclick="openSiteModalByNo(4)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="control" data-no="5">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 5</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">인공 포장면 (음성 대조군)</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 관리사무소 앞 아스팔트 포장면, 식생 부재
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">주차장 (인공 포장 대조구)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Paved Parking Lot Control</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">363.9</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">20.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 7.0</strong>
+            <span class="text-[9px] text-slate-400 block">수분 0.0%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">326.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">봄철 미포집 (하절기 집중)</span><span class="font-mono font-bold text-blue-800">0.0%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-red-800">33.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-red-800">29.8%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Nectriaceae</span><span class="font-mono font-bold text-red-800">18.3%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-red-800">13.4%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            연중 평균 363.9 CFU/㎥로 10개 지점 중 최저치. 전 조사 기간 동안 환경부 실내 권고기준(500 CFU/㎥)을 상시 만족하는 유일한 지점.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            수목 및 낙엽층 부재 시 자연계 진균 포자 방출원이 형성되지 않음을 역설적으로 입증하는 '음성 대조군(Negative Control)'. 자연 유기물 분해 순환 부재. 관측 미생물은 차량 바퀴 및 인근 도로변에서 유입되는 외래 비산 먼지 유래.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 진균 포자는 적으나 아스팔트 복사열 및 차량 배기가스가 존...
+        </span>
+        <button onclick="openSiteModalByNo(5)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="6">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 6</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">온대 천연 침엽수림</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 중턱 능선 사면 온대 자연림, 풍부한 간벌 고사목
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">소나무림</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Pinus densiflora Siebold & Zucc.</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">539.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">172.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 5.9</strong>
+            <span class="text-[9px] text-slate-400 block">수분 28.4%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">750.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">28.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-blue-800">17.5%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-blue-800">16.3%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Umbelopsis</span><span class="font-mono font-bold text-blue-800">16.2%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-red-800">59.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Irpex</span><span class="font-mono font-bold text-red-800">11.8%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-red-800">9.6%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">8.9%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            여름철 담자균문 백색부후균 Coprinellus radians(방사형먹물버섯류, 59.4%)와 Irpex laceratus(11.8%)가 71.2%를 합작 독점.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            소나무 고사목과 간벌재 리그닌을 분해하여 난분해성 유기물을 토양 부식토로 전환시키는 탄소 순환의 핵심 현장. 복합 리그닌 고분자 물질을 Laccase 및 Peroxidase 효소로 분해하여 산림 토양 유기물 층을 재생.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 미세 담자포자(2~4㎛)가 비산하므로 버섯 포자 알레르기 ...
+        </span>
+        <button onclick="openSiteModalByNo(6)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="7">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 7</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">낙엽성 침엽수 인공림</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 남동사면 완경사지, 일조 투과 및 통풍 우수
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">일본잎갈나무림 a (낙엽송 a)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Larix kaempferi (Stand A)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">444.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">34.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.2</strong>
+            <span class="text-[9px] text-slate-400 block">수분 31.2%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">640.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">63.7%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Alternaria</span><span class="font-mono font-bold text-blue-800">13.7%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-blue-800">11.1%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Cladosporium</span><span class="font-mono font-bold text-red-800">24.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-red-800">23.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">22.8%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-red-800">12.2%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            연중 평균 444 CFU/㎥로 전체 산림 임분 중 가장 청정. 특정 종의 독점 없이 Capnodiales, Cladosporium, Trichoderma가 균형을 이룸.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            낙엽송 특유의 광 투과성과 우수한 공기 유동성으로 인해 임내 습도 정체가 발생하지 않음. 안정적 낙엽 분해와 청정한 수관 환경 형성. 매년 늦가을 발생하는 다량의 낙엽이 봄철 신엽 전개기와 함께 점진적으로 분해되어 토양 영양분 환원.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 대기질이 가장 청정하고 피톤치드가 안정적으로 발산되어 **...
+        </span>
+        <button onclick="openSiteModalByNo(7)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="riparian" data-no="8">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 8</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">수변 계곡 하류 활엽수림</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 계곡 하류 퇴적지, 고수위 및 퇴적 유기물 풍부
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">버들나무림 b (왕버들 b)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Salix koreensis (Stand B)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">1214.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">24.3</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.4</strong>
+            <span class="text-[9px] text-slate-400 block">수분 40.8%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">1298.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">71.0%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Alternaria</span><span class="font-mono font-bold text-blue-800">13.0%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-blue-800">3.3%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">29.7%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-red-800">27.0%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Colletotrichum</span><span class="font-mono font-bold text-red-800">24.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Alternaria</span><span class="font-mono font-bold text-red-800">4.5%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            봄철 신엽 개엽기 Cladosporium/Capnodiales 조기 대량 비산(1,658) 및 여름철 활엽수 탄저병균 Colletotrichum(24.2%)의 집중 발생.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            계곡 상류로부터 운반된 유기물 집적과 높은 습도로 인해 수변 미생물 대사 활성이 극대화됨. 왕버들 탄저병 발생 모니터링의 핵심 지표. 수생 생태계와 육상 생태계 간의 전이대(Ecotone) 물질 교환 및 고속 질소/인 순환.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 4월에 1급 알레르겐 포자 농도가 높으므로 알레르기 비염 ...
+        </span>
+        <button onclick="openSiteModalByNo(8)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="9">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 9</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">경사지 낙엽송 임분</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 사면 상단부 능선 바람받이 사면
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">일본잎갈나무림 b (낙엽송 b)</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Larix kaempferi (Stand B)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">930.0</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">357.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.0</strong>
+            <span class="text-[9px] text-slate-400 block">수분 29.5%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">472.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">49.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-blue-800">24.6%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Clonostachys</span><span class="font-mono font-bold text-blue-800">11.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Alternaria</span><span class="font-mono font-bold text-blue-800">9.5%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Aspergillus</span><span class="font-mono font-bold text-red-800">30.9%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Fusarium</span><span class="font-mono font-bold text-red-800">25.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">17.4%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Ceriporia</span><span class="font-mono font-bold text-red-800">9.5%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            4월 건조 강풍(최대 16.3m/s) 시 엽면 피생균(Capnodiales 49%) 및 토양 세균(1,954)의 일시적 풍식 비산. 여름철 목재부후균 Ceriporia(9.5%) 출현.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            바람받이 사면의 물리적 미기후 역학을 반영하며, 계절 간 기상 변동에 민감하게 반응하는 산림 대기 완충 지표 임분. 강풍에 의한 수관 포자 확산과 토양 표면 건조화에 따른 간헐적 분해 활성.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 봄철 강풍 시 일시적으로 미세 입자 비산이 많으므로 방풍 ...
+        </span>
+        <button onclick="openSiteModalByNo(9)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="site-card bg-white rounded-2xl p-6 border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition flex flex-col justify-between space-y-4 shadow-sm" data-category="conifer" data-no="10">
+      <div>
+        <!-- Header Badge & Location -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-100 text-emerald-900 shadow-2xs">Site 10</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">능선 연접 잣나무림</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> 상부 능선부 연접 사면, 통풍 양호
+          </span>
+        </div>
+        
+        <h4 class="text-xl font-black text-slate-900 mt-2.5">잣나무림 b</h4>
+        <p class="text-xs italic text-slate-500 font-serif">Pinus koraiensis (Stand B)</p>
+
+        <!-- 4 Metric KPI Pills -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 진균</span>
+            <strong class="text-red-600 text-sm font-black">520.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">연평균 세균</span>
+            <strong class="text-blue-600 text-sm font-black">23.7</strong>
+            <span class="text-[9px] text-slate-400 block">CFU/㎥</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">토양 환경</span>
+            <strong class="text-slate-800 text-xs font-bold">pH 6.1</strong>
+            <span class="text-[9px] text-slate-400 block">수분 33.4%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block">피크 농도</span>
+            <strong class="text-amber-700 text-xs font-black">638.0</strong>
+            <span class="text-[9px] text-slate-400 block">7월 CFU/㎥</span>
+          </div>
+        </div>
+
+        <!-- DNA Metagenomic Taxa Stack -->
+        <div class="mt-4 space-y-2">
+          <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-emerald-600"></i> ITS 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 space-y-1">
+              <span class="font-bold text-blue-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 봄철 DNA (04/15)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Penicillium</span><span class="font-mono font-bold text-blue-800">50.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Capnodiales</span><span class="font-mono font-bold text-blue-800">32.1%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-blue-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Coprinellus</span><span class="font-mono font-bold text-blue-800">15.1%</span></div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
+              <span class="font-bold text-red-950 block text-[10px] uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> 여름철 DNA (07/27)
+              </span>
+              <div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Trichoderma</span><span class="font-mono font-bold text-red-800">80.2%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Aspergillus</span><span class="font-mono font-bold text-red-800">9.7%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Bjerkandera</span><span class="font-mono font-bold text-red-800">8.5%</span></div><div class="flex justify-between items-center text-slate-700 py-0.5 border-b border-red-100/50 last:border-0"><span class="truncate max-w-[130px] font-medium">Oudemansiella</span><span class="font-mono font-bold text-red-800">1.1%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Microbial Status & Ecological Interpretation Snippets -->
+        <div class="mt-3.5 space-y-2 text-xs leading-relaxed text-slate-600">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <strong class="text-slate-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-purple-600"></i> 미생물 고유 특성
+            </strong>
+            봄철 Penicillium mallochii(50.1%) 우점에서 여름철 Trichoderma(80.2%)로의 전환. 계곡부 Stand A 대비 진균 농도가 절반 이하로 안정적 억제.
+          </div>
+          <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950">
+            <strong class="text-emerald-900 block mb-0.5 flex items-center gap-1 font-bold">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 심층 생태적 해석
+            </strong>
+            동일 잣나무 수종임에도 능선 지형의 우수한 통풍성으로 인해 습도 정체가 해소되어 진균 농도가 크게 낮아짐. '지형 미기후 조절 메커니즘'의 증거. 통풍 사면의 규칙적인 건습 반복으로 균일하고 위생적인 낙엽 부식토 형성.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Health & Action Button -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600"></i> 잣나무 피톤치드 치유 효과를 누리면서도 고습도 곰팡이 포자...
+        </span>
+        <button onclick="openSiteModalByNo(10)" class="text-xs px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-semibold transition flex items-center gap-1 shadow-xs cursor-pointer">
+          <span>상세 진단서 보기</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+    
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(1)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제1장. 시계열 & 농도로 이동</span>
+        </button>
+        <button onclick="switchChapter(3)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제3장. DNA 메타게놈으로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 3: DNA 메타게놈 다양성 및 군집 구조 -->
+    <!-- =============================================================== -->
+    <div id="chapter-3" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold mb-2">
+          <i data-lucide="dna" class="w-3.5 h-3.5 text-purple-700"></i> 제3장 · 차세대 염기서열(NGS) 메타게놈 분석
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
+          <i data-lucide="dna" class="w-6 h-6 text-emerald-600"></i>
+          공기진균 ITS 메타게놈 차세대 염기서열분석(NGS) 계절 천이
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-500 mb-6">
+          1차 봄철(63,167 reads/sample) 대비 2차 여름철(97,331 reads/sample)의 분류군 상대 풍부도 구조 및 다양성 지수 변화.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div class="h-72 w-full">
+            <canvas id="dnaTaxonomyChart"></canvas>
+          </div>
+          <div class="space-y-3 text-xs sm:text-sm text-slate-700">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900 text-sm block mb-1">🌱 봄철 (04/15) 엽면 피생균 & 알레르겐 우점 (76.4%)</strong>
+              Capnodiales_sp. (42.4%), Cladosporium (14.1%), Penicillium (13.5%), Alternaria (6.4%). 봄철 건조 강풍(7.6m/s)에 의해 잎 표면에서 대량 탈락 비산.
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900 text-sm block mb-1">🍄 여름철 (07/27) 토양 유기물 분해균 & 목재부후균 폭발 (63.3%)</strong>
+              Trichoderma hamatum/harzianum (37.9%), Fusarium oxysporum (15.0%), Coprinellus radians (10.4%). 고온다습(28.7℃, 78% RH, 장마 강우 64.6mm)에 의한 균사 활성화.
+            </div>
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 font-medium">
+              ✨ <strong>알파 다양성 비약적 증가</strong>: 관측 ASV 풍부도가 봄철 13.0종에서 여름철 31.1종으로 2.4배 급증 (p = 1.41 × 10⁻⁴).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DNA Figures Grid (5 Figures) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div onclick="openLightbox('images/fig1_seasonal_alpha_diversity.png', 'Fig 1. 계절별 알파 다양성 통계 비교 (종 풍부도, Shannon, Evenness)')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 1. 알파 다양성 통계 박스플롯</span>
+          <img src="images/fig1_seasonal_alpha_diversity.png" alt="Fig 1" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig2_phylum_class_composition.png', 'Fig 2. 문·강 수준 군집 조성 계절 교체')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 2. 문·강 군집 조성 교체</span>
+          <img src="images/fig2_phylum_class_composition.png" alt="Fig 2" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig3_top_genera_heatmap.png', 'Fig 3. 25대 우점 속 히트맵 및 지점별 지문')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 3. 25대 우점 속 히트맵</span>
+          <img src="images/fig3_top_genera_heatmap.png" alt="Fig 3" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig4_beta_diversity_pcoa.png', 'Fig 4. Bray-Curtis PCoA 베타 다양성 2D 서열화 및 계절 타원')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 4. 베타 다양성 PCoA 군집 분리</span>
+          <img src="images/fig4_beta_diversity_pcoa.png" alt="Fig 4" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig5_functional_guilds_allergens.png', 'Fig 5. 기능성 길드 & 4대 알레르겐 계절 변동')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 5. 기능성 길드 & 알레르겐</span>
+          <img src="images/fig5_functional_guilds_allergens.png" alt="Fig 5" class="w-full h-44 object-cover rounded-lg">
+        </div>
+        <div onclick="openLightbox('images/fig12_dna_macro_integration.png', 'Fig 12. 거시 배양 농도와 분자 메타게놈의 연결 통합')" class="bg-white rounded-xl p-4 border border-slate-200 hover:border-emerald-500 cursor-pointer transition shadow-xs">
+          <span class="text-xs font-bold text-slate-900 block mb-1">Fig 12. 거시-분자 통합 비교</span>
+          <img src="images/fig12_dna_macro_integration.png" alt="Fig 12" class="w-full h-44 object-cover rounded-lg">
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(2)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제2장. 🌲 10대 지점별 생태백과</span>
+        </button>
+        <button onclick="switchChapter(4)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제4장. 공기생 네트워크로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 4: 공기생 상호작용 네트워크 -->
+    <!-- =============================================================== -->
+    <div id="chapter-4" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100 text-teal-900 text-xs font-bold mb-2">
+          <i data-lucide="share-2" class="w-3.5 h-3.5 text-teal-700"></i> 제4장 · 공기생 네트워크 분석
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
+          <i data-lucide="share-2" class="w-6 h-6 text-emerald-600"></i>
+          공기미생물 공기생 상호작용 네트워크 (Co-occurrence Network)
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-500 mb-6">
+          SparCC 및 비모수 스피어만 상관 분석(|r| ≥ 0.6, p &lt; 0.05) 기반 공기 부유 진균 분류군 간의 생태적 공존 및 길항 네트워크 구조.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
+            <span class="text-xs text-slate-500">총 노드(분류군) 수</span>
+            <h4 class="text-2xl font-black text-slate-800 mt-1">99 ASVs</h4>
+            <span class="text-[11px] text-slate-400">네트워크 구성 유의 분류군</span>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
+            <span class="text-xs text-slate-500">총 유의 상관 엣지</span>
+            <h4 class="text-2xl font-black text-emerald-600 mt-1">350 Edges</h4>
+            <span class="text-[11px] text-emerald-700">양의 상관(공존) 93.7%</span>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
+            <span class="text-xs text-slate-500">음의 상관 (경쟁/배타)</span>
+            <h4 class="text-2xl font-black text-rose-600 mt-1">6.3%</h4>
+            <span class="text-[11px] text-rose-700">계절 분리 및 항균 길항</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div onclick="openLightbox('images/fig6_cooccurrence_network.png', 'Fig 6. 공기생 상호작용 네트워크 토폴로지 (허브 종 매개중심성 및 모듈성)')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
+            <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-1.5">
+              <i data-lucide="network" class="w-4 h-4 text-emerald-600"></i> Fig 6. 공기생 상호작용 네트워크 토폴로지 (클릭 확대)
+            </h4>
+            <img src="images/fig6_cooccurrence_network.png" alt="Fig 6" class="w-full h-56 object-cover rounded-lg">
+          </div>
+          <div onclick="openLightbox('images/fig7_microbe_environment_correlation.png', 'Fig 7. 환경인자-미생물 스피어만 상관관계 매트릭스')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
+            <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-1.5">
+              <i data-lucide="grid" class="w-4 h-4 text-emerald-600"></i> Fig 7. 미기후-미생물 상관 히트맵 (클릭 확대)
+            </h4>
+            <img src="images/fig7_microbe_environment_correlation.png" alt="Fig 7" class="w-full h-56 object-cover rounded-lg">
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(3)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제3장. DNA 메타게놈</span>
+        </button>
+        <button onclick="switchChapter(5)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제5장. 실내기준 & 산림치유로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 5: 규제 기준 비교 & 보건 안전 가이드 -->
+    <!-- =============================================================== -->
+    <div id="chapter-5" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold mb-2">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-700"></i> 제5장 · 보건 안전 & 가이드라인
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mb-2">
+          <i data-lucide="shield-check" class="w-6 h-6 text-emerald-600"></i>
+          국내외 환경 기준 비교 & 산림치유 방문객 안전 가이드
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-500 mb-6">
+          환경부 실내공기질 관리법 권고기준(부유세균 800 CFU/㎥, 부유진균 500 CFU/㎥) 및 WHO 가이드라인과 학술림 측정 농도 대조.
+        </p>
+
+        <!-- Standards Comparison Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th class="p-3 font-bold">구분</th>
+                <th class="p-3 font-bold">환경부 실내공기질 권고기준</th>
+                <th class="p-3 font-bold">학술림 봄철 평균 (04/15)</th>
+                <th class="p-3 font-bold">학술림 여름철 평균 (07/27)</th>
+                <th class="p-3 font-bold">생태·보건학적 안전성 평가</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3 font-bold text-blue-700">총부유세균 (TAB)</td>
+                <td class="p-3 font-mono">800 CFU/㎥ 이하 (어린이집/의료기관)</td>
+                <td class="p-3 font-mono font-bold text-amber-600">316.4 CFU/㎥ (강풍 비산)</td>
+                <td class="p-3 font-mono font-bold text-emerald-700">29.8 CFU/㎥ (극청정)</td>
+                <td class="p-3 text-xs text-slate-600">기준치의 3.7% 수준으로 밀폐 실내 대비 병원성 세균 오염 전무한 극청정 상태 유지.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-red-700">총부유진균 (TAF)</td>
+                <td class="p-3 font-mono">500 CFU/㎥ 이하 (다중이용시설)</td>
+                <td class="p-3 font-mono font-bold text-red-600">789.0 CFU/㎥ (자연 비산)</td>
+                <td class="p-3 font-mono font-bold text-red-700">1,086.0 CFU/㎥ (토양 폭발)</td>
+                <td class="p-3 text-xs text-slate-600">자연 산림 고유의 유기물 분해 활성(Trichoderma 등 무해 유익균)에 의한 현상으로 실내 곰팡이 오염과는 본질이 다름.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6">
+          <div onclick="openLightbox('images/fig8_bioaerosol_concentration.png', 'Fig 8. 바이오에어로졸 농도 환산 및 실내공기질 권고기준 대조')" class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-emerald-500 transition">
+            <span class="text-xs font-bold text-slate-900 block mb-1">Fig 8. 실내공기질 기준 대조 분석도 (클릭 확대)</span>
+            <img src="images/fig8_bioaerosol_concentration.png" alt="Fig 8" class="w-full h-56 object-cover rounded-lg">
+          </div>
+        </div>
+
+        <!-- Healing Guide Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs leading-relaxed">
+            <h4 class="font-bold text-sm text-emerald-900 mb-1 flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> 최적의 산림치유 추천 구역
+            </h4>
+            <strong>Site 7 (일본잎갈나무림 a, 444 CFU/㎥)</strong> 및 <strong>Site 10 (능선 잣나무림 b, 520 CFU/㎥)</strong>:
+            통풍과 광선 투과가 양호하여 곰팡이 포자 정체가 없고 솔잎 테르펜(Terpene) 피톤치드가 풍부하여 호흡기 치유 및 산림욕에 최적입니다.
+          </div>
+          <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 text-xs leading-relaxed">
+            <h4 class="font-bold text-sm text-amber-900 mb-1 flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i> 방문 시 주의 및 권고 사항
+            </h4>
+            <strong>Site 3/8 (수변 버들나무림)</strong> 및 <strong>Site 2 (계곡부 잣나무림 a)</strong>:
+            7~8월 장마 다습기에는 진균 농도가 1,600~2,100 CFU/㎥까지 상승하므로, 중증 아토피·천식 환자는 다우 직후 체류를 자제하거나 마스크 착용을 권장합니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(4)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제4장. 공기생 네트워크</span>
+        </button>
+        <button onclick="switchChapter(6)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제6장. 📖 우점 종별 백과로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 6: 학술림 핵심 우점 종별 생태백과 -->
+    <!-- =============================================================== -->
+    <div id="chapter-6" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs font-bold mb-2">
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-700"></i> 제6장 · 우점 종별 생태 라이브러리
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="book-open" class="w-6 h-6 text-emerald-600"></i>
+            학술림 핵심 우점 종별 생태백과 (10대 우점균 라이브러리)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            건국대 학술림 공기생태계에서 확인된 핵심 10대 우점 진균의 생태적 지위, 인체 병원성, 생태계 지표성(Bioindicator) 비교 분석.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Trichoderma hamatum / harzianum</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 shrink-0">여름 37.9% (1위)</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 산림 낙엽층 셀룰로오스 초고속 분해, 토양 병원균에 대한 길항/중복기생(Biocontrol) 및 수목 면역 활성화.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 일반인에게 완전 무해한 토양 유익균. 면역저하자 기회감염 극히 드묾, 고농도 흡입 시 과민성 폐장염 주의.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 원형 자연 산림 식생 건전성 지표 (개활지/주차장 0% 소멸, 산림 캐노피 내부에서만 40~50% 점유).
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Capnodiales_sp.</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 shrink-0">봄철 42.4% (1위)</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 수목 엽면(Phyllosphere) 피생균, 두꺼운 멜라닌 세포벽으로 강한 자외선(UV) 및 건조 스트레스 극복.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 인체 비병원성. 고농도 비산 시 결막 기계적 자극 가능.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 봄철 수관 노출 및 건조기 지표종 (여름 장마 비세척 시 0.2%로 급감).
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Fusarium oxysporum</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 shrink-0">여름 15.0% (2위)</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 토양 서식 사상균, 유기물 분해 및 수목·농작물 도관 시들음병(Wilt) 유발, 밭(45.1%)·주차장(33.4%) 우점.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 곰팡이독소(Fumonisin, T-2) 생성. 각막염 및 면역저하자 파종성 후사리움증 주의.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 개활지 및 주차장 등 지표면 교란 및 비산 먼지 지표종.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Coprinellus radians</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800 shrink-0">소나무림 59.4%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 담자균류 목재 백색부후균, 침엽수 고사목 리그닌 및 부식 유기물 초고속 분해.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 미세 담자포자(2~4㎛)가 폐포 깊숙이 도달하여 담자포자 알레르기(Basidiospore allergy) 유발 가능.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 소나무림 고사목 축적 및 강우 후 버섯 자실체 발생 지표종.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Cladosporium (C. cladosporioides)</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-100 text-indigo-800 shrink-0">봄철 14.1%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 식물 엽면 부생 및 쇠약 식물 병원균, 전 세계 공기 중 최고 빈도 검출 진균.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 알레르기 비염, 결막염 및 소아 천식 유발 1등급 원인 진균 (Cla h 알레르겐).
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 온대 활엽수/침엽수 혼효림의 계절적 신엽 개엽 및 광역 공기 이동 지표.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Penicillium (P. mallochii)</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-purple-100 text-purple-800 shrink-0">잣나무림 50.1%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 침엽수 낙엽 토양 서식, 항균 펩타이드 생성 및 유기인 용해 작용.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 기회감염성 진균. Pen c 13 알레르겐 분비로 실내외 천식 반응 촉진 가능.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 침엽수림 산성 부식토(Mor hummus) 층 형성 및 토양 미기후 안정성 지표.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Alternaria alternata</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-cyan-100 text-cyan-800 shrink-0">봄철 6.4%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 식물 잎마름병균 및 유기물 분해균, 대기 중 비산 포자 크기가 커(20~40㎛) 상기도에 주로 침착.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 강력한 Alt a 1 알레르겐 단백질 보유, 중증 천식 발작의 주원인균.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 봄철 농경지 및 수변 식생 엽면 노화 지표.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Aspergillus (A. tubingensis)</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-yellow-100 text-yellow-800 shrink-0">밭 10.4%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 내열성 사상균, 탄닌 및 리그닌 분해 효소 다량 분비, 건조 토양 우점.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 아스페르길루스증(Aspergillosis) 및 오크라톡신(Ochratoxin A) 독소 생성 잠재력.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 토양 열 스트레스 및 건조 경작지 지표종.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Bjerkandera adusta (흰구름버섯)</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-teal-100 text-teal-800 shrink-0">잣나무림 13.7%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 담자균문 백색부후균, 리그닌 페록시다아제(LiP) 분비로 난분해성 목재 리그닌을 완전 무기화.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 버섯 포자 흡입 시 외인성 알레르기성 폐포염 유발 가능.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 온대 침엽수림 고사목의 자연적 부후 및 탄소 격리-환원 순환 지표.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="species-card bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition flex flex-col justify-between space-y-3 shadow-xs">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="font-bold text-slate-900 text-base">Irpex laceratus (침버섯류)</h4>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-orange-100 text-orange-800 shrink-0">소나무림 11.8%</span>
+        </div>
+        <div class="space-y-2 mt-3 text-xs leading-relaxed">
+          <p class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <strong class="text-slate-900 font-bold block mb-0.5">🌱 생태적 의의 & 역할:</strong> 침엽수 고사목에 발생하는 백색부후균으로 고분자 셀룰로오스/헤미셀룰로오스 분해.
+          </p>
+          <p class="text-amber-900 bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+            <strong class="text-amber-950 font-bold block mb-0.5">⚠️ 인체 병원성 & 의학적 영향:</strong> 비병원성 환경 버섯 진균.
+          </p>
+          <p class="text-emerald-900 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+            <strong class="text-emerald-950 font-bold block mb-0.5">🎯 생태계 지표성 (Bioindicator):</strong> 자연림 생태계 고사목 부후 프로세스 정상 가동 지표.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(5)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제5장. 실내기준 & 보건</span>
+        </button>
+        <button onclick="switchChapter(7)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제7장. 🖼️ 12종 연구 그래픽으로 이동</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- CHAPTER 7: 12종 연구 그래픽 갤러리 -->
+    <!-- =============================================================== -->
+    <div id="chapter-7" class="chapter-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 text-pink-900 text-xs font-bold mb-2">
+            <i data-lucide="image" class="w-3.5 h-3.5 text-pink-700"></i> 제7장 · 학술 연구 그래픽 갤러리
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="image" class="w-6 h-6 text-emerald-600"></i>
+            학술림 공기미생물 연구 핵심 시각화 그래픽 (12 Figures 전수 수록)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            각 카드를 클릭하시면 원본 고해상도 그래픽과 상세 해설 캡션을 라이트박스 뷰어로 확인하실 수 있습니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="galleryGrid">
+          
+    <div onclick="openLightbox('images/fig1_seasonal_alpha_diversity.png', 'Fig 1. 계절별 알파 다양성 통계 비교 - 종 풍부도 2.4배 급증 (p=1.41e-4), Shannon 지수 계절 차이')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig1_seasonal_alpha_diversity.png" alt="Fig 1. 계절별 알파 다양성 통계 비교" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 1. 계절별 알파 다양성 통계 비교</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">종 풍부도 2.4배 급증 (p=1.41e-4), Shannon 지수 계절 차이</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig2_phylum_class_composition.png', 'Fig 2. 문·강 군집 조성 계절 교체 - 자낭균문(봄 97%) vs 담자균문(여름 63%) 극적 교체')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig2_phylum_class_composition.png" alt="Fig 2. 문·강 군집 조성 계절 교체" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 2. 문·강 군집 조성 계절 교체</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">자낭균문(봄 97%) vs 담자균문(여름 63%) 극적 교체</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig3_top_genera_heatmap.png', 'Fig 3. 25대 우점 속 히트맵 및 지문 - 10개 조사구별 고유 미생물 지문 및 군집 분리')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig3_top_genera_heatmap.png" alt="Fig 3. 25대 우점 속 히트맵 및 지문" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 3. 25대 우점 속 히트맵 및 지문</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">10개 조사구별 고유 미생물 지문 및 군집 분리</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig4_beta_diversity_pcoa.png', 'Fig 4. 베타 다양성 PCoA 서열화 - PERMANOVA R²=0.457 (p=0.001) 계절 군집 유의 분리')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig4_beta_diversity_pcoa.png" alt="Fig 4. 베타 다양성 PCoA 서열화" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 4. 베타 다양성 PCoA 서열화</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">PERMANOVA R²=0.457 (p=0.001) 계절 군집 유의 분리</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig5_functional_guilds_allergens.png', 'Fig 5. 기능성 길드 & 4대 알레르겐 - 부생균, 병원균, 4대 천식 원인균 계절 대조')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig5_functional_guilds_allergens.png" alt="Fig 5. 기능성 길드 & 4대 알레르겐" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 5. 기능성 길드 & 4대 알레르겐</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">부생균, 병원균, 4대 천식 원인균 계절 대조</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig6_cooccurrence_network.png', 'Fig 6. 공기생 상호작용 네트워크 토폴로지 - 99 노드, 350 엣지, 공존 93.7%, 매개중심성 허브 종')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig6_cooccurrence_network.png" alt="Fig 6. 공기생 상호작용 네트워크 토폴로지" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 6. 공기생 상호작용 네트워크 토폴로지</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">99 노드, 350 엣지, 공존 93.7%, 매개중심성 허브 종</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig7_microbe_environment_correlation.png', 'Fig 7. 환경인자-미생물 스피어만 상관 매트릭스 - 기온·습도·토양온도와 미생물 분류군 간의 유의 상관')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig7_microbe_environment_correlation.png" alt="Fig 7. 환경인자-미생물 스피어만 상관 매트릭스" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 7. 환경인자-미생물 스피어만 상관 매트릭스</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">기온·습도·토양온도와 미생물 분류군 간의 유의 상관</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig8_bioaerosol_concentration.png', 'Fig 8. 바이오에어로졸 농도 및 실내기준 대조 - CFU/㎥ 정량 환산 및 환경부 실내공기질 권고기준 비교')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig8_bioaerosol_concentration.png" alt="Fig 8. 바이오에어로졸 농도 및 실내기준 대조" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 8. 바이오에어로졸 농도 및 실내기준 대조</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">CFU/㎥ 정량 환산 및 환경부 실내공기질 권고기준 비교</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig9_all6dates_longitudinal_trends.png', 'Fig 9. 6대 조사 전 시계열 농도 추이 - 봄철 강풍 비산 및 한여름 TAF 급상승 동조 추세')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig9_all6dates_longitudinal_trends.png" alt="Fig 9. 6대 조사 전 시계열 농도 추이" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 9. 6대 조사 전 시계열 농도 추이</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">봄철 강풍 비산 및 한여름 TAF 급상승 동조 추세</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig10_all6dates_spatiotemporal_heatmap.png', 'Fig 10. 10개 조사구 시공간 농도 히트맵 - 일자별·임분별 미생물 농도 시공간 동태')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig10_all6dates_spatiotemporal_heatmap.png" alt="Fig 10. 10개 조사구 시공간 농도 히트맵" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 10. 10개 조사구 시공간 농도 히트맵</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">일자별·임분별 미생물 농도 시공간 동태</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig11_all6dates_environmental_correlations.png', 'Fig 11. 6대 조사 통합 미기후 다중 상관 - 토양온도(0.386) 및 상대습도(0.370) 최고 상관 구명')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig11_all6dates_environmental_correlations.png" alt="Fig 11. 6대 조사 통합 미기후 다중 상관" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 11. 6대 조사 통합 미기후 다중 상관</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">토양온도(0.386) 및 상대습도(0.370) 최고 상관 구명</p>
+    </div>
+    
+    <div onclick="openLightbox('images/fig12_dna_macro_integration.png', 'Fig 12. 거시-분자 데이터 통합 비교 - 배양 농도 정량치와 차세대 메타게놈의 완벽 연계')" class="group cursor-pointer bg-white rounded-xl p-3 border border-slate-200 hover:border-emerald-500 hover:shadow-lg transition">
+      <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-100 relative mb-2.5">
+        <img src="images/fig12_dna_macro_integration.png" alt="Fig 12. 거시-분자 데이터 통합 비교" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+      </div>
+      <span class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition block">Fig 12. 거시-분자 데이터 통합 비교</span>
+      <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-tight">배양 농도 정량치와 차세대 메타게놈의 완벽 연계</p>
+    </div>
+    
+        </div>
+      </div>
+
+      <!-- Bottom Chapter Nav -->
+      <div class="pt-6 border-t border-slate-200 flex justify-between">
+        <button onclick="switchChapter(6)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>제6장. 📖 우점 종별 백과</span>
+        </button>
+        <button onclick="switchChapter(1)" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm cursor-pointer transition">
+          <span>제1장. 시계열 & 농도로 이동 (처음으로)</span>
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Site Detail Modal -->
+  <div id="siteModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      <button onclick="closeSiteModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2 cursor-pointer">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+      
+      <div>
+        <span id="modalSiteBadge" class="px-2.5 py-1 rounded text-xs font-black bg-emerald-100 text-emerald-800">Site</span>
+        <h3 id="modalSiteTitle" class="text-2xl font-black text-slate-900 mt-2">지점명</h3>
+        <p id="modalSiteLatin" class="text-xs italic text-slate-500 font-serif">Scientific Name</p>
+      </div>
+
+      <!-- Quick Stats Table -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-center text-xs">
+        <div>
+          <span class="text-slate-400 block text-[10px]">연평균 진균</span>
+          <strong id="modalTaf" class="text-base font-black text-red-600">0</strong>
+        </div>
+        <div>
+          <span class="text-slate-400 block text-[10px]">연평균 세균</span>
+          <strong id="modalTab" class="text-base font-black text-blue-600">0</strong>
+        </div>
+        <div>
+          <span class="text-slate-400 block text-[10px]">토양 환경</span>
+          <strong id="modalSoil" class="text-xs font-bold text-slate-800">-</strong>
+        </div>
+        <div>
+          <span class="text-slate-400 block text-[10px]">피크 농도</span>
+          <strong id="modalPeak" class="text-xs font-bold text-amber-700">-</strong>
+        </div>
+      </div>
+
+      <!-- DNA Details -->
+      <div class="p-4 rounded-xl bg-blue-50/50 border border-blue-100 space-y-2 text-xs">
+        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+          <i data-lucide="dna" class="w-4 h-4 text-emerald-600"></i> ITS 차세대 메타게놈 실측 우점 분류군 (상대 풍부도 %)
+        </h4>
+        <div id="modalDna" class="leading-relaxed text-slate-700"></div>
+      </div>
+
+      <!-- Deep Ecological Interpretations -->
+      <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+          <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i> 심층 생태학적 해석 & 메커니즘
+        </h4>
+        <div id="modalEcology" class="leading-relaxed text-slate-700 space-y-2"></div>
+      </div>
+
+      <!-- Health Guide -->
+      <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs">
+        <h4 class="font-bold text-amber-900 text-sm mb-1 flex items-center gap-1.5">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i> 산림치유 방문객 보건 가이드
+        </h4>
+        <p id="modalHealth" class="text-amber-950 leading-relaxed"></p>
+      </div>
+
+      <div class="flex justify-end">
+        <button onclick="closeSiteModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition cursor-pointer">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="max-w-5xl w-full flex flex-col items-center">
+      <div class="w-full flex justify-between items-center text-white mb-2 px-2">
+        <span id="lightboxTitle" class="text-sm font-bold truncate">Figure Title</span>
+        <button onclick="closeLightbox()" class="text-white hover:text-rose-400 p-1 cursor-pointer">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <img id="lightboxImg" src="" alt="Figure Fullscreen" class="max-h-[82vh] w-auto object-contain rounded-lg shadow-2xl">
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-emerald-950 text-slate-400 text-xs py-8 border-t border-emerald-900">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="font-semibold text-slate-300">건국대학교 학술림(충북 괴산군 불정면) 공기부유미생물(Aerobiome) 전주기 디지털 생태백과 플랫폼</p>
+      <p>© 2026 Konkuk University Forest Ecosystem & Aerobiome Research Team. Data N=298 samples & 2,091,638 reads NGS Metagenomics.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Injected Data from Backend
+    const siteMetricData = {
+  "2026-03-04": {
+    "TAF_CFU_m3": [
+      334.0,
+      182.0,
+      212.0,
+      196.0,
+      298.0,
+      382.0,
+      705.0,
+      748.0,
+      86.0,
+      53.3
+    ],
+    "TAB_CFU_m3": [
+      2.0,
+      5.0,
+      2.0,
+      8.0,
+      22.0,
+      10.0,
+      5.0,
+      14.0,
+      10.0,
+      10.0
+    ],
+    "air-temp": [
+      4.4,
+      12.7,
+      4.3,
+      11.0,
+      10.9,
+      12.3,
+      9.0,
+      13.3,
+      8.5,
+      10.7
+    ],
+    "air-RH": [
+      35.7,
+      37.3,
+      38.7,
+      37.1,
+      35.8,
+      37.0,
+      39.0,
+      36.7,
+      39.3,
+      39.8
+    ],
+    "PM10": [
+      21.4,
+      13.9,
+      11.3,
+      30.9,
+      18.7,
+      31.0,
+      11.7,
+      31.9,
+      14.5,
+      15.9
+    ],
+    "soil-temp": [
+      3.0,
+      6.4,
+      4.6,
+      5.2,
+      4.4,
+      5.2,
+      2.8,
+      5.8,
+      4.0,
+      5.0
+    ],
+    "windspeed": [
+      0.3,
+      1.3,
+      0.5,
+      1.4,
+      2.3,
+      0.5,
+      1.1,
+      0.6,
+      2.3,
+      1.1
+    ]
+  },
+  "2026-04-15": {
+    "TAF_CFU_m3": [
+      688.0,
+      456.0,
+      730.0,
+      456.0,
+      328.0,
+      1146.0,
+      734.0,
+      1658.0,
+      1238.0,
+      456.0
+    ],
+    "TAB_CFU_m3": [
+      12.0,
+      644.0,
+      20.0,
+      22.0,
+      64.0,
+      1954.0,
+      20.0,
+      32.0,
+      380.0,
+      16.0
+    ],
+    "air-temp": [
+      16.4,
+      27.3,
+      16.4,
+      26.2,
+      25.8,
+      25.4,
+      19.8,
+      25.9,
+      24.2,
+      27.5
+    ],
+    "air-RH": [
+      43.2,
+      39.4,
+      43.6,
+      39.4,
+      40.4,
+      39.2,
+      43.0,
+      38.4,
+      42.7,
+      40.3
+    ],
+    "PM10": [
+      33.1,
+      67.0,
+      42.1,
+      43.0,
+      61.9,
+      39.9,
+      36.0,
+      43.5,
+      35.9,
+      54.1
+    ],
+    "soil-temp": [
+      10.6,
+      16.8,
+      10.0,
+      12.8,
+      12.0,
+      12.6,
+      11.0,
+      14.8,
+      14.6,
+      12.0
+    ],
+    "windspeed": [
+      0.1,
+      0.3,
+      0.8,
+      1.1,
+      0.3,
+      0.2,
+      0.4,
+      1.4,
+      0.1,
+      0.4
+    ]
+  },
+  "2026-04-29": {
+    "TAF_CFU_m3": [
+      688.0,
+      456.0,
+      730.0,
+      456.0,
+      328.0,
+      1146.0,
+      734.0,
+      1658.0,
+      1238.0,
+      456.0
+    ],
+    "TAB_CFU_m3": [
+      12.0,
+      644.0,
+      20.0,
+      22.0,
+      64.0,
+      1954.0,
+      20.0,
+      32.0,
+      380.0,
+      16.0
+    ],
+    "air-temp": [
+      18.2,
+      16.0,
+      17.4,
+      12.5,
+      13.4,
+      15.3,
+      17.5,
+      13.8,
+      18.0,
+      19.0
+    ],
+    "air-RH": [
+      34.5,
+      35.8,
+      34.6,
+      33.1,
+      36.1,
+      34.9,
+      35.3,
+      35.6,
+      35.9,
+      35.1
+    ],
+    "PM10": [
+      14.1,
+      20.8,
+      10.2,
+      42.8,
+      26.7,
+      45.4,
+      18.8,
+      38.4,
+      21.2,
+      18.6
+    ],
+    "soil-temp": [
+      13.0,
+      12.0,
+      11.0,
+      9.6,
+      11.0,
+      10.6,
+      12.2,
+      11.0,
+      17.4,
+      11.0
+    ],
+    "windspeed": [
+      0.5,
+      0.7,
+      0.3,
+      0.3,
+      0.4,
+      0.5,
+      0.8,
+      0.5,
+      2.0,
+      1.0
+    ]
+  },
+  "2026-05-13": {
+    "TAF_CFU_m3": [
+      692.0,
+      644.0,
+      526.0,
+      466.0,
+      560.0,
+      1782.0,
+      1230.0,
+      1196.0,
+      788.0,
+      442.0
+    ],
+    "TAB_CFU_m3": [
+      36.0,
+      46.0,
+      88.0,
+      18.0,
+      78.0,
+      26.0,
+      8.0,
+      4.0,
+      80.0,
+      4.0
+    ],
+    "air-temp": [
+      25.0,
+      23.3,
+      25.2,
+      16.3,
+      20.7,
+      19.3,
+      24.9,
+      20.5,
+      29.0,
+      24.2
+    ],
+    "air-RH": [
+      45.1,
+      47.7,
+      45.3,
+      48.5,
+      49.7,
+      49.8,
+      45.0,
+      49.2,
+      43.7,
+      46.7
+    ],
+    "PM10": [
+      34.2,
+      45.1,
+      40.0,
+      81.1,
+      47.3,
+      68.5,
+      28.3,
+      67.6,
+      38.0,
+      41.5
+    ],
+    "soil-temp": [
+      17.8,
+      15.6,
+      16.4,
+      14.0,
+      13.8,
+      14.6,
+      15.4,
+      15.0,
+      21.8,
+      15.0
+    ],
+    "windspeed": [
+      0.3,
+      0.8,
+      0.8,
+      0.8,
+      0.4,
+      0.5,
+      0.7,
+      0.3,
+      1.0,
+      1.1
+    ]
+  },
+  "2026-07-27": {
+    "TAF_CFU_m3": [
+      496.0,
+      750.0,
+      2104.0,
+      638.0,
+      640.0,
+      472.0,
+      1672.0,
+      1298.0,
+      2464.0,
+      326.0
+    ],
+    "TAB_CFU_m3": [
+      16.0,
+      10.0,
+      42.0,
+      18.0,
+      28.0,
+      32.0,
+      30.0,
+      48.0,
+      36.0,
+      38.0
+    ],
+    "air-temp": [
+      26.1,
+      28.7,
+      26.1,
+      27.6,
+      29.9,
+      30.0,
+      26.6,
+      30.8,
+      29.9,
+      31.6
+    ],
+    "air-RH": [
+      88.4,
+      72.1,
+      79.2,
+      78.1,
+      72.6,
+      70.8,
+      90.6,
+      70.6,
+      90.6,
+      64.6
+    ],
+    "PM10": [
+      63.1,
+      41.3,
+      57.0,
+      22.7,
+      41.5,
+      32.6,
+      64.9,
+      41.3,
+      42.4,
+      22.7
+    ],
+    "soil-temp": [
+      24.0,
+      23.8,
+      23.0,
+      23.6,
+      24.0,
+      24.0,
+      23.4,
+      23.0,
+      27.6,
+      24.0
+    ],
+    "windspeed": [
+      0.1,
+      0.2,
+      0.5,
+      0.4,
+      0.3,
+      0.2,
+      0.2,
+      0.2,
+      0.8,
+      0.2
+    ]
+  },
+  "2026-08-13": {
+    "TAF_CFU_m3": [
+      468.0,
+      746.0,
+      1060.0,
+      912.0,
+      512.0,
+      652.0,
+      1452.0,
+      726.0,
+      1492.0,
+      326.0
+    ],
+    "TAB_CFU_m3": [
+      40.0,
+      186.0,
+      136.0,
+      46.0,
+      44.0,
+      58.0,
+      70.0,
+      14.0,
+      318.0,
+      36.0
+    ],
+    "air-temp": [
+      27.5,
+      24.7,
+      26.4,
+      22.3,
+      25.7,
+      25.4,
+      27.1,
+      24.7,
+      30.9,
+      27.4
+    ],
+    "air-RH": [
+      62.3,
+      62.5,
+      63.4,
+      77.6,
+      61.0,
+      59.3,
+      62.7,
+      59.9,
+      57.0,
+      62.7
+    ],
+    "PM10": [
+      6.0,
+      20.0,
+      23.5,
+      16.6,
+      18.7,
+      28.5,
+      17.5,
+      22.0,
+      16.9,
+      10.7
+    ],
+    "soil-temp": [
+      25.6,
+      21.4,
+      23.8,
+      20.6,
+      21.0,
+      21.0,
+      26.0,
+      20.8,
+      28.8,
+      21.0
+    ],
+    "windspeed": [
+      0.4,
+      0.3,
+      0.4,
+      0.8,
+      0.1,
+      0.3,
+      0.0,
+      0.1,
+      0.4,
+      1.0
+    ]
+  },
+  "all": {
+    "TAF_CFU_m3": [
+      561.0,
+      539.0,
+      893.7,
+      520.7,
+      444.3,
+      930.0,
+      1087.8,
+      1214.0,
+      1217.7,
+      363.9
+    ],
+    "TAB_CFU_m3": [
+      19.7,
+      255.8,
+      51.3,
+      22.3,
+      50.0,
+      672.3,
+      25.5,
+      24.0,
+      200.7,
+      20.7
+    ],
+    "air-temp": [
+      19.6,
+      22.1,
+      19.3,
+      19.3,
+      21.1,
+      21.3,
+      20.8,
+      21.5,
+      23.4,
+      24.3
+    ],
+    "air-RH": [
+      51.5,
+      49.1,
+      50.8,
+      52.3,
+      49.3,
+      48.5,
+      52.6,
+      48.4,
+      51.5,
+      48.8
+    ],
+    "PM10": [
+      28.6,
+      34.7,
+      30.7,
+      39.5,
+      35.8,
+      41.0,
+      29.5,
+      40.8,
+      28.1,
+      28.1
+    ],
+    "soil-temp": [
+      15.7,
+      16.0,
+      14.8,
+      14.3,
+      14.4,
+      14.7,
+      15.1,
+      15.1,
+      19.0,
+      15.4
+    ],
+    "windspeed": [
+      0.3,
+      0.6,
+      0.5,
+      0.8,
+      0.6,
+      0.4,
+      0.5,
+      0.5,
+      1.1,
+      0.8
+    ]
+  }
+};
+    const siteEncyclopediaData = [{"no": 1, "name": "리기다소나무림", "latin": "Pinus rigida Mill.", "category": "conifer", "catName": "온대 침엽수림 (인공 조림)", "location": "학술림 하단 완경사 산록부", "soilPh": "pH 6.1", "soilMoist": "32.5%", "tafMean": 561.0, "tabMean": 14.0, "peak": "4월 봄철 (688 CFU/㎥)", "summerTaf": 496.0, "springDna": [{"g": "Capnodiales_sp.", "pct": 36.6}, {"g": "Penicillium", "pct": 25.1}, {"g": "Nectriaceae", "pct": 10.4}, {"g": "Cladosporium", "pct": 10.1}], "summerDna": [{"g": "Trichoderma", "pct": 99.9}, {"g": "Penicillium", "pct": 0.1}], "microbeTraits": "송진(테르펜) 함유 솔잎 낙엽층의 완만한 분해 특성. 여름철 고온다습기에 Trichoderma가 99.9%로 단일 극우점하여 토양 유기물 분해를 독점.", "plantMicrobe": "척박지 녹화 수종으로 도입된 리기다소나무는 두터운 송진 함유 침엽수 낙엽 매트층을 형성하며, 산성 토양에 적응한 자낭균류 피생균 및 목재부후균과 서식처를 공유함.", "nutrientCycling": "바늘잎의 두꺼운 왁스/큐티클층으로 인해 분해 속도가 완만하며, 7월 장마기 토양 고습 조건에서 Trichoderma에 의한 셀룰로오스 초고속 가수분해가 집중적으로 발생.", "bioindicator": "자연 토양 유익균의 생물방제(Biocontrol) 길항 미생물상 구축 지표이자, 외부 인위적 오염이 없는 건전한 산림 임분 지표.", "healthGuide": "솔잎 테르펜 피톤치드 효과가 우수함. 4월 건조 강풍기에는 엽면 부유 포자가 다소 증가하므로 알레르기 민감군은 마스크 착용 권장."}, {"no": 2, "name": "잣나무림 a", "latin": "Pinus koraiensis Siebold & Zucc. (Stand A)", "category": "conifer", "catName": "온대 침엽수림 (울창한 임분)", "location": "계곡 인접 완경사지, 수관 울폐도 85% 이상", "soilPh": "pH 6.3", "soilMoist": "37.8%", "tafMean": 893.7, "tabMean": 36.3, "peak": "7월 한여름 (2,104 CFU/㎥, 전 지점 2위)", "summerTaf": 2104.0, "springDna": [{"g": "Cladosporium", "pct": 41.3}, {"g": "Capnodiales", "pct": 27.9}, {"g": "Alternaria", "pct": 21.9}], "summerDna": [{"g": "Trichoderma", "pct": 75.0}, {"g": "Bjerkandera", "pct": 13.7}, {"g": "Penicillium", "pct": 7.1}, {"g": "Coprinellus", "pct": 1.0}], "microbeTraits": "봄철 4대 알레르겐(Cladosporium, Alternaria 등 63.2%) 우점에서 여름철 고온다습기 Trichoderma(75%) 및 목재부후균 Bjerkandera(13.7%)로의 극적 천이.", "plantMicrobe": "잣나무 밀식 수관이 직사광선을 차단하고 바닥 낙엽층의 습도를 상시 보존하여 낙엽층 부식이 왕성하게 진행됨.", "nutrientCycling": "여름철 다우기 직후(강우 64.6mm) 토양 셀룰로오스 분해균과 버섯 균사가 대량 번식하여 산림 생태계 양분 순환을 가속.", "bioindicator": "수관 울폐도 극대화에 따른 하층 고습도 유지 지표종 및 산림 부식토 형성 지표.", "healthGuide": "여름철 다습기에는 포자 밀도가 2,000 CFU/㎥를 초과하므로, 중증 천식 환자는 다우 직후 체류를 자제하고 통풍이 원활한 능선부(Site 10) 이용 권장."}, {"no": 3, "name": "버들나무림 a (왕버들 a)", "latin": "Salix koreensis Andersson (Stand A)", "category": "riparian", "catName": "수변 저습지 활엽수림", "location": "계곡 수변부 및 저습지, 상시 물안개", "soilPh": "pH 6.5", "soilMoist": "42.1% (최고)", "tafMean": 1087.8, "tabMean": 26.7, "peak": "7월 한여름 (1,672 CFU/㎥), 8월 (1,452 CFU/㎥)", "summerTaf": 1672.0, "springDna": [{"g": "Capnodiales", "pct": 50.1}, {"g": "Cladosporium", "pct": 29.2}, {"g": "Septotinia", "pct": 3.2}, {"g": "Fusarium", "pct": 3.1}], "summerDna": [{"g": "Trichoderma", "pct": 78.0}, {"g": "Fusarium", "pct": 10.2}, {"g": "Coprinellus", "pct": 3.1}, {"g": "Clonostachys", "pct": 2.9}], "microbeTraits": "연중 700~1,670 CFU/㎥의 지속적 고농도 유지. 수변 고습 환경과 활엽수 엽면 조직 특이적 수목 병원성 및 부생 사상균 우점.", "plantMicrobe": "하천 변 수분 포화 토양과 활엽수 연약 잎 조직으로 인해 분해 및 병원성 진균의 활성이 연중 지속됨. 수변 완충 식생의 수질 정화 및 미기후 습도 유지 기능.", "nutrientCycling": "활엽수 낙엽은 침엽수에 비해 분해 속도가 빠르며 수변 미생물 군집에 의해 유기탄소가 수계와 대기로 활발히 순환.", "bioindicator": "수변 저습지 미기후 및 활엽수 잎 탄저병·잎마름병 조기 경보 지표 구역.", "healthGuide": "수변 음이온과 습도가 풍부하나 곰팡이 과민성 비염 환자는 여름철 장시간 체류 시 비염 악화 가능성 유의."}, {"no": 4, "name": "밭 (개활 경작지 대조구)", "latin": "Agricultural Cultivated Field (Control)", "category": "control", "catName": "인위적 개활 경작지 (대조구)", "location": "학술림 진입부 경작지, 수관 0% 완전 개활", "soilPh": "pH 6.8", "soilMoist": "31.0%", "tafMean": 1217.7, "tabMean": 144.3, "peak": "7월 한여름 (2,464 CFU/㎥, 전 지점 최고)", "summerTaf": 2464.0, "springDna": [{"g": "봄철 미포집 (하절기 집중)", "pct": 0.0}], "summerDna": [{"g": "Fusarium", "pct": 45.1}, {"g": "Penicillium", "pct": 32.5}, {"g": "Aspergillus", "pct": 10.4}, {"g": "Nectriaceae", "pct": 7.6}], "microbeTraits": "토양 서식 식물 시들음병균인 Fusarium oxysporum(45.1%)과 저장 사상균 Penicillium/Aspergillus(42.9%)가 지표면 비산 먼지와 함께 대량 방출.", "plantMicrobe": "수관 부재로 강우와 직사광선이 나지에 직접 도달하며, 작물 시비 유기물과 토양 교란이 사상균의 폭발적 비산을 유발.", "nutrientCycling": "인공적 영농 활동에 의한 빠른 유기물 턴오버와 건조기 토양 미세먼지(PM10) 동반 비산.", "bioindicator": "인위적 지표면 교란 및 영농성 먼지 비산 지표 구역.", "healthGuide": "Fusarium의 곰팡이독소(Fumonisin, T-2) 및 미세 분진 흡입 위험이 있으므로 바람 부는 날 경작지 주변 통과 시 호흡기 보호 주의."}, {"no": 5, "name": "주차장 (인공 포장 대조구)", "latin": "Paved Parking Lot Control", "category": "control", "catName": "인공 포장면 (음성 대조군)", "location": "관리사무소 앞 아스팔트 포장면, 식생 부재", "soilPh": "pH 7.0", "soilMoist": "0.0%", "tafMean": 363.9, "tabMean": 20.3, "peak": "4월 (456 CFU/㎥), 7월 (326 CFU/㎥)", "summerTaf": 326.0, "springDna": [{"g": "봄철 미포집 (하절기 집중)", "pct": 0.0}], "summerDna": [{"g": "Fusarium", "pct": 33.4}, {"g": "Coprinellus", "pct": 29.8}, {"g": "Nectriaceae", "pct": 18.3}, {"g": "Penicillium", "pct": 13.4}], "microbeTraits": "연중 평균 363.9 CFU/㎥로 10개 지점 중 최저치. 전 조사 기간 동안 환경부 실내 권고기준(500 CFU/㎥)을 상시 만족하는 유일한 지점.", "plantMicrobe": "수목 및 낙엽층 부재 시 자연계 진균 포자 방출원이 형성되지 않음을 역설적으로 입증하는 '음성 대조군(Negative Control)'.", "nutrientCycling": "자연 유기물 분해 순환 부재. 관측 미생물은 차량 바퀴 및 인근 도로변에서 유입되는 외래 비산 먼지 유래.", "bioindicator": "비산란성 인공 피복면 및 광역 대기 배경농도 지표.", "healthGuide": "진균 포자는 적으나 아스팔트 복사열 및 차량 배기가스가 존재하므로 산림 치유 목적으로 머무르는 공간은 아님."}, {"no": 6, "name": "소나무림", "latin": "Pinus densiflora Siebold & Zucc.", "category": "conifer", "catName": "온대 천연 침엽수림", "location": "중턱 능선 사면 온대 자연림, 풍부한 간벌 고사목", "soilPh": "pH 5.9", "soilMoist": "28.4%", "tafMean": 539.0, "tabMean": 172.3, "peak": "7월 (750 CFU/㎥), 8월 (746 CFU/㎥)", "summerTaf": 750.0, "springDna": [{"g": "Capnodiales", "pct": 28.2}, {"g": "Penicillium", "pct": 17.5}, {"g": "Cladosporium", "pct": 16.3}, {"g": "Umbelopsis", "pct": 16.2}], "summerDna": [{"g": "Coprinellus", "pct": 59.4}, {"g": "Irpex", "pct": 11.8}, {"g": "Capnodiales", "pct": 9.6}, {"g": "Trichoderma", "pct": 8.9}], "microbeTraits": "여름철 담자균문 백색부후균 Coprinellus radians(방사형먹물버섯류, 59.4%)와 Irpex laceratus(11.8%)가 71.2%를 합작 독점.", "plantMicrobe": "소나무 고사목과 간벌재 리그닌을 분해하여 난분해성 유기물을 토양 부식토로 전환시키는 탄소 순환의 핵심 현장.", "nutrientCycling": "복합 리그닌 고분자 물질을 Laccase 및 Peroxidase 효소로 분해하여 산림 토양 유기물 층을 재생.", "bioindicator": "자연 온대 소나무림의 성숙도 및 고사목 축적 상태 지표.", "healthGuide": "미세 담자포자(2~4㎛)가 비산하므로 버섯 포자 알레르기 유증상자는 강우 직후 방문 시 마스크 착용 권장. 평상시 소나무 피톤치드 효과 우수."}, {"no": 7, "name": "일본잎갈나무림 a (낙엽송 a)", "latin": "Larix kaempferi (Stand A)", "category": "conifer", "catName": "낙엽성 침엽수 인공림", "location": "남동사면 완경사지, 일조 투과 및 통풍 우수", "soilPh": "pH 6.2", "soilMoist": "31.2%", "tafMean": 444.3, "tabMean": 34.0, "peak": "5월 초여름 (868 CFU/㎥), 7월 (640 CFU/㎥)", "summerTaf": 640.0, "springDna": [{"g": "Capnodiales", "pct": 63.7}, {"g": "Alternaria", "pct": 13.7}, {"g": "Cladosporium", "pct": 11.1}], "summerDna": [{"g": "Cladosporium", "pct": 24.4}, {"g": "Capnodiales", "pct": 23.2}, {"g": "Trichoderma", "pct": 22.8}, {"g": "Penicillium", "pct": 12.2}], "microbeTraits": "연중 평균 444 CFU/㎥로 전체 산림 임분 중 가장 청정. 특정 종의 독점 없이 Capnodiales, Cladosporium, Trichoderma가 균형을 이룸.", "plantMicrobe": "낙엽송 특유의 광 투과성과 우수한 공기 유동성으로 인해 임내 습도 정체가 발생하지 않음. 안정적 낙엽 분해와 청정한 수관 환경 형성.", "nutrientCycling": "매년 늦가을 발생하는 다량의 낙엽이 봄철 신엽 전개기와 함께 점진적으로 분해되어 토양 영양분 환원.", "bioindicator": "쾌적하고 건전한 온대 침엽수 인공림 대기질 지표.", "healthGuide": "대기질이 가장 청정하고 피톤치드가 안정적으로 발산되어 **학술림 내 최적의 산림 치유 산책 코스로 적극 추천**."}, {"no": 8, "name": "버들나무림 b (왕버들 b)", "latin": "Salix koreensis (Stand B)", "category": "riparian", "catName": "수변 계곡 하류 활엽수림", "location": "계곡 하류 퇴적지, 고수위 및 퇴적 유기물 풍부", "soilPh": "pH 6.4", "soilMoist": "40.8%", "tafMean": 1214.0, "tabMean": 24.3, "peak": "4월 봄철 (1,658 CFU/㎥, 봄철 전 지점 1위)", "summerTaf": 1298.0, "springDna": [{"g": "Capnodiales", "pct": 71.0}, {"g": "Alternaria", "pct": 13.0}, {"g": "Coprinellus", "pct": 3.3}], "summerDna": [{"g": "Trichoderma", "pct": 29.7}, {"g": "Fusarium", "pct": 27.0}, {"g": "Colletotrichum", "pct": 24.2}, {"g": "Alternaria", "pct": 4.5}], "microbeTraits": "봄철 신엽 개엽기 Cladosporium/Capnodiales 조기 대량 비산(1,658) 및 여름철 활엽수 탄저병균 Colletotrichum(24.2%)의 집중 발생.", "plantMicrobe": "계곡 상류로부터 운반된 유기물 집적과 높은 습도로 인해 수변 미생물 대사 활성이 극대화됨. 왕버들 탄저병 발생 모니터링의 핵심 지표.", "nutrientCycling": "수생 생태계와 육상 생태계 간의 전이대(Ecotone) 물질 교환 및 고속 질소/인 순환.", "bioindicator": "수변 활엽수림 탄저병(Anthracnose) 병해 조기 경보 지표.", "healthGuide": "4월에 1급 알레르겐 포자 농도가 높으므로 알레르기 비염 및 천식 환자는 봄철 진입 시 주의 필요."}, {"no": 9, "name": "일본잎갈나무림 b (낙엽송 b)", "latin": "Larix kaempferi (Stand B)", "category": "conifer", "catName": "경사지 낙엽송 임분", "location": "사면 상단부 능선 바람받이 사면", "soilPh": "pH 6.0", "soilMoist": "29.5%", "tafMean": 930.0, "tabMean": 357.7, "peak": "4월 봄철 (1,146 CFU/㎥, 세균 1,954 CFU/㎥)", "summerTaf": 472.0, "springDna": [{"g": "Capnodiales", "pct": 49.2}, {"g": "Fusarium", "pct": 24.6}, {"g": "Clonostachys", "pct": 11.2}, {"g": "Alternaria", "pct": 9.5}], "summerDna": [{"g": "Aspergillus", "pct": 30.9}, {"g": "Fusarium", "pct": 25.4}, {"g": "Trichoderma", "pct": 17.4}, {"g": "Ceriporia", "pct": 9.5}], "microbeTraits": "4월 건조 강풍(최대 16.3m/s) 시 엽면 피생균(Capnodiales 49%) 및 토양 세균(1,954)의 일시적 풍식 비산. 여름철 목재부후균 Ceriporia(9.5%) 출현.", "plantMicrobe": "바람받이 사면의 물리적 미기후 역학을 반영하며, 계절 간 기상 변동에 민감하게 반응하는 산림 대기 완충 지표 임분.", "nutrientCycling": "강풍에 의한 수관 포자 확산과 토양 표면 건조화에 따른 간헐적 분해 활성.", "bioindicator": "바람받이 사면의 물리적 풍식 및 기상 민감도 지표.", "healthGuide": "봄철 강풍 시 일시적으로 미세 입자 비산이 많으므로 방풍 안경 및 마스크 착용이 유리함."}, {"no": 10, "name": "잣나무림 b", "latin": "Pinus koraiensis (Stand B)", "category": "conifer", "catName": "능선 연접 잣나무림", "location": "상부 능선부 연접 사면, 통풍 양호", "soilPh": "pH 6.1", "soilMoist": "33.4%", "tafMean": 520.7, "tabMean": 23.7, "peak": "8월 늦여름 (912 CFU/㎥), 7월 (638 CFU/㎥)", "summerTaf": 638.0, "springDna": [{"g": "Penicillium", "pct": 50.1}, {"g": "Capnodiales", "pct": 32.1}, {"g": "Coprinellus", "pct": 15.1}], "summerDna": [{"g": "Trichoderma", "pct": 80.2}, {"g": "Aspergillus", "pct": 9.7}, {"g": "Bjerkandera", "pct": 8.5}, {"g": "Oudemansiella", "pct": 1.1}], "microbeTraits": "봄철 Penicillium mallochii(50.1%) 우점에서 여름철 Trichoderma(80.2%)로의 전환. 계곡부 Stand A 대비 진균 농도가 절반 이하로 안정적 억제.", "plantMicrobe": "동일 잣나무 수종임에도 능선 지형의 우수한 통풍성으로 인해 습도 정체가 해소되어 진균 농도가 크게 낮아짐. '지형 미기후 조절 메커니즘'의 증거.", "nutrientCycling": "통풍 사면의 규칙적인 건습 반복으로 균일하고 위생적인 낙엽 부식토 형성.", "bioindicator": "능선부 미기후에 의한 포자 농도 완충 지표.", "healthGuide": "잣나무 피톤치드 치유 효과를 누리면서도 고습도 곰팡이 포자를 회피할 수 있는 최적의 힐링 코스."}];
+
+    // Chapter Switching Logic
+    let currentChapter = 1;
+    let longitudinalChartInstance = null;
+    let interactiveSiteChart = null;
+    let dnaChartInstance = null;
+
+    function switchChapter(chNum) {
+      currentChapter = chNum;
+      
+      // Hide all chapters
+      document.querySelectorAll('.chapter-content').forEach(el => el.classList.add('hidden'));
+      
+      // Show selected chapter
+      const activeChEl = document.getElementById('chapter-' + chNum);
+      if (activeChEl) activeChEl.classList.remove('hidden');
+
+      // Update Nav Tabs
+      document.querySelectorAll('#chapterNavTabs .chapter-tab').forEach(btn => btn.classList.remove('chapter-tab-active'));
+      const activeNavBtn = document.getElementById('nav-ch' + chNum);
+      if (activeNavBtn) activeNavBtn.classList.add('chapter-tab-active');
+
+      // Window scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Update URL hash
+      window.history.replaceState(null, null, '#chapter-' + chNum);
+
+      // Trigger chart resize if charts become visible
+      setTimeout(() => {
+        if (chNum === 1) {
+          if (longitudinalChartInstance) longitudinalChartInstance.resize();
+          if (interactiveSiteChart) interactiveSiteChart.resize();
+        } else if (chNum === 3) {
+          if (dnaChartInstance) dnaChartInstance.resize();
+        }
+        lucide.createIcons();
+      }, 50);
+    }
+
+    // Filter Site Cards in Chapter 2
+    let currentStandCategory = 'all';
+
+    function filterSiteCards(cat) {
+      currentStandCategory = cat;
+      document.querySelectorAll('#standFilterGroup .stand-filter-btn').forEach(btn => btn.classList.remove('stand-filter-active'));
+      event.target.classList.add('stand-filter-active');
+      
+      const cards = document.querySelectorAll('#siteEncyclopediaGrid .site-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (cat === 'all' || cardCat === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function searchSiteCards() {
+      const q = document.getElementById('siteSearchInput').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('#siteEncyclopediaGrid .site-card');
+      
+      cards.forEach(card => {
+        const siteNo = parseInt(card.getAttribute('data-no'));
+        const site = siteEncyclopediaData.find(s => s.no === siteNo);
+        if (!site) return;
+        
+        const text = (site.name + ' ' + site.latin + ' ' + site.microbeTraits + ' ' + site.plantMicrobe + ' ' + site.catName + ' ' + JSON.stringify(site.springDna) + ' ' + JSON.stringify(site.summerDna)).toLowerCase();
+        const matchesCategory = (currentStandCategory === 'all' || site.category === currentStandCategory);
+        
+        if (matchesCategory && (q === '' || text.includes(q))) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openSiteModalByNo(siteNo) {
+      const p = siteEncyclopediaData.find(s => s.no === siteNo);
+      if (!p) return;
+      document.getElementById('modalSiteBadge').textContent = 'Site ' + p.no + ' (' + p.catName + ')';
+      document.getElementById('modalSiteTitle').textContent = p.name;
+      document.getElementById('modalSiteLatin').textContent = p.latin;
+      document.getElementById('modalTaf').textContent = p.tafMean + ' CFU/㎥';
+      document.getElementById('modalTab').textContent = p.tabMean + ' CFU/㎥';
+      document.getElementById('modalSoil').textContent = p.soilPh + ' (' + p.soilMoist + ')';
+      document.getElementById('modalPeak').textContent = p.peak;
+      document.getElementById('modalEcology').innerHTML = `
+        <p><strong>[수목-미생물 상호작용]</strong> ${p.plantMicrobe}</p>
+        <p><strong>[물질 순환 및 분해 기능]</strong> ${p.nutrientCycling}</p>
+        <p><strong>[생태계 지표성 (Bioindicator)]</strong> ${p.bioindicator}</p>
+      `;
+      document.getElementById('modalDna').innerHTML = `
+        <div class="mb-1"><span class="font-bold text-blue-900">봄철 (04/15)</span>: ${p.springDna.map(d => d.g + ' (' + d.pct + '%)').join(', ')}</div>
+        <div><span class="font-bold text-red-900">여름철 (07/27)</span>: ${p.summerDna.map(d => d.g + ' (' + d.pct + '%)').join(', ')}</div>
+      `;
+      document.getElementById('modalHealth').textContent = p.healthGuide;
+      document.getElementById('siteModal').classList.remove('hidden');
+    }
+
+    function closeSiteModal() {
+      document.getElementById('siteModal').classList.add('hidden');
+    }
+
+    function openLightbox(src, title) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightbox').classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.add('hidden');
+    }
+
+    // Charts Configuration
+    let currentDateKey = 'all';
+    let currentMetricKey = 'TAF_CFU_m3';
+
+    const siteNamesOrder = [
+      '리기다소나무림', '소나무림', '잣나무림 a', '잣나무림 b', 
+      '일본잎갈나무림 a', '일본잎갈나무림 b', '버들나무림 a', '버들나무림 b',
+      '밭(대조구)', '주차장(대조구)'
+    ];
+
+    const metricConfig = {
+      'TAF_CFU_m3': { label: '부유 진균 농도 (TAF, CFU/㎥)', color: 'rgba(225, 29, 72, 0.85)', unit: 'CFU/㎥' },
+      'TAB_CFU_m3': { label: '부유 세균 농도 (TAB, CFU/㎥)', color: 'rgba(37, 99, 235, 0.85)', unit: 'CFU/㎥' },
+      'air-temp': { label: '현장 대기온도 (Air Temp, ℃)', color: 'rgba(234, 88, 12, 0.85)', unit: '℃' },
+      'air-RH': { label: '대기 상대습도 (Air RH, %)', color: 'rgba(14, 165, 233, 0.85)', unit: '%' },
+      'PM10': { label: '미세먼지 (PM10, ㎍/㎥)', color: 'rgba(139, 92, 246, 0.85)', unit: '㎍/㎥' },
+      'soil-temp': { label: '토양 온도 (Soil Temp, ℃)', color: 'rgba(217, 119, 6, 0.85)', unit: '℃' },
+      'windspeed': { label: '풍속 (Windspeed, m/s)', color: 'rgba(20, 184, 166, 0.85)', unit: 'm/s' }
+    };
+
+    const dateLabelsMap = {
+      'all': '전 기간 평균',
+      '2026-03-04': '03/04 (초봄 해빙기)',
+      '2026-04-15': '04/15 (봄신록/1차 DNA)',
+      '2026-04-29': '04/29 (봄 만개기)',
+      '2026-05-13': '05/13 (초여름 녹음기)',
+      '2026-07-27': '07/27 (한여름/2차 DNA)',
+      '2026-08-13': '08/13 (늦여름 고온기)'
+    };
+
+    function updateSiteChart() {
+      const dataArr = siteMetricData[currentDateKey][currentMetricKey];
+      const cfg = metricConfig[currentMetricKey];
+
+      interactiveSiteChart.data.datasets[0].label = cfg.label;
+      interactiveSiteChart.data.datasets[0].data = dataArr;
+      interactiveSiteChart.data.datasets[0].backgroundColor = cfg.color;
+      interactiveSiteChart.options.scales.y.title.text = cfg.label;
+      interactiveSiteChart.update();
+
+      document.getElementById('bannerTitle').textContent = `${dateLabelsMap[currentDateKey]}: ${cfg.label}`;
+      
+      const maxVal = Math.max(...dataArr);
+      const minVal = Math.min(...dataArr);
+      const maxIdx = dataArr.indexOf(maxVal);
+      const minIdx = dataArr.indexOf(minVal);
+
+      document.getElementById('bannerSubtitle').textContent = `10개 지점 측정값 범위: ${minVal} ~ ${maxVal} ${cfg.unit}`;
+      document.getElementById('bannerStat1').textContent = `최고 지점: ${siteNamesOrder[maxIdx]} (${maxVal} ${cfg.unit})`;
+      document.getElementById('bannerStat2').textContent = `최저 지점: ${siteNamesOrder[minIdx]} (${minVal} ${cfg.unit})`;
+    }
+
+    function changeDateFilter(dateKey) {
+      currentDateKey = dateKey;
+      document.querySelectorAll('#datePillGroup .date-pill').forEach(btn => btn.classList.remove('date-pill-active'));
+      event.target.classList.add('date-pill-active');
+      updateSiteChart();
+    }
+
+    function changeMetricFilter(metricKey) {
+      currentMetricKey = metricKey;
+      document.querySelectorAll('#metricPillGroup .metric-pill').forEach(btn => btn.classList.remove('metric-pill-active'));
+      event.target.classList.add('metric-pill-active');
+      updateSiteChart();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Dual Axis Longitudinal Line Chart
+      const ctxLong = document.getElementById('longitudinalDualChart').getContext('2d');
+      longitudinalChartInstance = new Chart(ctxLong, {
+        type: 'line',
+        data: {
+          labels: ['03/04 (초봄)', '04/15 (봄신록/DNA1)', '04/29 (봄만개)', '05/13 (초여름)', '07/27 (한여름/DNA2)', '08/13 (늦여름)'],
+          datasets: [
+            {
+              label: '부유 진균 (TAF, CFU/㎥)',
+              data: [330.7, 789.0, 789.0, 832.6, 1086.0, 834.6],
+              borderColor: '#e11d48',
+              backgroundColor: 'rgba(225, 29, 72, 0.1)',
+              borderWidth: 3,
+              tension: 0.25,
+              pointRadius: 6,
+              yAxisID: 'y'
+            },
+            {
+              label: '부유 세균 (TAB, CFU/㎥)',
+              data: [8.8, 316.4, 316.4, 38.8, 29.8, 94.8],
+              borderColor: '#2563eb',
+              backgroundColor: 'rgba(37, 99, 235, 0.05)',
+              borderWidth: 2,
+              tension: 0.25,
+              pointRadius: 5,
+              yAxisID: 'y'
+            },
+            {
+              label: '현장 대기온도 (℃)',
+              data: [9.7, 23.5, 16.1, 22.9, 28.7, 26.2],
+              borderColor: '#ea580c',
+              borderDash: [5, 4],
+              borderWidth: 2,
+              pointRadius: 4,
+              yAxisID: 'y1'
+            },
+            {
+              label: '현장 상대습도 (%)',
+              data: [37.6, 41.0, 35.1, 47.1, 77.8, 62.8],
+              borderColor: '#0284c7',
+              borderDash: [2, 2],
+              borderWidth: 2,
+              pointRadius: 4,
+              yAxisID: 'y1'
+            },
+            {
+              label: '미세먼지 PM10 (㎍/㎥)',
+              data: [30.4, 45.7, 25.7, 45.2, 38.3, 24.3],
+              borderColor: '#8b5cf6',
+              borderDash: [3, 3],
+              borderWidth: 1.5,
+              pointRadius: 3,
+              yAxisID: 'y'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: '농도 (CFU/㎥) / PM10 (㎍/㎥)', font: { weight: 'bold' } },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              title: { display: true, text: '기온 (℃) / 습도 (%)', font: { weight: 'bold' } },
+              grid: { drawOnChartArea: false }
+            },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+            tooltip: {
+              callbacks: {
+                afterBody: function(items) {
+                  const idx = items[0].dataIndex;
+                  if (idx === 1) return '\n[04/15 메모] 기온 23.5℃, 풍속 7.6m/s 강풍 비산, 1차 DNA 시퀀싱';
+                  if (idx === 2) return '\n[04/29 메모] 기온 16.1℃(7.4℃ 급락), 습도 35%, 풍속 4.1m/s 안정화';
+                  if (idx === 4) return '\n[07/27 메모] 기온 28.7℃, 습도 78%, 누적강우 64.6mm 후 진균 최고 피크(1,086 CFU/㎥)';
+                  return '';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // 2. Interactive Site Bar Chart
+      const ctxSite = document.getElementById('interactiveSiteChart').getContext('2d');
+      interactiveSiteChart = new Chart(ctxSite, {
+        type: 'bar',
+        data: {
+          labels: siteNamesOrder,
+          datasets: [{
+            label: metricConfig['TAF_CFU_m3'].label,
+            data: siteMetricData['all']['TAF_CFU_m3'],
+            backgroundColor: metricConfig['TAF_CFU_m3'].color,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: '부유 진균 농도 (CFU/㎥)', font: { weight: 'bold' } },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            x: {
+              ticks: { autoSkip: false, maxRotation: 30, minRotation: 20, font: { size: 11 } }
+            }
+          },
+          plugins: {
+            legend: { position: 'top' }
+          }
+        }
+      });
+
+      // 3. DNA Stacked Taxonomy Chart
+      const ctxDna = document.getElementById('dnaTaxonomyChart').getContext('2d');
+      dnaChartInstance = new Chart(ctxDna, {
+        type: 'bar',
+        data: {
+          labels: ['봄철 DNA (04/15)', '여름철 DNA (07/27)'],
+          datasets: [
+            { label: 'Capnodiales (엽면피생)', data: [42.4, 0.2], backgroundColor: '#334155' },
+            { label: 'Trichoderma (토양분해)', data: [0.0, 37.9], backgroundColor: '#10b981' },
+            { label: 'Fusarium (교란지표)', data: [0.4, 15.0], backgroundColor: '#f59e0b' },
+            { label: 'Coprinellus (목재부후)', data: [0.0, 10.4], backgroundColor: '#f43f5e' },
+            { label: 'Cladosporium (알레르겐)', data: [14.1, 0.7], backgroundColor: '#3b82f6' },
+            { label: 'Penicillium (알레르겐)', data: [13.5, 0.1], backgroundColor: '#8b5cf6' },
+            { label: 'Alternaria (알레르겐)', data: [6.4, 0.3], backgroundColor: '#06b6d4' },
+            { label: '기타 (Others)', data: [23.2, 35.4], backgroundColor: '#94a3b8' }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true, max: 100, title: { display: true, text: '상대 풍부도 (%)' } },
+            y: { stacked: true }
+          },
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } }
+          }
+        }
+      });
+
+      lucide.createIcons();
+
+      // Check URL hash on load
+      const hash = window.location.hash;
+      if (hash.startsWith('#chapter-')) {
+        const ch = parseInt(hash.replace('#chapter-', ''));
+        if (ch >= 1 && ch <= 7) switchChapter(ch);
+      } else if (hash === '#sites' || hash === '#encyclopedia') {
+        switchChapter(2);
+      } else if (hash === '#dna') {
+        switchChapter(3);
+      } else if (hash === '#network') {
+        switchChapter(4);
+      } else if (hash === '#standards') {
+        switchChapter(5);
+      } else if (hash === '#species') {
+        switchChapter(6);
+      } else if (hash === '#gallery') {
+        switchChapter(7);
+      }
+    });
+  </script>
+</body>
+</html>
