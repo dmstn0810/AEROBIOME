@@ -59,7 +59,7 @@ site_encyclopedia_data = [
     },
     {
         "no": 3,
-        "name": "버들나무림 a (왕버들 a)",
+        "name": "버드나무림 a (왕버들 a)",
         "latin": "Salix koreensis Andersson (Stand A)",
         "category": "riparian",
         "catName": "수변 저습지 활엽수림",
@@ -179,7 +179,7 @@ site_encyclopedia_data = [
     },
     {
         "no": 8,
-        "name": "버들나무림 b (왕버들 b)",
+        "name": "버드나무림 b (왕버들 b)",
         "latin": "Salix koreensis (Stand B)",
         "category": "riparian",
         "catName": "수변 계곡 하류 활엽수림",

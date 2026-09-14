@@ -90,8 +90,8 @@ graph TD
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Site 4** | **밭 (대조구)** | 86.0 | 1,238.0 | 1,238.0 | 834.0 | **2,464.0** | 1,492.0 | **1,225.3** (최고) |
 | **Site 2** | **잣나무림 a** | 212.0 | 730.0 | 730.0 | 974.0 | **2,104.0** | 1,060.0 | **968.3** |
-| **Site 3** | **버들나무림 a** | 705.0 | 734.0 | 734.0 | 1,146.0 | **1,672.0** | 1,452.0 | **1,073.8** |
-| **Site 8** | **버들나무림 b** | 748.0 | 1,658.0 | 1,658.0 | 1,250.0 | **1,298.0** | 726.0 | **1,223.0** |
+| **Site 3** | **버드나무림 a** | 705.0 | 734.0 | 734.0 | 1,146.0 | **1,672.0** | 1,452.0 | **1,073.8** |
+| **Site 8** | **버드나무림 b** | 748.0 | 1,658.0 | 1,658.0 | 1,250.0 | **1,298.0** | 726.0 | **1,223.0** |
 | **Site 6** | **소나무림** | 182.0 | 456.0 | 456.0 | 780.0 | 750.0 | 746.0 | 561.7 |
 | **Site 10** | **잣나무림 b** | 196.0 | 456.0 | 456.0 | 728.0 | 638.0 | 912.0 | 564.3 |
 | **Site 7** | **일본잎갈나무 a** | 298.0 | 328.0 | 328.0 | 868.0 | 640.0 | 512.0 | 495.7 |
@@ -101,7 +101,7 @@ graph TD
 
 ### 2) 공간적 특성 해석
 1. **밭(개활 경작지, Site 4)**: 여름철 **2,464 CFU/㎥**로 전 지점 최고치 기록. 토양이 노출되어 있고 농경지 유기물 및 비산 먼지로 인해 진균 비산이 극대화됨.
-2. **버들나무림 (수변 저습지, Site 3, 8)**: 3월부터 8월까지 연중 700~1,600 CFU/㎥ 수준의 높은 농도를 유지. 계곡 수변부의 높은 대기 습도와 왕버들 특유의 탄저병균(*Colletotrichum*)이 지속 비산.
+2. **버드나무림 (수변 저습지, Site 3, 8)**: 3월부터 8월까지 연중 700~1,600 CFU/㎥ 수준의 높은 농도를 유지. 계곡 수변부의 높은 대기 습도와 왕버들 특유의 탄저병균(*Colletotrichum*)이 지속 비산.
 3. **주차장 (포장면 대조구, Site 5)**: 연중 평균 **324.9 CFU/㎥**로 전 지점 최저치이자, **연중 유일하게 환경부 실내 권고기준(500 CFU/㎥)을 상시 충족하는 청정 구역**. 수관층과 토양 유기물이 부재하여 포자 생성원이 없음.
 
 ---
@@ -115,12 +115,12 @@ graph TD
 | :---: | :--- | :--- | :---: | :---: | :---: | :--- |
 | **Site 1** | **리기다소나무림** | *Pinus rigida* Mill. | 561.0 / 14.0 CFU/㎥ | 4월 (688 CFU/㎥) | pH 6.1, 수분 32.5% | 척박지 조림 수종. 송진(테르펜) 함유 침엽수 낙엽 매트층 형성. 완만한 셀룰로오스 분해와 산성 토양 부생균 서식. 4월 강풍 시 엽면 비산 포자 다소 증가. |
 | **Site 2** | **잣나무림 a** | *Pinus koraiensis* (Stand A) | 893.7 / 36.3 CFU/㎥ | **7월 (2,104 CFU/㎥)** | pH 6.3, 수분 37.8% | 수관 울폐도 85% 이상의 밀식 임분. 하층 습도가 상시 보존되어 7월 장마 후 *Trichoderma*(48.2%)가 폭발하여 전 산림 임분 중 최고 유기물 분해 활성 발현. 고습 포자 민감군 능선길 추천. |
-| **Site 3** | **버들나무림 a** | *Salix koreensis* (Stand A) | **1,087.8** / 26.7 CFU/㎥ | 7월 (1,672 CFU/㎥) | pH 6.5, **수분 42.1% (최고)** | 계곡 수변 저습지. 높은 상시 습도 속에서 활엽수 탄저병균(*Colletotrichum gloeosporioides* 12.4%)이 특이적 우점. 수변 미기후 및 산림 병해 조기 경보의 핵심 지표 구역. |
+| **Site 3** | **버드나무림 a** | *Salix koreensis* (Stand A) | **1,087.8** / 26.7 CFU/㎥ | 7월 (1,672 CFU/㎥) | pH 6.5, **수분 42.1% (최고)** | 계곡 수변 저습지. 높은 상시 습도 속에서 활엽수 탄저병균(*Colletotrichum gloeosporioides* 12.4%)이 특이적 우점. 수변 미기후 및 산림 병해 조기 경보의 핵심 지표 구역. |
 | **Site 4** | **밭 (개활 대조구)** | *Agricultural Field Control* | **1,217.7 / 144.3 CFU/㎥** | **7월 (2,464 CFU/㎥, 최고)** | pH 6.8, 수분 31.0% (나지) | 수관 0% 완전 개활지. 잦은 토양 경운 및 시비 유기물로 인해 토양 시들음병 사상균인 *Fusarium oxysporum*(45.1%)이 절대 우점하며 비산 먼지와 함께 대량 방출되는 '인위적 교란 지표 구역'. |
 | **Site 5** | **주차장 (포장 대조구)** | *Paved Parking Lot Control* | **363.9 / 20.3 CFU/㎥ (최저)** | 4월 (456 CFU/㎥) | 아스팔트/콘크리트 불투수면 | 수관 및 낙엽 부식층이 전혀 없어 자연 포자 생성원이 전무한 음성 대조군(Negative Control). **연중 내내 환경부 실내 권고기준(500 CFU/㎥)을 유일하게 상시 충족하는 최저 진균 구역**. |
 | **Site 6** | **소나무림** | *Pinus densiflora* Siebold & Zucc. | 539.0 / 172.3 CFU/㎥ | 7월 (750 CFU/㎥) | pH 5.9, 수분 28.4% | 온대 천연 침엽수림. 고사목과 간벌재가 풍부하여 여름철 담자균류 백색부후균인 *Coprinellus radians*(59.4%)가 압도적 우점. 목재 리그닌 분해 및 탄소 순환의 핵심 현장. |
 | **Site 7** | **일본잎갈나무림 a** | *Larix kaempferi* (Stand A) | 444.3 / 34.0 CFU/㎥ | 5월 (868 CFU/㎥) | pH 6.2, 수분 31.2% | 낙엽성 침엽수림. 양호한 광 투과와 뛰어난 통풍성으로 인해 습도 정체가 적어 산림 식생 중 가장 쾌적한 청정도(연중 444 CFU/㎥)를 유지. 가장 추천되는 산림 치유 산책 코스. |
-| **Site 8** | **버들나무림 b** | *Salix koreensis* (Stand B) | **1,214.0** / 24.3 CFU/㎥ | **4월 (1,658 CFU/㎥, 봄 1위)**| pH 6.4, 수분 40.8% | 계곡 하류 퇴적 수변림. 봄철 신엽 전개기에 엽면 부생균(*Cladosporium* 31.2%)과 알레르겐 포자가 급격히 비산하여 봄철 전 지점 최고치 기록. 천식 환자 4월 방문 시 마스크 필수. |
+| **Site 8** | **버드나무림 b** | *Salix koreensis* (Stand B) | **1,214.0** / 24.3 CFU/㎥ | **4월 (1,658 CFU/㎥, 봄 1위)**| pH 6.4, 수분 40.8% | 계곡 하류 퇴적 수변림. 봄철 신엽 전개기에 엽면 부생균(*Cladosporium* 31.2%)과 알레르겐 포자가 급격히 비산하여 봄철 전 지점 최고치 기록. 천식 환자 4월 방문 시 마스크 필수. |
 | **Site 9** | **일본잎갈나무림 b** | *Larix kaempferi* (Stand B) | 930.0 / 357.7 CFU/㎥ | 4월 (1,146 CFU/㎥) | pH 6.0, 수분 29.5% | 바람받이 능선 사면. 4월 봄철 건조 강풍(최대 16.3m/s) 발생 시 엽면 피생균(*Capnodiales* 45%)과 토양 세균(1,954 CFU/㎥)이 일시적으로 강하게 비산하는 물리적 풍식 역학 발현. |
 | **Site 10**| **잣나무림 b** | *Pinus koraiensis* (Stand B) | 520.7 / 23.7 CFU/㎥ | 8월 (912 CFU/㎥) | pH 6.1, 수분 33.4% | 능선 연접 잣나무림. 계곡부 Stand A(2,104 CFU/㎥)와 달리 공기 순환이 원활하여 진균 농도가 절반 수준으로 억제됨. '지형 미기후의 포자 조절 효과'를 입증하는 힐링 대조 임분. |
 
@@ -133,7 +133,10 @@ graph TD
 
 ### 1. Site 1: 리기다소나무림 (*Pinus rigida* Mill.)
 * **입지 및 미기후/토양**: 학술림 하단 완경사 산록부 (인공 조림 침엽수림). 토양 산도 pH 6.1 (강산성), 토양수분 32.5%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **561.0 CFU/㎥** (봄 $688 ightarrow$ 5월 $654 ightarrow$ 7월 $496 ightarrow$ 8월 $468\,	ext{CFU/m}^3$), 세균 연중 평균 **14.0 CFU/㎥** (매우 청정).
+* **미생물 정량 현황**: 부유 진균 연중 평균 **561.0 CFU/㎥** (봄 $688 
+ightarrow$ 5월 $654 
+ightarrow$ 7월 $496 
+ightarrow$ 8월 $468\,	ext{CFU/m}^3$), 세균 연중 평균 **14.0 CFU/㎥** (매우 청정).
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (36.6%), *Penicillium_sp.* (25.1%), *Nectriaceae_sp.* (10.4%), *Cladosporium anthropophilum* (9.6%).
   * **여름철 (07/27)**: ***Trichoderma_sp.* (99.9% 독점 우점)**, *Penicillium* (0.1%).
@@ -147,7 +150,11 @@ graph TD
 
 ### 2. Site 2: 잣나무림 a (*Pinus koraiensis* Siebold & Zucc. Stand A)
 * **입지 및 미기후/토양**: 계곡 인접 완경사지, 수관 울폐도 85% 이상의 밀식 임분. 토양 산도 pH 6.3, 토양수분 37.8% (풍부한 부식질).
-* **미생물 정량 현황**: 부유 진균 연중 평균 **893.7 CFU/㎥** (초봄 $212 ightarrow$ 봄 $730 ightarrow$ 5월 $974 ightarrow$ **7월 2,104 CFU/㎥ 전 지점 2위 피크 폭발** $ightarrow$ 8월 $1,060$), 세균 **36.3 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **893.7 CFU/㎥** (초봄 $212 
+ightarrow$ 봄 $730 
+ightarrow$ 5월 $974 
+ightarrow$ **7월 2,104 CFU/㎥ 전 지점 2위 피크 폭발** $
+ightarrow$ 8월 $1,060$), 세균 **36.3 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Cladosporium anthropophilum* (41.3%), *Capnodiales_sp.* (27.9%), *Alternaria alternata* (21.9%).
   * **여름철 (07/27)**: ***Trichoderma_sp.* (75.0%)**, *Bjerkandera_sp.* (13.7%), *Penicillium_sp.* (7.1%), *Coprinellus radians* (1.0%).
@@ -159,9 +166,13 @@ graph TD
 
 ---
 
-### 3. Site 3: 버들나무림 a (왕버들 수변림 a, *Salix koreensis* Stand A)
+### 3. Site 3: 버드나무림 a (왕버들 수변림 a, *Salix koreensis* Stand A)
 * **입지 및 미기후/토양**: 계곡 수변부 및 저습지, 상시 물안개. 토양 산도 pH 6.5, **토양수분 42.1% (전 지점 최고)**.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **1,087.8 CFU/㎥** (초봄 $705 ightarrow$ 봄 $734 ightarrow$ 5월 $1,146 ightarrow$ **7월 1,672 CFU/㎥** $ightarrow$ 8월 $1,452$), 세균 **26.7 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **1,087.8 CFU/㎥** (초봄 $705 
+ightarrow$ 봄 $734 
+ightarrow$ 5월 $1,146 
+ightarrow$ **7월 1,672 CFU/㎥** $
+ightarrow$ 8월 $1,452$), 세균 **26.7 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (50.1%), *Cladosporium anthropophilum* (29.2%), *Septotinia populiperda* (3.2%), *Fusarium* (3.1%).
   * **여름철 (07/27)**: *Trichoderma* (78.0%), *Fusarium proliferatum* (10.2%), *Coprinellus radians* (3.1%), *Clonostachys rosea* (2.9%).
@@ -175,7 +186,11 @@ graph TD
 
 ### 4. Site 4: 밭 (개활 경작지 대조구, Field Control)
 * **입지 및 미기후/토양**: 학술림 진입부 경작지, 수관 0% 완전 개활. 토양 산도 pH 6.8, 토양수분 31.0% (지표면 나지 노출).
-* **미생물 정량 현황**: 부유 진균 연중 평균 **1,217.7 CFU/㎥** (초봄 $86 ightarrow$ 봄 $1,238 ightarrow$ 5월 $834 ightarrow$ **7월 2,464 CFU/㎥ 전 지점 최고치** $ightarrow$ 8월 $1,492$), 세균 **144.3 CFU/㎥** (최고 380).
+* **미생물 정량 현황**: 부유 진균 연중 평균 **1,217.7 CFU/㎥** (초봄 $86 
+ightarrow$ 봄 $1,238 
+ightarrow$ 5월 $834 
+ightarrow$ **7월 2,464 CFU/㎥ 전 지점 최고치** $
+ightarrow$ 8월 $1,492$), 세균 **144.3 CFU/㎥** (최고 380).
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: 미포집 (하절기 집중 관측).
   * **여름철 (07/27)**: ***Fusarium oxysporum / proliferatum* (45.1%)**, *Penicillium_sp.* (32.5%), *Aspergillus* (10.4%), *Nectriaceae* (7.6%).
@@ -189,7 +204,11 @@ graph TD
 
 ### 5. Site 5: 주차장 (인공 포장 대조구, Parking Lot Control)
 * **입지 및 미기후/토양**: 관리사무소 앞 아스팔트/콘크리트 포장면. 토양 미형성 (불투수면).
-* **미생물 정량 현황**: 부유 진균 연중 평균 **363.9 CFU/㎥** (초봄 **53.3 CFU/㎥ 최저** $ightarrow$ 봄 $456 ightarrow$ 5월 $332 ightarrow$ 7월 $326 ightarrow$ 8월 $326\,	ext{CFU/m}^3$), 세균 **20.3 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **363.9 CFU/㎥** (초봄 **53.3 CFU/㎥ 최저** $
+ightarrow$ 봄 $456 
+ightarrow$ 5월 $332 
+ightarrow$ 7월 $326 
+ightarrow$ 8월 $326\,	ext{CFU/m}^3$), 세균 **20.3 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: 미포집.
   * **여름철 (07/27)**: *Fusarium verticillioides* (33.4%), *Coprinellus radians* (29.8%), *Nectriaceae* (18.3%), *Penicillium* (13.4%).
@@ -202,7 +221,11 @@ graph TD
 
 ### 6. Site 6: 소나무림 (*Pinus densiflora* Siebold & Zucc.)
 * **입지 및 미기후/토양**: 중턱 능선 사면 온대 자연림, 간벌목 및 자연 고사목 풍부. 토양 산도 pH 5.9, 토양수분 28.4%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **539.0 CFU/㎥** (초봄 $182 ightarrow$ 봄 $456 ightarrow$ 5월 $780 ightarrow$ 7월 $750 ightarrow$ 8월 $746\,	ext{CFU/m}^3$), 세균 **172.3 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **539.0 CFU/㎥** (초봄 $182 
+ightarrow$ 봄 $456 
+ightarrow$ 5월 $780 
+ightarrow$ 7월 $750 
+ightarrow$ 8월 $746\,	ext{CFU/m}^3$), 세균 **172.3 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (28.2%), *Penicillium_sp.* (17.5%), *Cladosporium* (16.3%), *Umbelopsis isabellina* (16.2%).
   * **여름철 (07/27)**: ***Coprinellus radians* (59.4% 독점 우점)**, ***Irpex laceratus* (11.8%)**, *Capnodiales* (9.6%), *Trichoderma citrinum* (8.9%).
@@ -216,7 +239,11 @@ graph TD
 
 ### 7. Site 7: 일본잎갈나무림 a (낙엽송 a, *Larix kaempferi* Stand A)
 * **입지 및 미기후/토양**: 남동사면 완경사지, 일조 투과 및 통풍 우수. 토양 산도 pH 6.2, 토양수분 31.2%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **444.3 CFU/㎥ (산림 식생 중 최저 청정)** (초봄 $298 ightarrow$ 봄 $328 ightarrow$ 5월 $868 ightarrow$ 7월 $640 ightarrow$ 8월 $512\,	ext{CFU/m}^3$), 세균 **34.0 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **444.3 CFU/㎥ (산림 식생 중 최저 청정)** (초봄 $298 
+ightarrow$ 봄 $328 
+ightarrow$ 5월 $868 
+ightarrow$ 7월 $640 
+ightarrow$ 8월 $512\,	ext{CFU/m}^3$), 세균 **34.0 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (63.7%), *Alternaria* (13.7%), *Cladosporium* (11.1%).
   * **여름철 (07/27)**: *Cladosporium anthropophilum* (24.4%), *Capnodiales_sp.* (23.2%), *Trichoderma citrinum* (22.8%), *Penicillium* (12.2%), *Fusarium* (10.8%).
@@ -227,9 +254,13 @@ graph TD
 
 ---
 
-### 8. Site 8: 버들나무림 b (왕버들 b, *Salix koreensis* Stand B)
+### 8. Site 8: 버드나무림 b (왕버들 b, *Salix koreensis* Stand B)
 * **입지 및 미기후/토양**: 계곡 하류 퇴적지, 고수위 및 유기물 풍부. 토양 산도 pH 6.4, 토양수분 40.8%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **1,214.0 CFU/㎥** (초봄 $748 ightarrow$ **봄 1,658 CFU/㎥ 봄철 전 지점 1위 피크** $ightarrow$ 5월 $1,250 ightarrow$ 7월 $1,298 ightarrow$ 8월 $726$), 세균 **24.3 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **1,214.0 CFU/㎥** (초봄 $748 
+ightarrow$ **봄 1,658 CFU/㎥ 봄철 전 지점 1위 피크** $
+ightarrow$ 5월 $1,250 
+ightarrow$ 7월 $1,298 
+ightarrow$ 8월 $726$), 세균 **24.3 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (71.0%), *Alternaria* (13.0%), *Eukaryota* (7.1%), *Coprinellus* (3.3%).
   * **여름철 (07/27)**: *Trichoderma* (29.7%), *Fusarium oblongum* (27.0%), ***Colletotrichum gloeosporioides* (24.2%)**, *Alternaria* (4.5%).
@@ -242,7 +273,11 @@ graph TD
 
 ### 9. Site 9: 일본잎갈나무림 b (낙엽송 b, *Larix kaempferi* Stand B)
 * **입지 및 미기후/토양**: 사면 상단부 능선 바람받이 사면. 토양 산도 pH 6.0, 토양수분 29.5%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **930.0 CFU/㎥** (초봄 $382 ightarrow$ 봄 $1,146 ightarrow$ 5월 $760 ightarrow$ 7월 $472 ightarrow$ 8월 $652$), 세균 **357.7 CFU/㎥** (4월 봄철 1,954 CFU/㎥ 일시적 피크).
+* **미생물 정량 현황**: 부유 진균 연중 평균 **930.0 CFU/㎥** (초봄 $382 
+ightarrow$ 봄 $1,146 
+ightarrow$ 5월 $760 
+ightarrow$ 7월 $472 
+ightarrow$ 8월 $652$), 세균 **357.7 CFU/㎥** (4월 봄철 1,954 CFU/㎥ 일시적 피크).
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: *Capnodiales_sp.* (49.2%), *Fusarium* (24.6%), *Clonostachys* (11.2%), *Alternaria* (9.5%).
   * **여름철 (07/27)**: *Aspergillus* (30.9%), *Fusarium oblongum* (25.4%), *Trichoderma* (17.4%), *Ceriporia lacerata* (9.5%).
@@ -254,7 +289,11 @@ graph TD
 
 ### 10. Site 10: 잣나무림 b (*Pinus koraiensis* Stand B)
 * **입지 및 미기후/토양**: 상부 능선부 연접 사면, 통풍 양호. 토양 산도 pH 6.1, 토양수분 33.4%.
-* **미생물 정량 현황**: 부유 진균 연중 평균 **520.7 CFU/㎥** (초봄 $196 ightarrow$ 봄 $456 ightarrow$ 5월 $728 ightarrow$ 7월 $638 ightarrow$ 8월 $912$), 세균 **23.7 CFU/㎥**.
+* **미생물 정량 현황**: 부유 진균 연중 평균 **520.7 CFU/㎥** (초봄 $196 
+ightarrow$ 봄 $456 
+ightarrow$ 5월 $728 
+ightarrow$ 7월 $638 
+ightarrow$ 8월 $912$), 세균 **23.7 CFU/㎥**.
 * **DNA 메타게놈 실측 우점 종**:
   * **봄철 (04/15)**: ***Penicillium mallochii* (50.1% 독점 우점)**, *Capnodiales_sp.* (32.1%), *Coprinellus_sp.* (15.1%).
   * **여름철 (07/27)**: ***Trichoderma_sp.* (80.2%)**, *Aspergillus* (9.7%), *Bjerkandera* (8.5%), *Oudemansiella canarii* (1.1%).

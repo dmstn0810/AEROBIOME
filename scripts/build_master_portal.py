@@ -131,7 +131,7 @@ html_content = f'''<!DOCTYPE html>
           </span>
         </h2>
         <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-4xl">
-          충청북도 괴산군 불정면 건국대학교 학술림 10대 고정 조사구(소나무, 잣나무, 버들나무, 낙엽송, 리기다소나무, 밭, 주차장 대조구)에서 계측된 **348건의 공기미생물 절대 농도(CFU/㎥ = Count/0.1)**, **44,996건의 1초 단위 산림 음이온 실측치**, **기상청 불정면 AWS(685) 종관기상 연계 임내 미기후 완충 효과**, **Site 5 아스팔트 포장 토양 결측(NaN) 공식 보정**, 그리고 **차세대 기후·생명·건강 생태지수(CLHEI)**를 단일 통합 플랫폼에서 입체적으로 제공합니다.
+          충청북도 괴산군 불정면 건국대학교 학술림 10대 고정 조사구(소나무, 잣나무, 버드나무, 낙엽송, 리기다소나무, 밭, 주차장 대조구)에서 계측된 **348건의 공기미생물 절대 농도(CFU/㎥ = Count/0.1)**, **44,996건의 1초 단위 산림 음이온 실측치**, **기상청 불정면 AWS(685) 종관기상 연계 임내 미기후 완충 효과**, **Site 5 아스팔트 포장 토양 결측(NaN) 공식 보정**, 그리고 **차세대 기후·생명·건강 생태지수(CLHEI)**를 단일 통합 플랫폼에서 입체적으로 제공합니다.
         </p>
       </div>
 
@@ -540,7 +540,7 @@ html_content = f'''<!DOCTYPE html>
           <span class="text-[10px] text-slate-400 mt-1 block">밭 대비 1.88배</span>
         </div>
         <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-          <span class="text-[10px] text-slate-400 font-bold block mb-1">4위 (버들나무림)</span>
+          <span class="text-[10px] text-slate-400 font-bold block mb-1">4위 (버드나무림)</span>
           <div class="text-lg font-black text-white">1,489.0</div>
           <span class="text-[10px] text-slate-400 mt-1 block">수변 레너드 효과</span>
         </div>
@@ -1085,8 +1085,8 @@ html_content = f'''<!DOCTYPE html>
 
     // Chapter 2 Interactive Chart
     const siteLabels = [
-      '#1 리기다소나무', '#2 잣나무 a', '#3 버들나무 a', '#4 밭 (대조구)', '#5 주차장 (대조구)',
-      '#6 소나무', '#7 낙엽송 a', '#8 버들나무 b', '#9 낙엽송 b', '#10 잣나무 b'
+      '#1 리기다소나무', '#2 잣나무 a', '#3 버드나무 a', '#4 밭 (대조구)', '#5 주차장 (대조구)',
+      '#6 소나무', '#7 낙엽송 a', '#8 버드나무 b', '#9 낙엽송 b', '#10 잣나무 b'
     ];
 
     function initInteractiveSiteChart() {{
@@ -1197,7 +1197,7 @@ html_content = f'''<!DOCTYPE html>
       ionSpeciesChart = new Chart(ctx, {{
         type: 'bar',
         data: {{
-          labels: ['일본잎갈나무(낙엽송)', '소나무림', '잣나무림', '버들나무림', '주차장(대조구)', '밭(대조구)'],
+          labels: ['일본잎갈나무(낙엽송)', '소나무림', '잣나무림', '버드나무림', '주차장(대조구)', '밭(대조구)'],
           datasets: [{{
             label: '음이온 평균 발생량 (개/㎤)',
             data: [2965.5, 2196.7, 1758.2, 1489.0, 1235.0, 934.6],
