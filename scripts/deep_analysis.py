@@ -2,12 +2,16 @@ import sys
 from pathlib import Path
 import pandas as pd
 import numpy as np
-from scipy import stats
 
-sys.stdout.reconfigure(encoding='utf-8')
+
+def parse_ts(row):
+    ts = str(row['timestamp']).strip()
+    if len(ts) == 6 and ts.isdigit():
+        return pd.to_datetime(f"{row['date']} {ts[:2]}:{ts[2:4]}:{ts[4:]}")
+    return pd.to_datetime(ts, errors='coerce')
 
 df = pd.read_csv("data/ion_dataset_all.csv")
-df['timestamp'] = pd.to_datetime(df['timestamp'])
+df['timestamp'] = df.apply(parse_ts, axis=1)
 df['hour_float'] = df['timestamp'].dt.hour + df['timestamp'].dt.minute / 60.0 + df['timestamp'].dt.second / 3600.0
 
 # Filter valid
@@ -97,7 +101,7 @@ for (d, s_id, s_name), grp in valid_df.groupby(['date', 'site_id', 'site_name'])
         corr = np.nan
     # slope per minute
     time_min = grp['second_offset'].values / 60.0
-    slope, intercept, r_val, p_val, std_err = stats.linregress(time_min, vals)
+    slope, intercept = np.polyfit(time_min, vals, 1)
     first_min = vals[:60].mean()
     last_min = vals[-60:].mean()
     autocorr_results.append({
